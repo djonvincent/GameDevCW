@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float speed;
+    public float health;
     public List<Animator> anims;
     private Rigidbody2D rigidBody;
 
@@ -15,6 +16,13 @@ public class PlayerMovement : MonoBehaviour
         //DontDestroyOnLoad(gameObject);
     }
 
+    void OnTriggerEnter2D(Collider2D other) {
+        Debug.Log(other.tag);
+        if (other.tag == "Projectile") {
+            health -= 1;
+        }
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -22,7 +30,7 @@ public class PlayerMovement : MonoBehaviour
         float moveV = Input.GetAxisRaw("Vertical")*0.7f;
         Vector2 movement = new Vector2(moveH, moveV);
         if (moveH != 0) {
-        movement.Normalize();
+            movement.Normalize();
         }
         //rigidBody.MovePosition(rigidBody.position + movement*speed*Time.fixedDeltaTime);
         rigidBody.velocity = movement * speed * Time.fixedDeltaTime * 100;
