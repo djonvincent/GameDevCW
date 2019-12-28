@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
             if (scene.name == "Manager") {
                 continue;
             }
-            SceneManager.MoveGameObjectToScene(player, scene);
+            //SceneManager.MoveGameObjectToScene(player, scene);
         }
     }
 }

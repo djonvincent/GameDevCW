@@ -37,6 +37,6 @@ MonoBehaviour:
   m_CanChangeZPosition: 0
   m_Prefabs:
   - {fileID: 8658596484668713810, guid: c82d77162892dd7ba960225af215eac2, type: 3}
-  - {fileID: 1263099606743064096, guid: 7ee0e0f3684b1de14ba276f40b4a9238, type: 3}
+  - {fileID: 8658596484668713810, guid: cdfb10d067198e43eaf6df45fcd38aa1, type: 3}
   m_PerlinScale: 0.5
   m_Anchor: {x: 0.5, y: 0.5, z: 0.5}

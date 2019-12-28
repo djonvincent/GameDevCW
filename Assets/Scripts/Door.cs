@@ -21,7 +21,7 @@ public class Door : MonoBehaviour
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
             asyncLoad.completed += (op) => {
             Camera.main.cullingMask = 0;
-            SceneManager.MoveGameObjectToScene(player, SceneManager.GetSceneByName(sceneName));
+            //SceneManager.MoveGameObjectToScene(player, SceneManager.GetSceneByName(sceneName));
             player.transform.position = position;
             AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(gameObject.scene);
             asyncUnload.completed += (op2) => {
