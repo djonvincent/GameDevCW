@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Player_Idle_Down_Jacket
+  m_Name: Book_Closed
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,7 +20,7 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 5888132417252191227, guid: b2040c84cd6eed236a3333c54e6560f6,
+      value: {fileID: -1624548187903288553, guid: b1c16aad57ef8821d9d3720b022a68da,
         type: 3}
     attribute: m_Sprite
     path: 
@@ -41,7 +41,7 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 5888132417252191227, guid: b2040c84cd6eed236a3333c54e6560f6, type: 3}
+    - {fileID: -1624548187903288553, guid: b1c16aad57ef8821d9d3720b022a68da, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

@@ -4,11 +4,26 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-   void Start() {
-      Destroy(gameObject, 5f);
-   }
+    public float damage;
+    public Transform owner;
+    public float lifetime;
+    public bool bounce = false;
 
-   void OnTriggerEnter2D(Collider2D other) {
-       Destroy(gameObject);
-   }
-} 
+    void Start() {
+      Destroy(gameObject, lifetime);
+    }
+
+    /*
+    void OnTriggerEnter2D(Collider2D other) {
+        if (!other.transform.IsChildOf(owner)) {
+           Destroy(gameObject);
+        }
+    }*/
+
+    void OnCollisionEnter2D(Collision2D other) {
+        Debug.Log("Projectile: CollisionEnter");
+        if (!bounce) {
+           Destroy(gameObject);
+        }
+    }
+}

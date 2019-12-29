@@ -14,10 +14,10 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
+  - Tree
+  - Projectile
+  - Actor
+  - Hitbox
   - 
   - 
   - 

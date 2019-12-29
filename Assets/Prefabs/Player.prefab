@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5033044006279290270}
   - component: {fileID: 8609495020186392492}
   - component: {fileID: 5096039020629670660}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Jacket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,7 +70,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 666417373076621415, guid: b2040c84cd6eed236a3333c54e6560f6, type: 3}
+  m_Sprite: {fileID: 5888132417252191227, guid: b2040c84cd6eed236a3333c54e6560f6,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -100,6 +101,70 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1 &1700212219110373631
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4787953621856586838}
+  - component: {fileID: 3682716682480113534}
+  - component: {fileID: 2755409124173380533}
+  m_Layer: 10
+  m_Name: MovementCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4787953621856586838
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1700212219110373631}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7754623330608611811}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &3682716682480113534
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1700212219110373631}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.34, y: 0.2}
+  serializedVersion: 2
+  m_Radius: 0.13
+--- !u!58 &2755409124173380533
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1700212219110373631}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.34, y: 0.2}
+  serializedVersion: 2
+  m_Radius: 0.13
 --- !u!1 &4213049730199513181
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,7 +176,7 @@ GameObject:
   - component: {fileID: 4213049730199513169}
   - component: {fileID: 4213049730199513168}
   - component: {fileID: 4213049730199513170}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,7 +277,7 @@ GameObject:
   - component: {fileID: 5081751759222329386}
   - component: {fileID: 5081751759222329557}
   - component: {fileID: 5081751759222329559}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -294,11 +359,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7754623330608611811}
   - component: {fileID: 75874589557976153}
-  - component: {fileID: 2154680379731304149}
-  - component: {fileID: 2139687993417925472}
-  - component: {fileID: 4947143616737033978}
   - component: {fileID: 9009254253221835187}
-  m_Layer: 0
+  - component: {fileID: 9195748194228498238}
+  m_Layer: 10
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -320,6 +383,7 @@ Transform:
   - {fileID: 4213049730199513169}
   - {fileID: 5033044006279290270}
   - {fileID: 4718760952549034233}
+  - {fileID: 4787953621856586838}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -334,55 +398,6 @@ SortingGroup:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
---- !u!58 &2154680379731304149
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6787066091374022044}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.34, y: 0.2}
-  serializedVersion: 2
-  m_Radius: 0.13
---- !u!58 &2139687993417925472
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6787066091374022044}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.34, y: 0.2}
-  serializedVersion: 2
-  m_Radius: 0.13
---- !u!114 &4947143616737033978
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6787066091374022044}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07b34053637f5020789c332d5ea40d18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 0.9
-  health: 100
-  anims:
-  - {fileID: 4213049730199513170}
-  - {fileID: 5096039020629670660}
 --- !u!50 &9009254253221835187
 Rigidbody2D:
   serializedVersion: 4
@@ -404,6 +419,28 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &9195748194228498238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6787066091374022044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bcf4b6c1caee78984e839e6d7767e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  alive: 1
+  speed: 0.9
+  anims:
+  - {fileID: 4213049730199513170}
+  - {fileID: 5096039020629670660}
+  projectile: {fileID: 7534448575442027921, guid: af2d470f9d9ab8f919bee5da8779fbf2,
+    type: 3}
+  projectileSpeed: 6
+  projectileAngularSpeed: 720
 --- !u!1 &7027872030355931924
 GameObject:
   m_ObjectHideFlags: 0
@@ -414,7 +451,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4718760952549034233}
   - component: {fileID: 8117345998250201831}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Hitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}

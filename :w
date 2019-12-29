@@ -1,0 +1,17 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerProjectile : MonoBehaviour
+{
+   void Start() {
+      Destroy(gameObject, 5f);
+   }
+
+   void OnTriggerEnter2D(Collider2D other) {
+       Debug.Log(other.tag);
+       if (other.transform.parent.tag != "Player") {
+           Destroy(gameObject);
+       }
+   }
+}

@@ -11,14 +11,12 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        Debug.Log(Camera.main.cullingMask);
         player = GameObject.FindWithTag("Player");
         if (SceneManager.sceneCount == 1) {
             SceneManager.LoadScene(startSceneName, LoadSceneMode.Additive);
         }
         for (int n=0; n < SceneManager.sceneCount; n++) {
             Scene scene = SceneManager.GetSceneAt(n);
-            Debug.Log(scene.name);
             if (scene.name == "Manager") {
                 continue;
             }

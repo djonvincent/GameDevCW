@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6151713898519208673}
   - component: {fileID: 7863752479673546964}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Point Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -82,9 +82,9 @@ GameObject:
   - component: {fileID: 4513506265823982708}
   - component: {fileID: 6126501505628572606}
   - component: {fileID: 8940396578002476567}
-  - component: {fileID: 8754404677476184123}
   - component: {fileID: 8499792196808524353}
-  m_Layer: 0
+  - component: {fileID: 125352139822919662}
+  m_Layer: 9
   m_Name: Flameball
   m_TagString: Projectile
   m_Icon: {fileID: 0}
@@ -196,18 +196,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &8754404677476184123
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4539918992567061956}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d4e1655beaf3e5488df9e2061a7d12d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!58 &8499792196808524353
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -218,9 +206,25 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.25}
   serializedVersion: 2
-  m_Radius: 0.2
+  m_Radius: 0.1
+--- !u!114 &125352139822919662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4539918992567061956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37ce3e311de516bc19c498b4e37ec07a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
+  owner: {fileID: 0}
+  lifetime: 0
+  bounce: 0

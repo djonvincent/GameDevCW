@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Actor
 {
     public Transform firePoint;
     public Rigidbody2D projectile;
     public float damage;
-    public float health;
     public float fireInterval;
+    public Animator anim;
     private GameObject player;
 
     // Start is called before the first frame update
@@ -20,18 +20,24 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        anim.SetFloat("Health", health);
         if (Input.GetKeyDown(KeyCode.Space)) {
-            Fire();
+            Invoke("Fire", 0.52f);
+            anim.SetTrigger("Attack");
         }
     }
 
-    void Fire()
+    public void Fire()
     {
-        Vector2 direction = player.transform.position + new Vector3(0,1) - firePoint.position;
+        Vector3 direction = player.transform.position + new Vector3(0,1) - firePoint.position;
         direction.Normalize();
         Rigidbody2D proj = Instantiate(projectile) as Rigidbody2D;
-        proj.transform.position = firePoint.position;
+        proj.transform.position = firePoint.position + direction;
         proj.transform.up = -direction;
         proj.velocity = direction * 5f;
+        Projectile projClass = proj.GetComponent<Projectile>();
+        projClass.owner = transform;
+        projClass.damage = damage;
+        projClass.lifetime = 5f;
     }
 }
