@@ -127,6 +127,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3128787550952415913, guid: 35cd4515e086cb9f0b016020b05fc2e4,
+        type: 3}
+      propertyPath: m_LightCookieSprite
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6787066091374022044, guid: 35cd4515e086cb9f0b016020b05fc2e4,
         type: 3}
       propertyPath: m_Name
