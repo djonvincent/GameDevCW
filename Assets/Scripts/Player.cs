@@ -9,6 +9,8 @@ public class Player : Actor
     public GameObject projectile;
     public float projectileSpeed = 5f;
     public float projectileAngularSpeed = 50f;
+    public float fireCooldown = 0.5f;
+    private float nextFireTime = 0;
     private Camera cam;
 
     // Start is called before the first frame update
@@ -30,7 +32,8 @@ public class Player : Actor
     }
 
     void Update() {
-        if (Input.GetButtonDown("Fire1")) {
+        if (Input.GetButtonDown("Fire1") && Time.time >= nextFireTime) {
+            nextFireTime = Time.time + fireCooldown;
             Fire();
         }
     }
