@@ -9,6 +9,7 @@ public class Projectile : MonoBehaviour
     public float lifetime = 5f;
     public bool bounce = false;
     public float knockBack = 0;
+    public float stunDuration = 0.5f;
     private Rigidbody2D rigidBody;
 
     public virtual void Start() {

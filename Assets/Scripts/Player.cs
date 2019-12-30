@@ -23,12 +23,7 @@ public class Player : Actor
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!stunned && alive) {
-            HandleMovement();
-        } else {
-            rigidBody.velocity = Vector2.zero;
-            StopAnimations();
-        }
+        HandleMovement();
     }
 
     void Update() {
@@ -41,12 +36,12 @@ public class Player : Actor
     private void HandleMovement() {
         float moveH;
         float moveV;
-        if (stunned) {
+        if (stunned || !alive) {
             moveH = 0;
             moveV = 0;
         } else {
-            moveH = alive ? Input.GetAxisRaw("Horizontal") : 0;
-            moveV = alive ? Input.GetAxisRaw("Vertical")*0.7f : 0;
+            moveH = Input.GetAxisRaw("Horizontal");
+            moveV = Input.GetAxisRaw("Vertical")*0.7f;
         }
 
         Vector2 movement = new Vector2(moveH, moveV);
@@ -54,7 +49,9 @@ public class Player : Actor
             movement.Normalize();
         }
         //rigidBody.MovePosition(rigidBody.position + movement*speed*Time.fixedDeltaTime);
-        rigidBody.velocity = movement * speed * Time.fixedDeltaTime * 100;
+        if (!stunned) {
+            rigidBody.velocity = movement * speed * Time.fixedDeltaTime * 100;
+        }
         anim.SetFloat("Horizontal", moveH);
         anim.SetFloat("Vertical", moveV);
         anim.SetFloat("Speed", movement.magnitude);

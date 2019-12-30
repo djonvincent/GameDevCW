@@ -165,12 +165,14 @@ MonoBehaviour:
   stunned: 0
   immune: 0
   rigidBody: {fileID: 0}
+  speed: 0.2
   firePoint: {fileID: 7721603409999722583}
   projectile: {fileID: 1848690424021386545, guid: fd836f221f368030aa8e08a0a44d3ab9,
     type: 3}
   damage: 10
   fireInterval: 0
   anim: {fileID: 4483322182504564419}
+  targetPosition: {x: 0, y: 0, z: 0}
 --- !u!50 &6213636427800796473
 Rigidbody2D:
   serializedVersion: 4

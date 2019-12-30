@@ -18,16 +18,19 @@ public class Actor : MonoBehaviour
 
     public virtual void OnDie(){}
 
-    public IEnumerator Stun() {
+    public IEnumerator Stun(float duration) {
         bool oldStunned = stunned;
         bool oldImmune = immune;
         stunned = true;
         immune = true;
-        for (int t = 0; t < 8; t += 1) {
+        for (float t = 0f; t < duration; t += 0.07f) {
             foreach (Renderer r in renderers) {
                 r.enabled = !r.enabled;
             }
             yield return new WaitForSeconds(0.07f);
+        }
+        foreach (Renderer r in renderers) {
+            r.enabled = true;
         }
         stunned = oldStunned;
         immune = oldImmune;
@@ -45,11 +48,12 @@ public class Actor : MonoBehaviour
                     OnDie();
                 } else if (!stunned) {
                     if (proj.knockBack > 0) {
+                        rigidBody.velocity = Vector2.zero;
                         rigidBody.AddForce(
                             other.GetComponent<Rigidbody2D>().velocity.normalized * proj.knockBack
                         );
                     }
-                    StartCoroutine("Stun");
+                    StartCoroutine("Stun", proj.stunDuration);
                 }
                 Destroy(other.gameObject);
             }
