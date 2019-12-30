@@ -45,3 +45,6 @@ TagManager:
   - name: NoPointLighting
     uniqueID: 3915222467
     locked: 0
+  - name: Player
+    uniqueID: 3128441113
+    locked: 0

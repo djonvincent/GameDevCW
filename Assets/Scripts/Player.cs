@@ -7,6 +7,7 @@ public class Player : Actor
     public float speed = 0.9f;
     public Animator anim;
     public GameObject projectile;
+    public GameObject flashlightLight;
     public float projectileSpeed = 5f;
     public float projectileAngularSpeed = 50f;
     public float fireCooldown = 0.5f;
@@ -30,6 +31,9 @@ public class Player : Actor
         if (Input.GetButtonDown("Fire1") && Time.time >= nextFireTime) {
             nextFireTime = Time.time + fireCooldown;
             Fire();
+        }
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            flashlightLight.SetActive(!flashlightLight.activeSelf);
         }
     }
 
