@@ -6,11 +6,14 @@ public class Projectile : MonoBehaviour
 {
     public float damage;
     public Transform owner;
-    public float lifetime;
+    public float lifetime = 5f;
     public bool bounce = false;
+    public float knockBack = 0;
+    private Rigidbody2D rigidBody;
 
     void Start() {
-      Destroy(gameObject, lifetime);
+        Destroy(gameObject, lifetime);
+        rigidBody = GetComponent<Rigidbody2D>();
     }
 
     /*

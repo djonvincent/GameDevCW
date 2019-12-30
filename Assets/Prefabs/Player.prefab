@@ -411,8 +411,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_LinearDrag: 5
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -433,11 +433,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   alive: 1
+  stunned: 0
+  immune: 0
+  rigidBody: {fileID: 0}
   speed: 0.9
   anims:
   - {fileID: 4213049730199513170}
   - {fileID: 5096039020629670660}
-  projectile: {fileID: 7534448575442027921, guid: af2d470f9d9ab8f919bee5da8779fbf2,
+  projectile: {fileID: 3323436552300351306, guid: 2e47e42df7040356e91ca90941d13c98,
     type: 3}
   projectileSpeed: 6
   projectileAngularSpeed: 720

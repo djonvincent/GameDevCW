@@ -190,8 +190,19 @@ PrefabInstance:
     - target: {fileID: 9195748194228498238, guid: 35cd4515e086cb9f0b016020b05fc2e4,
         type: 3}
       propertyPath: projectileSpeed
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 9195748194228498238, guid: 35cd4515e086cb9f0b016020b05fc2e4,
+        type: 3}
+      propertyPath: projectileAngularSpeed
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 9195748194228498238, guid: 35cd4515e086cb9f0b016020b05fc2e4,
+        type: 3}
+      propertyPath: projectile
+      value: 
+      objectReference: {fileID: 3323436552300351306, guid: 2e47e42df7040356e91ca90941d13c98,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35cd4515e086cb9f0b016020b05fc2e4, type: 3}
 --- !u!1 &700857332

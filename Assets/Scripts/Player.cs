@@ -6,25 +6,42 @@ public class Player : Actor
 {
     public float speed = 0.9f;
     public List<Animator> anims;
-    public Rigidbody2D projectile;
+    public GameObject projectile;
     public float projectileSpeed = 5f;
     public float projectileAngularSpeed = 50f;
-    private Rigidbody2D rigidBody;
     private Camera cam;
 
     // Start is called before the first frame update
-    void Start()
+    public override void Start()
     {
-        rigidBody = GetComponent<Rigidbody2D>();
+        base.Start();
         cam = Camera.main;
-        //DontDestroyOnLoad(gameObject);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        float moveH = alive ? Input.GetAxisRaw("Horizontal") : 0;
-        float moveV = alive ? Input.GetAxisRaw("Vertical")*0.7f : 0;
+        if (!stunned && alive) {
+            HandleMovement();
+        }
+    }
+void Update() {
+        if (Input.GetButtonDown("Fire1")) {
+            Fire();
+        }
+    }
+
+    private void HandleMovement() {
+        float moveH;
+        float moveV;
+        if (stunned) {
+            moveH = 0;
+            moveV = 0;
+        } else {
+            moveH = alive ? Input.GetAxisRaw("Horizontal") : 0;
+            moveV = alive ? Input.GetAxisRaw("Vertical")*0.7f : 0;
+        }
+
         Vector2 movement = new Vector2(moveH, moveV);
         if (moveH != 0) {
             movement.Normalize();
@@ -33,36 +50,43 @@ public class Player : Actor
         rigidBody.velocity = movement * speed * Time.fixedDeltaTime * 100;
         foreach(Animator anim in anims) {
             anim.SetFloat("Horizontal", moveH);
-            anim.SetFloat("Vertical", moveV); anim.SetFloat("Speed", movement.magnitude);
+            anim.SetFloat("Vertical", moveV);
+            anim.SetFloat("Speed", movement.magnitude);
         }
     }
 
-    void Update() {
-        if (Input.GetButtonDown("Fire1")) {
-            Fire();
+    public override void OnDie() {
+        foreach(Animator anim in anims) {
+            anim.SetFloat("Horizontal", 0);
+            anim.SetFloat("Vertical", 0);
+            anim.SetFloat("Speed", 0);
+            anim.SetTrigger("Die");
         }
-        if (health < 0.0001f && alive) {
-            alive = false;
-            foreach(Animator anim in anims) {
-                anim.SetTrigger("Die");
-            }
+    }
+
+    new public IEnumerator Stun() {
+        foreach (Animator anim in anims) {
+            anim.SetFloat("Speed", 0f);
         }
+        return base.Stun();
     }
 
     void Fire() {
-        Vector3 target = cam.ScreenToWorldPoint(Input.mousePosition);
+        Debug.Log("Fire");
+        Vector3 target = cam.ScreenToWorldPoint(Input.mousePosition) - new Vector3(0,1,0);
         target.z = transform.position.z;
-        Vector3 start = transform.position + new Vector3(0,1,0);
+        Vector3 start = transform.position;
         Vector3 direction = target - start;
         direction.Normalize();
-        Rigidbody2D proj = Instantiate(projectile) as Rigidbody2D;
-        proj.transform.position = start;
-        proj.velocity = direction * projectileSpeed;
-        proj.angularVelocity = (target.x < start.x ? 1 : -1) * projectileAngularSpeed;
-        Projectile projClass = proj.GetComponent<Projectile>();
+        Transform proj = ((GameObject)Instantiate(projectile, start, Quaternion.identity)).transform;
+        Debug.Log(proj);
+        Rigidbody2D projRB = proj.GetComponent<Rigidbody2D>();
+        projRB.velocity = direction * projectileSpeed;
+        SpinningProjectile projClass = proj.GetComponent<SpinningProjectile>();
+        projClass.angularVelocity = (target.x < start.x ? 1 : -1) * projectileAngularSpeed;
         projClass.owner = transform;
-        projClass.damage = 5f;;
-        projClass.lifetime = 5f;
+        projClass.damage = 5f;
         projClass.bounce = true;
+        projClass.knockBack = 30;
     }
 }
