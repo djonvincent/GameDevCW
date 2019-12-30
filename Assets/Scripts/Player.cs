@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : Actor
 {
     public float speed = 0.9f;
-    public List<Animator> anims;
+    public Animator anim;
     public GameObject projectile;
     public float projectileSpeed = 5f;
     public float projectileAngularSpeed = 50f;
@@ -23,9 +23,13 @@ public class Player : Actor
     {
         if (!stunned && alive) {
             HandleMovement();
+        } else {
+            rigidBody.velocity = Vector2.zero;
+            StopAnimations();
         }
     }
-void Update() {
+
+    void Update() {
         if (Input.GetButtonDown("Fire1")) {
             Fire();
         }
@@ -48,38 +52,29 @@ void Update() {
         }
         //rigidBody.MovePosition(rigidBody.position + movement*speed*Time.fixedDeltaTime);
         rigidBody.velocity = movement * speed * Time.fixedDeltaTime * 100;
-        foreach(Animator anim in anims) {
-            anim.SetFloat("Horizontal", moveH);
-            anim.SetFloat("Vertical", moveV);
-            anim.SetFloat("Speed", movement.magnitude);
-        }
+        anim.SetFloat("Horizontal", moveH);
+        anim.SetFloat("Vertical", moveV);
+        anim.SetFloat("Speed", movement.magnitude);
+    }
+
+    private void StopAnimations() {
+        anim.SetFloat("Horizontal", 0);
+        anim.SetFloat("Vertical", 0);
+        anim.SetFloat("Speed", 0);
     }
 
     public override void OnDie() {
-        foreach(Animator anim in anims) {
-            anim.SetFloat("Horizontal", 0);
-            anim.SetFloat("Vertical", 0);
-            anim.SetFloat("Speed", 0);
-            anim.SetTrigger("Die");
-        }
-    }
-
-    new public IEnumerator Stun() {
-        foreach (Animator anim in anims) {
-            anim.SetFloat("Speed", 0f);
-        }
-        return base.Stun();
+        StopAnimations();
+        anim.SetTrigger("Die");
     }
 
     void Fire() {
-        Debug.Log("Fire");
         Vector3 target = cam.ScreenToWorldPoint(Input.mousePosition) - new Vector3(0,1,0);
         target.z = transform.position.z;
         Vector3 start = transform.position;
         Vector3 direction = target - start;
         direction.Normalize();
         Transform proj = ((GameObject)Instantiate(projectile, start, Quaternion.identity)).transform;
-        Debug.Log(proj);
         Rigidbody2D projRB = proj.GetComponent<Rigidbody2D>();
         projRB.velocity = direction * projectileSpeed;
         SpinningProjectile projClass = proj.GetComponent<SpinningProjectile>();

@@ -20,10 +20,18 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
+      value: {fileID: -5553593387769249711, guid: b2040c84cd6eed236a3333c54e6560f6,
+        type: 3}
+    attribute: m_Sprite
+    path: Jacket
+    classID: 212
+    script: {fileID: 0}
+  - curve:
+    - time: 0
       value: {fileID: 1399004368427835049, guid: dd371a452699560e7b9944bc34492518,
         type: 3}
     attribute: m_Sprite
-    path: 
+    path: Player
     classID: 212
     script: {fileID: 0}
   m_SampleRate: 10
@@ -34,13 +42,21 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 0
+      path: 2577432767
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    - serializedVersion: 2
+      path: 2679471955
       attribute: 0
       script: {fileID: 0}
       typeID: 212
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
+    - {fileID: -5553593387769249711, guid: b2040c84cd6eed236a3333c54e6560f6, type: 3}
     - {fileID: 1399004368427835049, guid: dd371a452699560e7b9944bc34492518, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2

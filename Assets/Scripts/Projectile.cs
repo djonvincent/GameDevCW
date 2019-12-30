@@ -11,7 +11,7 @@ public class Projectile : MonoBehaviour
     public float knockBack = 0;
     private Rigidbody2D rigidBody;
 
-    void Start() {
+    public virtual void Start() {
         Destroy(gameObject, lifetime);
         rigidBody = GetComponent<Rigidbody2D>();
     }
@@ -23,7 +23,7 @@ public class Projectile : MonoBehaviour
         }
     }*/
 
-    void OnCollisionEnter2D(Collision2D other) {
+    void OnCollisionEnter2D(Collision2D col) {
         Debug.Log("Projectile: CollisionEnter");
         if (!bounce) {
            Destroy(gameObject);

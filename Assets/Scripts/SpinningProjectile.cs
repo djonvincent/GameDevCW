@@ -8,7 +8,8 @@ public class SpinningProjectile : Projectile
     public float angle = 0;
     private Transform child;
 
-    void Start() {
+    public override void Start() {
+        base.Start();
         child = transform.GetChild(0);
     }
     

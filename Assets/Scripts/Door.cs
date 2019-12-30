@@ -14,19 +14,19 @@ public class Door : MonoBehaviour
         player = GameObject.FindWithTag("Player");
     }
 
-    void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log("trigger " + other.tag);
-        if(other.tag == "Player" && !hasEntered) {
+    void OnCollisionEnter2D(Collision2D col) {
+        Debug.Log("Door collision");
+        if(col.gameObject.tag == "Player" && !hasEntered) {
             hasEntered = true;
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
             asyncLoad.completed += (op) => {
-            Camera.main.cullingMask = 0;
-            //SceneManager.MoveGameObjectToScene(player, SceneManager.GetSceneByName(sceneName));
-            player.transform.position = position;
-            AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(gameObject.scene);
-            asyncUnload.completed += (op2) => {
-                Camera.main.cullingMask = -1;
-            };
+                Camera.main.cullingMask = 0;
+                //SceneManager.MoveGameObjectToScene(player, SceneManager.GetSceneByName(sceneName));
+                player.transform.position = position;
+                AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(gameObject.scene);
+                asyncUnload.completed += (op2) => {
+                    Camera.main.cullingMask = -1;
+                };
             };
             //SceneManager.LoadScene(sceneName);
         }

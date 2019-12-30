@@ -19,12 +19,11 @@ public class Actor : MonoBehaviour
     public virtual void OnDie(){}
 
     public IEnumerator Stun() {
-        rigidBody.velocity = Vector2.zero;
         bool oldStunned = stunned;
         bool oldImmune = immune;
         stunned = true;
         immune = true;
-        for (int t = 0; t < 4; t += 1) {
+        for (int t = 0; t < 8; t += 1) {
             foreach (Renderer r in renderers) {
                 r.enabled = !r.enabled;
             }
@@ -35,26 +34,21 @@ public class Actor : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log(other.tag);
         if (other.tag == "Projectile") {
-            Debug.Log("Hit");
             Projectile proj = other.GetComponent<Projectile>();
             if (!transform.IsChildOf(proj.owner) && alive) {
-                Debug.Log("Enemy projectile");
                 if (!immune) {
                     health -= proj.damage;
                 }
                 if (health <= 0) {
                     alive = false;
                     OnDie();
-                }
-                if (!stunned) {
+                } else if (!stunned) {
                     if (proj.knockBack > 0) {
                         rigidBody.AddForce(
                             other.GetComponent<Rigidbody2D>().velocity.normalized * proj.knockBack
                         );
                     }
-                    Debug.Log("Stun");
                     StartCoroutine("Stun");
                 }
                 Destroy(other.gameObject);
