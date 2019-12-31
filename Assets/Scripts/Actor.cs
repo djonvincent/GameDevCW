@@ -8,12 +8,18 @@ public class Actor : MonoBehaviour
     public bool alive = true;
     public bool stunned = false;
     public bool immune = false;
+    public bool inCombat = false;
     public Rigidbody2D rigidBody;
     private SpriteRenderer[] renderers;
+    public GameManager GM;
 
-    public virtual void Start() {
+    public virtual void Awake() {
         rigidBody = GetComponent<Rigidbody2D>();
         renderers = GetComponentsInChildren<SpriteRenderer>();
+    }
+
+    void Start() {
+        GM = GameManager.instance;
     }
 
     public virtual void OnDie(){}

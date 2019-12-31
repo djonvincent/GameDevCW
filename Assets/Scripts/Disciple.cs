@@ -11,14 +11,12 @@ public class Disciple : Actor
     public float fireInterval;
     public Animator anim;
     public Vector3 targetPosition;
-    private GameObject player;
+    public float fireCooldown = 3f;
+    private float nextFireTime = 0;
 
-    // Start is called before the first frame update
-    public override void Start()
+    public override void Awake()
     {
-        Debug.Log(targetPosition);
-        base.Start();
-        player = GameObject.FindWithTag("Player");
+        base.Awake();
         targetPosition = transform.position;
     }
 
@@ -36,8 +34,20 @@ public class Disciple : Actor
     // Update is called once per frame
     void Update()
     {
+        transform.localScale = new Vector3(
+            GM.player.transform.position.x < transform.position.x ? -1 : 1,
+            1,
+            1
+        );
         anim.SetFloat("Health", health);
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        // Engage in combat
+        if ((transform.position - GM.player.transform.position).magnitude < 5 && !inCombat) {
+            inCombat = true;
+            GM.StartCombat(this);
+        }
+
+        if (inCombat && Time.time >= nextFireTime) {
+            nextFireTime = Time.time + fireCooldown;
             Invoke("Fire", 0.52f);
             anim.SetTrigger("Attack");
         }
@@ -47,7 +57,7 @@ public class Disciple : Actor
     {
         Vector3 start = firePoint.position;
         float height = firePoint.localPosition.y;
-        Vector3 target = player.transform.position + new Vector3(0,1,0);
+        Vector3 target = GM.player.transform.position + new Vector3(0,1,0);
         Vector3 direction = target - start;
         direction.Normalize();
         GameObject proj = (GameObject)Instantiate(projectile);

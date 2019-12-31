@@ -25,7 +25,7 @@ public class Projectile : MonoBehaviour
     }*/
 
     void OnCollisionEnter2D(Collision2D col) {
-        Debug.Log("Projectile: CollisionEnter");
+        //Debug.Log("Projectile: CollisionEnter");
         if (!bounce) {
            Destroy(gameObject);
         }
