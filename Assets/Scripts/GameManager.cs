@@ -6,15 +6,33 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public GameObject player;
     public static GameManager instance = null;
     public string startSceneName;
-    public GameObject player;
     public float cameraSpeed = 2f;
-    public float cameraZoomSpeed = 2f;
+    public delegate Vector2 CameraTargetFunction();
+
     private bool inCombat = false;
     private Actor currentEnemy;
     private float targetCameraSize = 5;
-    public Vector2 targetCameraPosition;
+    private float baseCameraZoomSpeed = 2f;
+    private float cameraZoomSpeed = 2f;
+    private bool syncCameraZoom = true;
+    private bool cameraAtTarget = false;
+    private CameraTargetFunction cameraTargetFunc;
+
+    public CameraTargetFunction CameraTarget {
+        get {
+            return cameraTargetFunc;
+        }
+        set {
+            cameraAtTarget = false;
+            Vector2 target = value();
+            float distance = ((Vector2)Camera.main.transform.position - target).magnitude;
+            cameraSpeed = distance/1;
+            cameraTargetFunc = value;
+        }
+    }   
 
     // Start is called before the first frame update
     void Awake()
@@ -24,8 +42,10 @@ public class GameManager : MonoBehaviour
         } else if (instance != this) {
             Destroy(gameObject);
         }
+
         player = GameObject.FindWithTag("Player");
-        moveCamera(player.transform.position);
+        MoveCamera(player.transform.position);
+
         if (SceneManager.sceneCount == 1) {
             SceneManager.LoadScene(startSceneName, LoadSceneMode.Additive);
         }
@@ -34,11 +54,10 @@ public class GameManager : MonoBehaviour
             if (scene.name == "Manager") {
                 continue;
             }
-            //SceneManager.MoveGameObjectToScene(player, scene);
         }
     }
 
-    private void moveCamera(Vector2 position) {
+    private void MoveCamera(Vector2 position) {
         Vector3 pos = position;
         pos.z = -10;
         Camera.main.transform.position = pos;
@@ -83,26 +102,38 @@ public class GameManager : MonoBehaviour
         );
         yield return asyncLoad;
         player.transform.position = position;
-        moveCamera(position);
+        MoveCamera(position);
         Camera.main.cullingMask = -1;
     }
 
     void Update() {
-        if (!inCombat) {
-            Vector3 p = player.transform.position;
-            targetCameraPosition = p;
+        if (CameraTarget == null) {
+            CameraTarget = PlayerPosition;
         }
+        Vector2 targetCamPosition = CameraTarget();
         float camSize = Camera.main.orthographicSize;
         Vector2 camPosition = Camera.main.transform.position;
-        if (camPosition != targetCameraPosition) {
+
+        if (cameraAtTarget) {
+            MoveCamera(CameraTarget());
+        } else if (camPosition == targetCamPosition) {
+            cameraAtTarget = true;
+        } else {
             float delta = Time.deltaTime * cameraSpeed;
             Vector2 newPos = Vector2.MoveTowards(
-                camPosition, targetCameraPosition, delta
+                camPosition, targetCamPosition, delta
             );
-            float eta = (targetCameraPosition-camPosition).magnitude / cameraSpeed;
-            cameraZoomSpeed = Math.Abs(targetCameraSize - camSize) / eta;
-            moveCamera(newPos);
+            MoveCamera(newPos);
+            if (syncCameraZoom) {
+                float eta = (targetCamPosition-camPosition).magnitude / cameraSpeed;
+                cameraZoomSpeed = Math.Abs(targetCameraSize - camSize) / eta;
+            }
         }
+
+        if (!syncCameraZoom) {
+            cameraZoomSpeed = baseCameraZoomSpeed;
+        }
+
         if (camSize != targetCameraSize) {
             float delta = cameraZoomSpeed * Time.deltaTime;
             if (Math.Abs(targetCameraSize - camSize) < delta) {
@@ -115,26 +146,26 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartCombat(Actor enemy) {
+    public void StartCombat(Enemy enemy) {
         Debug.Log("Combat");
         inCombat = true;
         currentEnemy = enemy;
-        targetCameraPosition =
-            (enemy.transform.position + player.transform.position) / 2;
-        targetCameraSize = 3;
-        //StartCoroutine(MoveCamera(
-        //    (enemy.transform.position + player.transform.position)/2
-        //));
-        //StartCoroutine("ResizeCamera", 3);
+        targetCameraSize = 1 + enemy.aggroRadius / 2;
+        CameraTarget = CombatPosition;
+    }
+
+    public Vector2 PlayerPosition () {
+        return player.transform.position;
+    }
+
+    public Vector2 CombatPosition () {
+        return (currentEnemy.transform.position + player.transform.position)/2;
     }
 
     public void Flee() {
-        //StartCoroutine("ResizeCamera", 5);
-        targetCameraSize = 5;
         inCombat = false;
-        if (currentEnemy != null) {
-            currentEnemy.inCombat = false;
-        }
         currentEnemy = null;
+        CameraTarget = PlayerPosition;
+        targetCameraSize = 5;
     }
 }

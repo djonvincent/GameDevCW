@@ -244,8 +244,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b447caeae99777dae91b50a462b8edab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startSceneName: Outside
   player: {fileID: 0}
+  startSceneName: Outside
+  cameraSpeed: 2
 --- !u!4 &700857334
 Transform:
   m_ObjectHideFlags: 0
@@ -267,6 +268,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 56866235746981894, guid: 414d799944933a3939b3a1c5adb1353b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7488433471815829126, guid: 414d799944933a3939b3a1c5adb1353b,
         type: 3}
       propertyPath: orthographic size

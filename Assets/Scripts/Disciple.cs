@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Disciple : Actor
+public class Disciple : Enemy
 {
     public float speed = 0.2f;
     public Transform firePoint;
@@ -13,6 +13,11 @@ public class Disciple : Actor
     public Vector3 targetPosition;
     public float fireCooldown = 3f;
     private float nextFireTime = 0;
+    private float _aggroRadius = 5f;
+    public override float aggroRadius {
+        get {return _aggroRadius;}
+        set {_aggroRadius = value;}
+    }
 
     public override void Awake()
     {
@@ -41,9 +46,14 @@ public class Disciple : Actor
         );
         anim.SetFloat("Health", health);
         // Engage in combat
-        if ((transform.position - GM.player.transform.position).magnitude < 5 && !inCombat) {
+        float playerDistance =
+            (transform.position - GM.player.transform.position).magnitude;
+        if (playerDistance <= aggroRadius && !inCombat) {
             inCombat = true;
             GM.StartCombat(this);
+        } else if (playerDistance > aggroRadius + 1 && inCombat) {
+            inCombat = false;
+            GM.Flee();
         }
 
         if (inCombat && Time.time >= nextFireTime) {
