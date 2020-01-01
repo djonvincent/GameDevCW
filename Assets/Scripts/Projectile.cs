@@ -10,11 +10,13 @@ public class Projectile : MonoBehaviour
     public bool bounce = false;
     public float knockBack = 0;
     public float stunDuration = 0.5f;
-    private Rigidbody2D rigidBody;
+    protected Rigidbody2D rigidBody;
+    public Transform body {get; private set;}
 
-    public virtual void Start() {
-        Destroy(gameObject, lifetime);
+    public void Awake() {
+        body = transform.Find("Body");
         rigidBody = GetComponent<Rigidbody2D>();
+        Destroy(gameObject, lifetime);
     }
 
     /*

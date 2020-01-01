@@ -9,9 +9,9 @@ public class Actor : MonoBehaviour
     public bool stunned = false;
     public bool immune = false;
     public bool inCombat = false;
-    public Rigidbody2D rigidBody;
-    private SpriteRenderer[] renderers;
-    public GameManager GM;
+    protected Rigidbody2D rigidBody;
+    protected SpriteRenderer[] renderers;
+    protected GameManager GM;
 
     public virtual void Awake() {
         rigidBody = GetComponent<Rigidbody2D>();
@@ -42,7 +42,8 @@ public class Actor : MonoBehaviour
         immune = oldImmune;
     }
 
-    void OnTriggerEnter2D(Collider2D other) {
+    void OnTriggerEnter2D(Collider2D col) {
+        GameObject other = col.attachedRigidbody.gameObject;
         if (other.tag == "Projectile") {
             Projectile proj = other.GetComponent<Projectile>();
             if (!transform.IsChildOf(proj.owner) && alive) {

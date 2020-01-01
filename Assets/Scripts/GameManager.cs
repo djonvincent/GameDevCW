@@ -7,13 +7,14 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public GameObject player;
+    public Player playerClass;
     public static GameManager instance = null;
     public string startSceneName;
     public float cameraSpeed = 2f;
     public delegate Vector2 CameraTargetFunction();
 
     private bool inCombat = false;
-    private Actor currentEnemy;
+    public Actor currentEnemy;
     private float targetCameraSize = 5;
     private float baseCameraZoomSpeed = 2f;
     private float cameraZoomSpeed = 2f;
@@ -44,6 +45,7 @@ public class GameManager : MonoBehaviour
         }
 
         player = GameObject.FindWithTag("Player");
+        playerClass = player.GetComponent<Player>();
         MoveCamera(player.transform.position);
 
         if (SceneManager.sceneCount == 1) {
@@ -147,10 +149,9 @@ public class GameManager : MonoBehaviour
     }
 
     public void StartCombat(Enemy enemy) {
-        Debug.Log("Combat");
         inCombat = true;
         currentEnemy = enemy;
-        targetCameraSize = 1 + enemy.aggroRadius / 2;
+        targetCameraSize = enemy.aggroRadius / 2;
         CameraTarget = CombatPosition;
     }
 
@@ -163,9 +164,13 @@ public class GameManager : MonoBehaviour
     }
 
     public void Flee() {
-        inCombat = false;
-        currentEnemy = null;
+        StopCombat();
         CameraTarget = PlayerPosition;
         targetCameraSize = 5;
+    }
+
+    public void StopCombat() {
+        inCombat = false;
+        currentEnemy = null;
     }
 }

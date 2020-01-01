@@ -422,14 +422,12 @@ MonoBehaviour:
   stunned: 0
   immune: 0
   inCombat: 0
-  rigidBody: {fileID: 0}
-  GM: {fileID: 0}
   speed: 0.9
   anim: {fileID: 532962070416799044}
   projectile: {fileID: 3323436552300351306, guid: 2e47e42df7040356e91ca90941d13c98,
     type: 3}
   flashlightLight: {fileID: 8764173322985547417}
-  projectileSpeed: 6
+  projectileSpeed: 8
   projectileAngularSpeed: 720
   fireCooldown: 0.5
 --- !u!95 &532962070416799044

@@ -8,7 +8,7 @@ public class Player : Actor
     public Animator anim;
     public GameObject projectile;
     public GameObject flashlightLight;
-    public float projectileSpeed = 5f;
+    public float projectileSpeed = 8f;
     public float projectileAngularSpeed = 50f;
     public float fireCooldown = 0.5f;
     private float nextFireTime = 0;
