@@ -15,8 +15,7 @@ public class GameManager : MonoBehaviour
     public Graphic healthbar;
     public delegate Vector2 CameraTargetFunction();
 
-    private bool inCombat = false;
-    public Actor currentEnemy;
+    private List<Enemy> currentEnemies = new List<Enemy>();
     private float targetCameraSize = 5;
     private float baseCameraZoomSpeed = 2f;
     private float cameraZoomSpeed = 2f;
@@ -111,7 +110,9 @@ public class GameManager : MonoBehaviour
     }
 
     void Update() {
-        healthbar.rectTransform.localScale= new Vector3(playerClass.health/100, 1, 1);
+        healthbar.rectTransform.localScale = new Vector3(
+            Mathf.Clamp(playerClass.health/100, 0, 1), 1, 1
+        );
         if (CameraTarget == null) {
             CameraTarget = PlayerPosition;
         }
@@ -151,29 +152,53 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartCombat(Enemy enemy) {
-        inCombat = true;
-        currentEnemy = enemy;
-        targetCameraSize = enemy.aggroRadius / 2;
-        CameraTarget = CombatPosition;
-    }
-
     public Vector2 PlayerPosition () {
         return player.transform.position;
     }
 
     public Vector2 CombatPosition () {
-        return (currentEnemy.transform.position + player.transform.position)/2;
+        if (currentEnemies.Count == 0) {
+            return PlayerPosition();
+        }
+        float maxAggroRadius = currentEnemies[0].aggroRadius;
+        Enemy maxEnemy = currentEnemies[0];
+        for (int i=1; i < currentEnemies.Count; i++) {
+            Enemy enemy = currentEnemies[i];
+            if (enemy.aggroRadius > maxAggroRadius) {
+                maxAggroRadius = enemy.aggroRadius;
+                maxEnemy = enemy;
+            }
+        }
+        return (maxEnemy.transform.position + player.transform.position)/2;
     }
 
-    public void Flee() {
-        StopCombat();
+    private void GetCameraSize() {
+        if (currentEnemies.Count == 0) {
+            targetCameraSize = 5;
+            return;
+        }
+        float maxAggroRadius = 0;
+        foreach (Enemy enemy in currentEnemies) {
+            if (enemy.aggroRadius > maxAggroRadius) {
+                maxAggroRadius = enemy.aggroRadius;
+            }
+        }
+        targetCameraSize = maxAggroRadius / 2;
     }
 
-    public void StopCombat() {
-        inCombat = false;
-        currentEnemy = null;
-        CameraTarget = PlayerPosition;
-        targetCameraSize = 5;
+    public void AddEnemy(Enemy enemy) {
+        if (!currentEnemies.Contains(enemy)) {
+            currentEnemies.Add(enemy);
+            CameraTarget = CombatPosition;
+            GetCameraSize();
+        }
+    }
+
+    public void RemoveEnemy(Enemy enemy) {
+        currentEnemies.Remove(enemy);
+        GetCameraSize();
+        if (currentEnemies.Count == 0) {
+            CameraTarget = PlayerPosition;
+        }
     }
 }

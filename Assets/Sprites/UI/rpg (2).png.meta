@@ -14,6 +14,12 @@ TextureImporter:
   - first:
       213: 2155909526023191853
     second: healthbar_middle
+  - first:
+      213: -8654204750234908357
+    second: basic_healthbar
+  - first:
+      213: 6514773948410926740
+    second: grey
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -156,6 +162,48 @@ TextureImporter:
       bones: []
       spriteID: dfa90648a2a5b498bae10e9798bf6c53
       internalID: 2155909526023191853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: basic_healthbar
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 11
+        width: 66
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24b787480c0b361f385a1c224f33eef7
+      internalID: -8654204750234908357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grey
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 15
+        width: 1
+        height: 1
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3587021140804ea369e02b441d035bbd
+      internalID: 6514773948410926740
       vertices: []
       indices: 
       edges: []

@@ -18,8 +18,9 @@ public class Actor : MonoBehaviour
 
     protected virtual void Awake() {
         rigidBody = GetComponent<Rigidbody2D>();
-        renderers = GetComponentsInChildren<SpriteRenderer>();
         body = transform.Find("Body");
+        renderers = body.GetComponentsInChildren<SpriteRenderer>();
+        Debug.Log(renderers.Length);
         hitbox = body.Find("Hitbox").GetComponent<Collider2D>();
     }
 
@@ -33,6 +34,7 @@ public class Actor : MonoBehaviour
     protected virtual void Update() {
         if (alive && health <= 0) {
             alive = false;
+            Debug.Log("Dead");
             OnDie();
         }
     }
@@ -46,11 +48,8 @@ public class Actor : MonoBehaviour
         if (immune) {
             return;
         }
-        OnAttacked();
         health -= damage;
-        if (health <= 0) {
-            alive = false;
-        }
+        OnAttacked();
         if (!stunned && stunDuration > 0) {
             StartCoroutine(Stun(stunDuration));
         }

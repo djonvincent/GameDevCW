@@ -11,13 +11,16 @@ public class Enemy : Actor
     public float idlePeriod = 1f;
     public Animator anim;
     public bool facePlayer = true;
+    public Healthbar healthbar;
+    public float distanceToPlayer {get; private set;}
     protected float timeToStartAttack = 0;
     protected float nextAttackTime = 0;
 
     protected override void Update()
     {
         base.Update();
-        if (facePlayer) {
+        healthbar.health = health/100;
+        if (facePlayer && alive && !stunned) {
             transform.localScale = new Vector3(
                 GM.player.transform.position.x < transform.position.x ? -1 : 1,
                 1,
@@ -25,27 +28,32 @@ public class Enemy : Actor
             );
         }
         anim.SetFloat("Health", health);
-        float playerDistance =
+        distanceToPlayer =
             (GM.player.transform.position - transform.position).magnitude; 
         if (!GM.playerClass.alive) {
             inCombat = false;
-        } else if (playerDistance <= aggroRadius && !inCombat) {
+        } else if (distanceToPlayer <= aggroRadius && !inCombat) {
             StartCombat();
-        } else if (playerDistance > aggroRadius + 1 && inCombat) {
-            inCombat = false;
-            GM.Flee();
+        } else if (distanceToPlayer > aggroRadius + 1 && inCombat) {
+            StopCombat();
         }
     }
 
     protected override void OnDie() {
         base.OnDie();
-        GM.StopCombat();
+        healthbar.gameObject.SetActive(false);
+        StopCombat();
     }
 
     public virtual void StartCombat() {
         inCombat = true;
         timeToStartAttack = Time.time + idlePeriod;
-        GM.StartCombat(this);
+        GM.AddEnemy(this);
+    }
+
+    public virtual void StopCombat() {
+        inCombat = false;
+        GM.RemoveEnemy(this);
     }
 
     protected bool canAttack {
