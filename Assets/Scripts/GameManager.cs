@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
     public string startSceneName;
     public float cameraSpeed = 2f;
+    public Graphic healthbar;
     public delegate Vector2 CameraTargetFunction();
 
     private bool inCombat = false;
@@ -109,6 +111,7 @@ public class GameManager : MonoBehaviour
     }
 
     void Update() {
+        healthbar.rectTransform.localScale= new Vector3(playerClass.health/100, 1, 1);
         if (CameraTarget == null) {
             CameraTarget = PlayerPosition;
         }
