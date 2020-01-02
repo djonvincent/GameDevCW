@@ -1,5 +1,5 @@
-- Professor artwork: [FeralFantom](https://opengameart.org/content/feralfantoms-entry)
-- LPC assets: <https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles>
-- Enemies: [Stephen Challener](https://opengameart.org/content/bosses-and-monsters-spritesheets-ars-notoria)
-- Book: [Stagnation](https://opengameart.org/content/book-animation)
-- Health bar: [Adwit Rahman](https://opengameart.org/content/pixel-health-bar-asset-pack-2)
+- LPC assets: Lanea Zimmerman, Stephen Challener, Charles Sanchez, Manuel Riecke, Daniel Armstrong [source](<https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles>) [license](https://creativecommons.org/licenses/by-sa/3.0/)
+- Professor artwork: FeralFantom [source](https://opengameart.org/content/feralfantoms-entry) [license](https://creativecommons.org/licenses/by-sa/3.0/)
+- Enemies: Augustin Balmer, Stephen Challener [source](https://opengameart.org/content/bosses-and-monsters-spritesheets-ars-notoria) [license](http://creativecommons.org/licenses/by/3.0/)
+- Book: Stagnation [source](https://opengameart.org/content/book-animation) [license](http://creativecommons.org/licenses/by/3.0/)
+- Health bar: Adwit Rahman [source](https://opengameart.org/content/pixel-health-bar-asset-pack-2) [license](https://creativecommons.org/licenses/by/4.0/)
