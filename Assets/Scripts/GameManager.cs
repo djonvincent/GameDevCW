@@ -165,12 +165,12 @@ public class GameManager : MonoBehaviour
 
     public void Flee() {
         StopCombat();
-        CameraTarget = PlayerPosition;
-        targetCameraSize = 5;
     }
 
     public void StopCombat() {
         inCombat = false;
         currentEnemy = null;
+        CameraTarget = PlayerPosition;
+        targetCameraSize = 5;
     }
 }

@@ -10,12 +10,13 @@ public class Player : Actor
     public GameObject flashlightLight;
     public float projectileSpeed = 8f;
     public float projectileAngularSpeed = 50f;
-    public float fireCooldown = 0.5f;
-    private float nextFireTime = 0;
+    public float attackCooldown = 0.5f;
+    public float bookDamage = 20f;
+    private float nextAttackTime = 0;
     private Camera cam;
 
     // Start is called before the first frame update
-    public override void Awake()
+    protected override void Awake()
     {
         base.Awake();
         cam = Camera.main;
@@ -27,9 +28,10 @@ public class Player : Actor
         HandleMovement();
     }
 
-    void Update() {
-        if (Input.GetButtonDown("Fire1") && Time.time >= nextFireTime) {
-            nextFireTime = Time.time + fireCooldown;
+    protected override void Update() {
+        base.Update();
+        if (Input.GetButtonDown("Fire1") && canAttack) {
+            nextAttackTime = Time.time + attackCooldown;
             Fire();
         }
         if (Input.GetKeyDown(KeyCode.Space)) {
@@ -67,9 +69,16 @@ public class Player : Actor
         anim.SetFloat("Speed", 0);
     }
 
-    public override void OnDie() {
+    protected override void OnDie() {
+        base.OnDie();
         StopAnimations();
         anim.SetTrigger("Die");
+    }
+    
+    protected bool canAttack {
+        get {
+            return alive && Time.time >= nextAttackTime;
+        }
     }
 
     void Fire() {
@@ -84,7 +93,7 @@ public class Player : Actor
         SpinningProjectile projClass = proj.GetComponent<SpinningProjectile>();
         projClass.angularVelocity = (target.x < start.x ? 1 : -1) * projectileAngularSpeed;
         projClass.owner = transform;
-        projClass.damage = 5f;
+        projClass.damage = bookDamage;
         projClass.bounce = true;
         projClass.knockBack = 30;
     }

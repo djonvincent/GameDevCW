@@ -9,20 +9,70 @@ public class Actor : MonoBehaviour
     public bool stunned = false;
     public bool immune = false;
     public bool inCombat = false;
-    protected Rigidbody2D rigidBody;
+    public Rigidbody2D rigidBody {get; private set;}
     protected SpriteRenderer[] renderers;
     protected GameManager GM;
+    protected Transform body;
+    protected bool jumping = false;
+    public Collider2D hitbox {get; private set;}
 
-    public virtual void Awake() {
+    protected virtual void Awake() {
         rigidBody = GetComponent<Rigidbody2D>();
         renderers = GetComponentsInChildren<SpriteRenderer>();
+        body = transform.Find("Body");
+        hitbox = body.Find("Hitbox").GetComponent<Collider2D>();
     }
 
-    void Start() {
+    protected virtual void Start() {
         GM = GameManager.instance;
     }
 
-    public virtual void OnDie(){}
+    protected virtual void OnDie(){}
+    protected virtual void OnAttacked(){}
+
+    protected virtual void Update() {
+        if (alive && health <= 0) {
+            alive = false;
+            OnDie();
+        }
+    }
+
+    protected virtual void Attacked(
+        float damage,
+        float stunDuration = 0f,
+        Vector2 force = new Vector2(),
+        float jumpSpeed = 0f
+    ) {
+        if (immune) {
+            return;
+        }
+        OnAttacked();
+        health -= damage;
+        if (health <= 0) {
+            alive = false;
+        }
+        if (!stunned && stunDuration > 0) {
+            StartCoroutine(Stun(stunDuration));
+        }
+        rigidBody.AddForce(force);
+        if (!jumping && jumpSpeed > 0) {
+            StartCoroutine(Jump(jumpSpeed));
+        }
+    }
+
+    public IEnumerator Jump(float velocity) {
+        jumping = true;
+        float v = velocity;
+        float y = 0;
+        do {
+            body.localPosition = new Vector2(0, y);
+            y += v * Time.deltaTime;
+            v -= 10 * Time.deltaTime;
+            yield return null;
+        } while (y > 0);
+        body.localPosition = Vector2.zero;
+        jumping = false;
+    }
 
     public IEnumerator Stun(float duration) {
         bool oldStunned = stunned;
@@ -44,26 +94,20 @@ public class Actor : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col) {
         GameObject other = col.attachedRigidbody.gameObject;
-        if (other.tag == "Projectile") {
-            Projectile proj = other.GetComponent<Projectile>();
-            if (!transform.IsChildOf(proj.owner) && alive) {
-                if (!immune) {
-                    health -= proj.damage;
-                }
-                if (health <= 0) {
-                    alive = false;
-                    OnDie();
-                } else if (!stunned) {
-                    if (proj.knockBack > 0) {
-                        rigidBody.velocity = Vector2.zero;
-                        rigidBody.AddForce(
-                            other.GetComponent<Rigidbody2D>().velocity.normalized * proj.knockBack
-                        );
-                    }
-                    StartCoroutine("Stun", proj.stunDuration);
-                }
-                Destroy(other.gameObject);
-            }
+        if (other.tag != "Projectile") {
+            return;
         }
+        Projectile proj = other.GetComponent<Projectile>();
+        if (transform.IsChildOf(proj.owner) || !alive) {
+            return;
+        }
+        Vector2 knockBack = Vector2.zero;
+        if (proj.knockBack > 0) {
+            rigidBody.velocity = Vector2.zero;
+            knockBack = other.GetComponent<Rigidbody2D>().velocity.normalized *
+                proj.knockBack;
+        }
+        Attacked(proj.damage, proj.stunDuration, knockBack);
+        Destroy(other.gameObject);
     }
 }

@@ -13,7 +13,7 @@ public class Projectile : MonoBehaviour
     protected Rigidbody2D rigidBody;
     public Transform body {get; private set;}
 
-    public void Awake() {
+    protected void Awake() {
         body = transform.Find("Body");
         rigidBody = GetComponent<Rigidbody2D>();
         Destroy(gameObject, lifetime);

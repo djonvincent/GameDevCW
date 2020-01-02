@@ -8,11 +8,9 @@ public class RangedEnemy : Enemy
     public GameObject projectile;
     public float fireInterval;
     public Vector3 targetPosition;
-    public float fireCooldown = 3f;
     public float projectileSpeed = 4f;
-    private float nextFireTime = 0;
 
-    public override void Awake()
+    protected override void Awake()
     {
         base.Awake();
         targetPosition = transform.position;
@@ -29,11 +27,11 @@ public class RangedEnemy : Enemy
         }
     }
 
-    public override void Update()
+    protected override void Update()
     {
         base.Update();
-        if (inCombat && Time.time >= nextFireTime) {
-            nextFireTime = Time.time + fireCooldown;
+        if (canAttack) {
+            nextAttackTime = Time.time + attackCooldown;
             Invoke("Fire", 0.52f);
             anim.SetTrigger("Attack");
         }

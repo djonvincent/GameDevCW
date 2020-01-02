@@ -83,8 +83,6 @@ AnimationClip:
     - time: 0.625
       value: {fileID: -2959129087831334146, guid: 84db1a1e239eb335e9e06bf44dc39ebf,
         type: 3}
-    - time: 0.75
-      value: {fileID: 0}
     attribute: m_Sprite
     path: Flashlight
     classID: 212
@@ -136,13 +134,12 @@ AnimationClip:
     - {fileID: 3720370883963581545, guid: 84db1a1e239eb335e9e06bf44dc39ebf, type: 3}
     - {fileID: 4066435921885059945, guid: 84db1a1e239eb335e9e06bf44dc39ebf, type: 3}
     - {fileID: -2959129087831334146, guid: 84db1a1e239eb335e9e06bf44dc39ebf, type: 3}
-    - {fileID: 0}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.875
+    m_StopTime: 0.75
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
