@@ -44,13 +44,21 @@ public class Player : Actor
 
     private IEnumerator Attack() {
         Vector2 diff = cam.ScreenToWorldPoint(Input.mousePosition) -
-            (transform.position + new Vector3(0, 1, 0));
+            (transform.position + new Vector3(0, 0.5f, 0));
+        Vector2 offset;
+        bool clockwise;
         if (Math.Abs(diff.y) > Math.Abs(diff.x)) {
-            anim.SetFloat("Vertical", diff.y > 0 ? 1 : -1);
+            bool up = diff.y > 0;
+            offset = new Vector2(0, up ? 0.3f : -0.5f);
+            anim.SetFloat("Vertical", up ? 1 : -1);
             anim.SetFloat("Horizontal", 0);
+            clockwise = up;
         } else {
-            anim.SetFloat("Horizontal", diff.x > 0 ? 1 : -1);
+            bool right = diff.x > 0;
+            offset = new Vector2(right ? 0.75f : -0.75f, 0f);
+            anim.SetFloat("Horizontal", right ? 1 : -1);
             anim.SetFloat("Vertical", 0);
+            clockwise = !right;
         }
         nextAttackTime = Time.time + attackCooldown;
         bool oldFlashlightActive = flashlight.activeSelf;
@@ -60,8 +68,9 @@ public class Player : Actor
         anim.SetBool("Attacking", true);
         anim.SetTrigger("Attack");
         attacking = true;
-        Fire();
-        yield return new WaitForSeconds(0.6f);
+        yield return new WaitForSeconds(0.2f);
+        Fire(offset, clockwise);
+        yield return new WaitForSeconds(0.4f);
         anim.SetBool("Attacking", false);
         attacking = false;
         flashlight.SetActive(oldFlashlightActive);
@@ -112,18 +121,19 @@ public class Player : Actor
         }
     }
 
-    void Fire() {
-        Vector3 target = cam.ScreenToWorldPoint(Input.mousePosition) - new Vector3(0,1,0);
-        target.z = transform.position.z;
-        Vector3 start = transform.position;
-        Vector3 direction = target - start;
+    void Fire(Vector2 offset, bool clockwise) {
+        Vector2 target = (Vector2)cam.ScreenToWorldPoint(Input.mousePosition) -
+            new Vector2(0, 0.8f);
+        Vector2 start = (Vector2)transform.position + offset;
+        Debug.Log(start);
+        Vector2 direction = target - start;
         direction.Normalize();
         Transform proj = ((GameObject)Instantiate(projectile, start, Quaternion.identity)).transform;
         Rigidbody2D projRB = proj.GetComponent<Rigidbody2D>();
         projRB.velocity = direction * projectileSpeed;
         SpinningProjectile projClass = proj.GetComponent<SpinningProjectile>();
-        projClass.angularVelocity = (target.x < start.x ? 1 : -1) * projectileAngularSpeed;
-        projClass.owner = transform;
+        projClass.angularVelocity = (clockwise ? -1 : 1) * projectileAngularSpeed;
+        projClass.owner = this;
         projClass.damage = bookDamage;
         projClass.bounce = true;
         projClass.knockBack = 30;

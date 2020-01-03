@@ -52,7 +52,7 @@ public class RangedEnemy : Enemy
         Projectile projClass = proj.GetComponent<Projectile>();
         projClass.body.localPosition = new Vector3(0,height,0);
         projClass.body.up = -direction;
-        projClass.owner = transform;
+        projClass.owner = this;
         projClass.damage = damage;
         projClass.lifetime = 5f;
         projClass.knockBack = 30;

@@ -97,7 +97,7 @@ public class Actor : MonoBehaviour
             return;
         }
         Projectile proj = other.GetComponent<Projectile>();
-        if (transform.IsChildOf(proj.owner) || !alive) {
+        if (proj.owner == this || !alive) {
             return;
         }
         Vector2 knockBack = Vector2.zero;
