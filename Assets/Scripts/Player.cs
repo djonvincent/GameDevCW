@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using System;
 
 public class Player : Actor
 {
-    public float speed = 0.9f;
+    public float speed = 90f;
     public Animator anim;
     public GameObject projectile;
     public GameObject flashlightLight;
@@ -14,6 +15,7 @@ public class Player : Actor
     public float projectileAngularSpeed = 50f;
     public float attackCooldown = 0.6f;
     public float bookDamage = 20f;
+    public Joystick joystick;
     
     private bool attacking = false;
     private float nextAttackTime = 0;
@@ -34,10 +36,11 @@ public class Player : Actor
 
     protected override void Update() {
         base.Update();
-        if (Input.GetButtonDown("Fire1") && canAttack) {
+        if (Input.GetButtonDown("Fire1") && canAttack &&
+            !EventSystem.current.IsPointerOverGameObject()) {
             StartCoroutine("Attack");
         }
-        if (Input.GetKeyDown(KeyCode.Space) && alive) {
+        if (Input.GetKeyDown(KeyCode.Space) && alive && !attacking) {
             flashlightLight.SetActive(!flashlightLight.activeSelf);
         }
     }
@@ -85,22 +88,29 @@ public class Player : Actor
             moveV = 0;
         } else {
             moveH = Input.GetAxisRaw("Horizontal");
-            moveV = Input.GetAxisRaw("Vertical")*0.7f;
+            moveV = Input.GetAxisRaw("Vertical");
+            if (moveH == 0 && moveV == 0 && joystick != null) {
+                moveH = joystick.Horizontal;
+                moveV = joystick.Vertical;
+            }
         }
 
         Vector2 movement = new Vector2(moveH, moveV);
-        if (moveH != 0) {
-            movement.Normalize();
-        }
-        //rigidBody.MovePosition(rigidBody.position + movement*speed*Time.fixedDeltaTime);
+        movement.Normalize();
+        Vector2 velocity = new Vector2(movement.x, movement.y * 0.7f);
         if (!stunned) {
-            rigidBody.velocity = movement * speed * Time.fixedDeltaTime * 100;
+            rigidBody.velocity = velocity * speed * Time.fixedDeltaTime;
         }
-        if (!attacking) {
-            anim.SetFloat("Horizontal", moveH);
-            anim.SetFloat("Vertical", moveV);
+        if (!attacking && !(moveH == 0 && moveV == 0)) {
+            anim.SetFloat("Horizontal", movement.x);
+            anim.SetFloat("Vertical", movement.y);
         }
-        anim.SetFloat("Speed", movement.magnitude);
+
+        float moveSpeed = velocity.magnitude;
+        anim.SetFloat("Speed", moveSpeed);
+        if (moveSpeed > 0) {
+            anim.speed = moveSpeed;
+        }
     }
 
     private void StopAnimations() {

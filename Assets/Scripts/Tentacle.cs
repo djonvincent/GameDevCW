@@ -20,9 +20,9 @@ public class Tentacle : Enemy
     public void StartAttack() {
         nextAttackTime = Time.time + attackCooldown;
         anim.SetBool("Dormant", true);
-        float spawnTime = 1f + Random.value * 3;
+        float spawnTime = 2f + Random.value * 2;
         Invoke("GetNextAttackPosition", spawnTime);
-        Invoke("Attack", spawnTime + 0.1f);
+        Invoke("Attack", spawnTime + 0.2f);
     }
 
     public override void StartCombat() {

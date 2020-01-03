@@ -20,7 +20,6 @@ public class Actor : MonoBehaviour
         rigidBody = GetComponent<Rigidbody2D>();
         body = transform.Find("Body");
         renderers = body.GetComponentsInChildren<SpriteRenderer>();
-        Debug.Log(renderers.Length);
         hitbox = body.Find("Hitbox").GetComponent<Collider2D>();
     }
 

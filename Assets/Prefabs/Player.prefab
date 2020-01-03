@@ -417,7 +417,7 @@ MonoBehaviour:
   stunned: 0
   immune: 0
   inCombat: 0
-  speed: 0.9
+  speed: 90
   anim: {fileID: 904638960275851739}
   projectile: {fileID: 3323436552300351306, guid: 2e47e42df7040356e91ca90941d13c98,
     type: 3}
@@ -427,6 +427,7 @@ MonoBehaviour:
   projectileAngularSpeed: 720
   attackCooldown: 0.5
   bookDamage: 20
+  joystick: {fileID: 0}
 --- !u!1 &7027872030355931924
 GameObject:
   m_ObjectHideFlags: 0
@@ -521,7 +522,7 @@ Animator:
   m_GameObject: {fileID: 7304074130716030188}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2fa01128b7946b001a3c0350fa5d9053, type: 2}
+  m_Controller: {fileID: 9100000, guid: 929730f291810d14ca11ff260db9333c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -734,7 +735,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &98941673438200882
 Transform:
   m_ObjectHideFlags: 0

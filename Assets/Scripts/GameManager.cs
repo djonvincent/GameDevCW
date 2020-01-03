@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
 
     private List<Enemy> currentEnemies = new List<Enemy>();
     private float cameraSpeed = 2f;
-    private float targetCameraSize = 5;
+    private float targetCameraSize = 3.5f;
     private float baseCameraZoomSpeed = 2f;
     private float cameraZoomSpeed = 2f;
     private bool syncCameraZoom = true;
@@ -153,7 +153,7 @@ public class GameManager : MonoBehaviour
     }
 
     public Vector2 PlayerPosition () {
-        return player.transform.position;
+        return player.transform.position + new Vector3(0, 0.5f, 0);
     }
 
     public Vector2 CombatPosition () {
@@ -169,12 +169,13 @@ public class GameManager : MonoBehaviour
                 maxEnemy = enemy;
             }
         }
-        return (maxEnemy.transform.position + player.transform.position)/2;
+        return (maxEnemy.transform.position + player.transform.position)/2 +
+            new Vector3(0, 0.5f, 0);
     }
 
     private void GetCameraSize() {
         if (currentEnemies.Count == 0) {
-            targetCameraSize = 5;
+            targetCameraSize = 3.5f;
             return;
         }
         float maxAggroRadius = 0;
@@ -183,7 +184,7 @@ public class GameManager : MonoBehaviour
                 maxAggroRadius = enemy.aggroRadius;
             }
         }
-        targetCameraSize = maxAggroRadius / 2;
+        targetCameraSize = 1 + (maxAggroRadius / 2);
     }
 
     public void AddEnemy(Enemy enemy) {
