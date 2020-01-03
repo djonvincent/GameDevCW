@@ -34,7 +34,7 @@ public class Player : Actor
             nextAttackTime = Time.time + attackCooldown;
             Fire();
         }
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        if (Input.GetKeyDown(KeyCode.Space) && alive) {
             flashlightLight.SetActive(!flashlightLight.activeSelf);
         }
     }

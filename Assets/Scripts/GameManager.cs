@@ -11,11 +11,11 @@ public class GameManager : MonoBehaviour
     public Player playerClass;
     public static GameManager instance = null;
     public string startSceneName;
-    public float cameraSpeed = 2f;
     public Graphic healthbar;
     public delegate Vector2 CameraTargetFunction();
 
     private List<Enemy> currentEnemies = new List<Enemy>();
+    private float cameraSpeed = 2f;
     private float targetCameraSize = 5;
     private float baseCameraZoomSpeed = 2f;
     private float cameraZoomSpeed = 2f;
@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
             cameraAtTarget = false;
             Vector2 target = value();
             float distance = ((Vector2)Camera.main.transform.position - target).magnitude;
-            cameraSpeed = distance/1;
+            cameraSpeed = Math.Max(2, distance/1);
             cameraTargetFunc = value;
         }
     }   
@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
 
         player = GameObject.FindWithTag("Player");
         playerClass = player.GetComponent<Player>();
-        MoveCamera(player.transform.position);
+        //MoveCamera(player.transform.position);
 
         if (SceneManager.sceneCount == 1) {
             SceneManager.LoadScene(startSceneName, LoadSceneMode.Additive);

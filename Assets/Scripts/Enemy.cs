@@ -32,7 +32,7 @@ public class Enemy : Actor
             (GM.player.transform.position - transform.position).magnitude; 
         if (!GM.playerClass.alive) {
             inCombat = false;
-        } else if (distanceToPlayer <= aggroRadius && !inCombat) {
+        } else if (distanceToPlayer <= aggroRadius && !inCombat && alive) {
             StartCombat();
         } else if (distanceToPlayer > aggroRadius + 1 && inCombat) {
             StopCombat();

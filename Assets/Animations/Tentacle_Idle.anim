@@ -44,7 +44,7 @@ AnimationClip:
       value: {fileID: -6331124212741417650, guid: f05d8d6d57b1a58fc953b9526fac16c6,
         type: 3}
     attribute: m_Sprite
-    path: Tentacle
+    path: Body/Tentacle
     classID: 212
     script: {fileID: 0}
   m_SampleRate: 10
@@ -55,7 +55,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 1861696849
+      path: 883914169
       attribute: 0
       script: {fileID: 0}
       typeID: 212
