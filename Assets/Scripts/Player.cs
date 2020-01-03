@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Player : Actor
 {
@@ -8,10 +9,13 @@ public class Player : Actor
     public Animator anim;
     public GameObject projectile;
     public GameObject flashlightLight;
+    public GameObject flashlight;
     public float projectileSpeed = 8f;
     public float projectileAngularSpeed = 50f;
-    public float attackCooldown = 0.5f;
+    public float attackCooldown = 0.6f;
     public float bookDamage = 20f;
+    
+    private bool attacking = false;
     private float nextAttackTime = 0;
     private Camera cam;
 
@@ -31,18 +35,43 @@ public class Player : Actor
     protected override void Update() {
         base.Update();
         if (Input.GetButtonDown("Fire1") && canAttack) {
-            nextAttackTime = Time.time + attackCooldown;
-            Fire();
+            StartCoroutine("Attack");
         }
         if (Input.GetKeyDown(KeyCode.Space) && alive) {
             flashlightLight.SetActive(!flashlightLight.activeSelf);
         }
     }
 
+    private IEnumerator Attack() {
+        Vector2 diff = cam.ScreenToWorldPoint(Input.mousePosition) -
+            (transform.position + new Vector3(0, 1, 0));
+        if (Math.Abs(diff.y) > Math.Abs(diff.x)) {
+            anim.SetFloat("Vertical", diff.y > 0 ? 1 : -1);
+            anim.SetFloat("Horizontal", 0);
+        } else {
+            anim.SetFloat("Horizontal", diff.x > 0 ? 1 : -1);
+            anim.SetFloat("Vertical", 0);
+        }
+        nextAttackTime = Time.time + attackCooldown;
+        bool oldFlashlightActive = flashlight.activeSelf;
+        bool oldFlashlightLightActive = flashlightLight.activeSelf;
+        flashlight.SetActive(false);
+        flashlightLight.SetActive(false);
+        anim.SetBool("Attacking", true);
+        anim.SetTrigger("Attack");
+        attacking = true;
+        Fire();
+        yield return new WaitForSeconds(0.6f);
+        anim.SetBool("Attacking", false);
+        attacking = false;
+        flashlight.SetActive(oldFlashlightActive);
+        flashlightLight.SetActive(oldFlashlightLightActive);
+    }
+
     private void HandleMovement() {
         float moveH;
         float moveV;
-        if (stunned || !alive) {
+        if (stunned || !alive || attacking) {
             moveH = 0;
             moveV = 0;
         } else {
@@ -58,8 +87,10 @@ public class Player : Actor
         if (!stunned) {
             rigidBody.velocity = movement * speed * Time.fixedDeltaTime * 100;
         }
-        anim.SetFloat("Horizontal", moveH);
-        anim.SetFloat("Vertical", moveV);
+        if (!attacking) {
+            anim.SetFloat("Horizontal", moveH);
+            anim.SetFloat("Vertical", moveV);
+        }
         anim.SetFloat("Speed", movement.magnitude);
     }
 
@@ -77,7 +108,7 @@ public class Player : Actor
     
     protected bool canAttack {
         get {
-            return alive && Time.time >= nextAttackTime;
+            return alive && Time.time >= nextAttackTime && !attacking;
         }
     }
 
