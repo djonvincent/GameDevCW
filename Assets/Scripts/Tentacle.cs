@@ -31,6 +31,7 @@ public class Tentacle : Enemy
     }
 
     private void GetNextAttackPosition() {
+        focusCamera = false;
         attackPosition = GM.player.transform.position + new Vector3(0, -0.2f, 0);
     }
 
@@ -51,6 +52,7 @@ public class Tentacle : Enemy
         if (!inCombat) {
             return;
         }
+        focusCamera = true;
         transform.position = attackPosition;
         anim.SetBool("Dormant", false);
     }

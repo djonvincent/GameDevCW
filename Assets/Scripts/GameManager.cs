@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public delegate Vector2 CameraTargetFunction();
 
     private List<Enemy> currentEnemies = new List<Enemy>();
+    //private Enemy furthestEnemy;
     private float cameraSpeed = 2f;
     private float targetCameraSize = 3.5f;
     private float baseCameraZoomSpeed = 2f;
@@ -162,17 +163,32 @@ public class GameManager : MonoBehaviour
         if (currentEnemies.Count == 0) {
             return PlayerPosition();
         }
-        float maxAggroRadius = currentEnemies[0].aggroRadius;
-        Enemy maxEnemy = currentEnemies[0];
-        for (int i=1; i < currentEnemies.Count; i++) {
+        //float maxAggroRadius = currentEnemies[0].aggroRadius;
+        //Enemy maxEnemy = currentEnemies[0];
+        Vector2 avgPosition = player.transform.position;
+        int count = 0;
+        for (int i=0; i < currentEnemies.Count; i++) {
             Enemy enemy = currentEnemies[i];
-            if (enemy.aggroRadius > maxAggroRadius) {
-                maxAggroRadius = enemy.aggroRadius;
-                maxEnemy = enemy;
+            if (enemy.focusCamera) {
+                avgPosition += (Vector2)enemy.transform.position;
+                count ++;
             }
+            //if (enemy.aggroRadius > maxAggroRadius) {
+            //    maxAggroRadius = enemy.aggroRadius;
+            //    maxEnemy = enemy;
+            //}
         }
-        return (maxEnemy.transform.position + player.transform.position)/2 +
-            new Vector3(0, 0.5f, 0);
+        //if (furthestEnemy != maxEnemy) {
+        //    cameraAtTarget = false;
+        //}
+        //furthestEnemy = maxEnemy;
+        avgPosition /= (count + 1);
+        if (count != currentEnemies.Count) {
+            cameraAtTarget = false;
+        }
+        return avgPosition + new Vector2(0, 0.8f);
+        //return (maxEnemy.transform.position + player.transform.position)/2 +
+        //    new Vector3(0, 0.5f, 0);
     }
 
     private void GetCameraSize() {
@@ -190,6 +206,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void AddEnemy(Enemy enemy) {
+        cameraAtTarget = false;
         if (!currentEnemies.Contains(enemy)) {
             currentEnemies.Add(enemy);
             CameraTarget = CombatPosition;
@@ -198,6 +215,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void RemoveEnemy(Enemy enemy) {
+        cameraAtTarget = false;
         currentEnemies.Remove(enemy);
         GetCameraSize();
         if (currentEnemies.Count == 0) {

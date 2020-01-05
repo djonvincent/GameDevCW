@@ -13,6 +13,7 @@ public class Enemy : Actor
     public bool facePlayer = true;
     public Healthbar healthbar;
     public float distanceToPlayer {get; private set;}
+    public bool focusCamera = true;
     protected float timeToStartAttack = 0;
     protected float nextAttackTime = 0;
 

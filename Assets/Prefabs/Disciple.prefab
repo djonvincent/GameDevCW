@@ -197,7 +197,7 @@ MonoBehaviour:
   stunned: 0
   immune: 0
   inCombat: 0
-  aggroRadius: 8
+  aggroRadius: 7
   speed: 0.2
   damage: 10
   attackCooldown: 3
