@@ -59,22 +59,25 @@ public class Player : Actor
         //   (Vector2)cam.transform.position;
         //Vector2 target = (Vector2)cam.ViewportToWorldPoint(viewportPosition);
         Vector2 target = cam.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 diff = (Vector2)target - ((Vector2)transform.position + new Vector2(0, 0.8f));
+        Vector2 diff = (Vector2)target - ((Vector2)transform.position + new Vector2(0, 0.7f));
         Debug.Log(diff);
         Vector2 offset;
+        float rotation;
         bool clockwise;
-        if (Math.Abs(diff.y) < 0.41 && Math.Abs(diff.x) < 0.41) {
+        if (Math.Abs(diff.y) < 0.6 && Math.Abs(diff.x) < 0.6) {
             yield break;
         }
         if (Math.Abs(diff.y) > Math.Abs(diff.x)) {
             bool up = diff.y > 0;
-            offset = new Vector2(0, up ? 1.2f : 0.4f);
+            offset = new Vector2(0.14f, up ? 1.23f : 0.41f);
+            rotation = up ? -90f : 90f;
             anim.SetFloat("Vertical", up ? 1 : -1);
             anim.SetFloat("Horizontal", 0);
             clockwise = up;
         } else {
             bool right = diff.x > 0;
-            offset = new Vector2(right ? 0.4f : -0.4f, 0.8f);
+            offset = new Vector2(right ? 0.5f : -0.5f, 0.8f);
+            rotation = 180f;
             anim.SetFloat("Horizontal", right ? 1 : -1);
             anim.SetFloat("Vertical", 0);
             clockwise = !right;
@@ -87,9 +90,9 @@ public class Player : Actor
         anim.SetBool("Attacking", true);
         anim.SetTrigger("Attack");
         attacking = true;
-        yield return new WaitForSeconds(0.25f);
-        Fire(target, offset, clockwise);
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.3f);
+        Fire(target, offset, clockwise, rotation);
+        yield return new WaitForSeconds(0.3f);
         anim.SetBool("Attacking", false);
         attacking = false;
         flashlight.SetActive(oldFlashlightActive);
@@ -147,7 +150,7 @@ public class Player : Actor
         }
     }
 
-    void Fire(Vector2 target, Vector2 offset, bool clockwise) {
+    void Fire(Vector2 target, Vector2 offset, bool clockwise, float rotation) {
         Vector2 start = (Vector2)transform.position + offset;
         Vector2 direction = target - start;
         direction.Normalize();
@@ -159,6 +162,7 @@ public class Player : Actor
         Rigidbody2D projRB = proj.GetComponent<Rigidbody2D>();
         projRB.velocity = direction * projectileSpeed;
         SpinningProjectile projClass = proj.GetComponent<SpinningProjectile>();
+        projClass.angle = rotation;
         projClass.angularVelocity = (clockwise ? -1 : 1) * projectileAngularSpeed;
         projClass.owner = this;
         projClass.damage = bookDamage;

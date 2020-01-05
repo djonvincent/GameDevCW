@@ -932,6 +932,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8573332479909217277, guid: 35cd4515e086cb9f0b016020b05fc2e4,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8764173322985547417, guid: 35cd4515e086cb9f0b016020b05fc2e4,
         type: 3}
       propertyPath: m_IsActive
@@ -960,7 +965,7 @@ PrefabInstance:
     - target: {fileID: 9195748194228498238, guid: 35cd4515e086cb9f0b016020b05fc2e4,
         type: 3}
       propertyPath: projectileAngularSpeed
-      value: 360
+      value: 400
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35cd4515e086cb9f0b016020b05fc2e4, type: 3}

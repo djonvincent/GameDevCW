@@ -423,8 +423,8 @@ MonoBehaviour:
     type: 3}
   flashlightLight: {fileID: 9190271393217872849}
   flashlight: {fileID: 1762745115784483353}
-  projectileSpeed: 6
-  projectileAngularSpeed: 720
+  projectileSpeed: 4.5
+  projectileAngularSpeed: 400
   attackCooldown: 0.5
   bookDamage: 20
   joystick: {fileID: 0}
