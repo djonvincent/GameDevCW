@@ -46,19 +46,35 @@ public class Player : Actor
     }
 
     private IEnumerator Attack() {
-        Vector2 diff = cam.ScreenToWorldPoint(Input.mousePosition) -
-            (transform.position + new Vector3(0, 0.5f, 0));
+        Debug.Log(Screen.width);
+        Debug.Log(cam.scaledPixelWidth);
+        Debug.Log(Screen.height);
+        Vector2 viewportPosition = new Vector2(
+            (Input.mousePosition.x/Screen.width - 0.5f) / cam.rect.width,
+            (Input.mousePosition.y/Screen.height - 0.5f) / cam.rect.height
+        );
+        Debug.Log(Input.mousePosition);
+        Debug.Log($"{viewportPosition.x}, {viewportPosition.y}");
+        //Vector2 target = (cam.orthographicSize * 2 * viewportPosition) +
+        //   (Vector2)cam.transform.position;
+        //Vector2 target = (Vector2)cam.ViewportToWorldPoint(viewportPosition);
+        Vector2 target = cam.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 diff = (Vector2)target - ((Vector2)transform.position + new Vector2(0, 0.8f));
+        Debug.Log(diff);
         Vector2 offset;
         bool clockwise;
+        if (Math.Abs(diff.y) < 0.41 && Math.Abs(diff.x) < 0.41) {
+            yield break;
+        }
         if (Math.Abs(diff.y) > Math.Abs(diff.x)) {
             bool up = diff.y > 0;
-            offset = new Vector2(0, up ? 0.3f : -0.5f);
+            offset = new Vector2(0, up ? 1.2f : 0.4f);
             anim.SetFloat("Vertical", up ? 1 : -1);
             anim.SetFloat("Horizontal", 0);
             clockwise = up;
         } else {
             bool right = diff.x > 0;
-            offset = new Vector2(right ? 0.75f : -0.75f, 0f);
+            offset = new Vector2(right ? 0.4f : -0.4f, 0.8f);
             anim.SetFloat("Horizontal", right ? 1 : -1);
             anim.SetFloat("Vertical", 0);
             clockwise = !right;
@@ -71,8 +87,8 @@ public class Player : Actor
         anim.SetBool("Attacking", true);
         anim.SetTrigger("Attack");
         attacking = true;
-        yield return new WaitForSeconds(0.2f);
-        Fire(offset, clockwise);
+        yield return new WaitForSeconds(0.25f);
+        Fire(target, offset, clockwise);
         yield return new WaitForSeconds(0.4f);
         anim.SetBool("Attacking", false);
         attacking = false;
@@ -131,14 +147,15 @@ public class Player : Actor
         }
     }
 
-    void Fire(Vector2 offset, bool clockwise) {
-        Vector2 target = (Vector2)cam.ScreenToWorldPoint(Input.mousePosition) -
-            new Vector2(0, 0.8f);
+    void Fire(Vector2 target, Vector2 offset, bool clockwise) {
         Vector2 start = (Vector2)transform.position + offset;
-        Debug.Log(start);
         Vector2 direction = target - start;
         direction.Normalize();
-        Transform proj = ((GameObject)Instantiate(projectile, start, Quaternion.identity)).transform;
+        Transform proj = ((GameObject)Instantiate(
+            projectile,
+            new Vector2(start.x, start.y - 0.8f),
+            Quaternion.identity
+        )).transform;
         Rigidbody2D projRB = proj.GetComponent<Rigidbody2D>();
         projRB.velocity = direction * projectileSpeed;
         SpinningProjectile projClass = proj.GetComponent<SpinningProjectile>();

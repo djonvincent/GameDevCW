@@ -8,6 +8,9 @@ TextureImporter:
   - first:
       213: -2200481041280539613
     second: red_full
+  - first:
+      213: 3298106812279473140
+    second: healthbar_empty
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -129,6 +132,27 @@ TextureImporter:
       bones: []
       spriteID: dd16c767c467cccf987180f7552ba90d
       internalID: -2200481041280539613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbar_empty
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 66
+        width: 1
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 315134f2cca65c6a3bbbb036c88962d7
+      internalID: 3298106812279473140
       vertices: []
       indices: 
       edges: []

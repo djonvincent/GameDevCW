@@ -97,6 +97,7 @@ public class GameManager : MonoBehaviour
     }
 
     private IEnumerator _LoadLevel(Scene scene, string sceneName, Vector2 position) {
+        currentEnemies.Clear();
         Camera.main.cullingMask = 0;
         AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(scene);
         yield return asyncUnload;
@@ -140,6 +141,7 @@ public class GameManager : MonoBehaviour
             cameraZoomSpeed = baseCameraZoomSpeed;
         }
 
+        return;
         if (camSize != targetCameraSize) {
             float delta = cameraZoomSpeed * Time.deltaTime;
             if (Math.Abs(targetCameraSize - camSize) < delta) {

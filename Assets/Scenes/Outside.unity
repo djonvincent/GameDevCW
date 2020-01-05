@@ -359,6 +359,7 @@ GameObject:
   - component: {fileID: 606113727}
   - component: {fileID: 606113729}
   - component: {fileID: 606113728}
+  - component: {fileID: 606113730}
   m_Layer: 0
   m_Name: Tilemap_dirt
   m_TagString: Untagged
@@ -2738,7 +2739,7 @@ Tilemap:
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 1
-      m_ColliderType: 1
+      m_ColliderType: 2
   - first: {x: 3, y: 1, z: 0}
     second:
       m_TileIndex: 1
@@ -2954,7 +2955,7 @@ Tilemap:
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 1
-      m_ColliderType: 1
+      m_ColliderType: 2
   - first: {x: 3, y: 2, z: 0}
     second:
       m_TileIndex: 1
@@ -3161,7 +3162,7 @@ Tilemap:
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 1
-      m_ColliderType: 1
+      m_ColliderType: 2
   - first: {x: 2, y: 3, z: 0}
     second:
       m_TileIndex: 1
@@ -3776,6 +3777,19 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &606113730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606113726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b035153e3314f45b0a57e562a1a379de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TexturePixelsPerWorldUnit: 16
 --- !u!4 &778262749 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8658596484668713813, guid: c82d77162892dd7ba960225af215eac2,
