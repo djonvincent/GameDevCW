@@ -90,7 +90,10 @@ public class Actor : MonoBehaviour
         immune = oldImmune;
     }
 
-    void OnTriggerEnter2D(Collider2D col) {
+    protected virtual void OnTriggerEnter2D(Collider2D col) {
+        if (col.attachedRigidbody == null) {
+            return;
+        }
         GameObject other = col.attachedRigidbody.gameObject;
         if (other.tag != "Projectile") {
             return;

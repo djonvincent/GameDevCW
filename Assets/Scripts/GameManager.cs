@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
     private bool syncCameraZoom = true;
     private bool cameraAtTarget = false;
     private CameraTargetFunction cameraTargetFunc;
+    private Vector2 lastPlayerPosition;
+    private bool onStairs = false;
 
     public CameraTargetFunction CameraTarget {
         get {
@@ -156,7 +158,21 @@ public class GameManager : MonoBehaviour
     }
 
     public Vector2 PlayerPosition () {
-        return player.transform.position + new Vector3(0, 0.5f, 0);
+        if (playerClass.onStairs) {
+            onStairs = true;
+            cameraAtTarget = false;
+            return new Vector2(
+                player.transform.position.x,
+                lastPlayerPosition.y + 0.5f
+            );
+        } else {
+            if (onStairs) {
+                onStairs = false;
+                CameraTarget = PlayerPosition;
+            }
+            lastPlayerPosition = player.transform.position;
+            return player.transform.position + new Vector3(0, 0.5f, 0);
+        }
     }
 
     public Vector2 CombatPosition () {

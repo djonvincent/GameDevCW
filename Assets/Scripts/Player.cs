@@ -16,6 +16,9 @@ public class Player : Actor
     public float attackCooldown = 0.6f;
     public float bookDamage = 20f;
     public Joystick joystick;
+    public bool onStairs{get; private set;}
+    public int stairsDirection{get; private set;}
+    public Collider2D movementCollider;
     
     private bool attacking = false;
     private float nextAttackTime = 0;
@@ -46,21 +49,21 @@ public class Player : Actor
     }
 
     private IEnumerator Attack() {
-        Debug.Log(Screen.width);
-        Debug.Log(cam.scaledPixelWidth);
-        Debug.Log(Screen.height);
+        //Debug.Log(Screen.width);
+        //Debug.Log(cam.scaledPixelWidth);
+        //Debug.Log(Screen.height);
         Vector2 viewportPosition = new Vector2(
             (Input.mousePosition.x/Screen.width - 0.5f) / cam.rect.width,
             (Input.mousePosition.y/Screen.height - 0.5f) / cam.rect.height
         );
-        Debug.Log(Input.mousePosition);
-        Debug.Log($"{viewportPosition.x}, {viewportPosition.y}");
+        //Debug.Log(Input.mousePosition);
+        //Debug.Log($"{viewportPosition.x}, {viewportPosition.y}");
         //Vector2 target = (cam.orthographicSize * 2 * viewportPosition) +
         //   (Vector2)cam.transform.position;
         //Vector2 target = (Vector2)cam.ViewportToWorldPoint(viewportPosition);
         Vector2 target = cam.ScreenToWorldPoint(Input.mousePosition);
         Vector2 diff = (Vector2)target - ((Vector2)transform.position + new Vector2(0, 0.7f));
-        Debug.Log(diff);
+        //Debug.Log(diff);
         Vector2 offset;
         float rotation;
         bool clockwise;
@@ -117,6 +120,10 @@ public class Player : Actor
         Vector2 movement = new Vector2(moveH, moveV);
         movement.Normalize();
         Vector2 velocity = new Vector2(movement.x, movement.y * 0.7f);
+        if (moveH != 0 && onStairs) {
+            velocity.y += (moveH > 0 ? 1 : -1) * stairsDirection * 0.5f;
+            velocity.Normalize();
+        }
         if (!stunned) {
             rigidBody.velocity = velocity * speed * Time.fixedDeltaTime;
         }
@@ -129,6 +136,23 @@ public class Player : Actor
         anim.SetFloat("Speed", moveSpeed);
         if (moveSpeed > 0) {
             anim.speed = moveSpeed;
+        }
+    }
+
+    protected override void OnTriggerEnter2D(Collider2D col) {
+        base.OnTriggerEnter2D(col);
+        if (col.tag == "Stairs Right") {
+            onStairs = true;
+            stairsDirection = 1;
+        } else if (col.tag == "Stairs Left") {
+            onStairs = true;
+            stairsDirection = -1;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D col) {
+        if (!movementCollider.IsTouchingLayers(LayerMask.GetMask("Stairs"))) {
+            onStairs= false;
         }
     }
 
