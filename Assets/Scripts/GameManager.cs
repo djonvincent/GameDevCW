@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
     public string startSceneName;
     public Graphic healthbar;
+    public GameObject gameOver;
     public delegate Vector2 CameraTargetFunction();
 
     private List<Enemy> currentEnemies = new List<Enemy>();
@@ -237,5 +238,9 @@ public class GameManager : MonoBehaviour
         if (currentEnemies.Count == 0) {
             CameraTarget = PlayerPosition;
         }
+    }
+
+    public void OnDie() {
+        gameOver.SetActive(true);
     }
 }

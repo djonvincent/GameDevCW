@@ -166,6 +166,7 @@ public class Player : Actor
         base.OnDie();
         StopAnimations();
         anim.SetTrigger("Die");
+        GM.OnDie();
     }
     
     protected bool canAttack {

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Actor : MonoBehaviour
 {
     public float health = 100f;
-    public bool alive = true;
+    public bool alive{get; private set;}
     public bool stunned = false;
     public bool immune = false;
     public bool inCombat = false;
@@ -17,6 +17,7 @@ public class Actor : MonoBehaviour
     public Collider2D hitbox {get; private set;}
 
     protected virtual void Awake() {
+        alive = true;
         rigidBody = GetComponent<Rigidbody2D>();
         body = transform.Find("Body");
         renderers = body.GetComponentsInChildren<SpriteRenderer>();
@@ -31,7 +32,9 @@ public class Actor : MonoBehaviour
     protected virtual void OnAttacked(){}
 
     protected virtual void Update() {
-        if (alive && health <= 0) {
+        if (health > 0) {
+            alive = true;
+        } else if (alive && health <= 0) {
             alive = false;
             Debug.Log("Dead");
             OnDie();

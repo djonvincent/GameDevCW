@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Projectile
+  - Stairs
+  - Stairs Left
+  - Stairs Right
   layers:
   - Default
   - TransparentFX
@@ -20,7 +23,7 @@ TagManager:
   - Hitbox
   - Projectile Base
   - Low Furniture
-  - 
+  - Stairs
   - 
   - 
   - 
