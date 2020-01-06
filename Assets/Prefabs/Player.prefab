@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5033044006279290270
 Transform:
   m_ObjectHideFlags: 0
@@ -369,7 +369,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
-  alive: 1
   stunned: 0
   immune: 0
   inCombat: 0
@@ -379,6 +378,7 @@ MonoBehaviour:
     type: 3}
   flashlightLight: {fileID: 9190271393217872849}
   flashlight: {fileID: 1762745115784483353}
+  jacket: {fileID: 373500911514293950}
   projectileSpeed: 4.5
   projectileAngularSpeed: 400
   attackCooldown: 0.5

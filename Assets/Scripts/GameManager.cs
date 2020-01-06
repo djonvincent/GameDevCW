@@ -4,16 +4,24 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject player;
-    public Player playerClass;
+    public GameObject player{get; private set;}
+    public Player playerClass{get; private set;}
     public static GameManager instance = null;
     public string startSceneName;
     public Graphic healthbar;
     public GameObject gameOver;
+    public GameObject overlay;
+    public Image treasureOverlay;
+    public TextMeshProUGUI treasureText;
+    public TextMeshProUGUI prompt;
     public delegate Vector2 CameraTargetFunction();
+    public Sprite[] treasureSprites = new Sprite[10];
+    public string[] treasureDescriptions = new string[10];
+    public bool paused = false;
 
     private List<Enemy> currentEnemies = new List<Enemy>();
     //private Enemy furthestEnemy;
@@ -114,7 +122,20 @@ public class GameManager : MonoBehaviour
         Camera.main.cullingMask = -1;
     }
 
+    void ClearOverlay() {
+        paused = false;
+        overlay.SetActive(false);
+        prompt.gameObject.SetActive(false);
+        treasureText.gameObject.SetActive(false);
+        treasureOverlay.gameObject.SetActive(false);
+        gameOver.SetActive(false);
+    }
+
     void Update() {
+        if (Input.GetKeyDown(KeyCode.Return)) {
+            ClearOverlay();
+            paused = false;
+        }
         healthbar.rectTransform.localScale = new Vector3(
             Mathf.Clamp(playerClass.health/100, 0, 1), 1, 1
         );
@@ -240,7 +261,32 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void ShowTreasure(int item) {
+        paused = true;
+        StartCoroutine(_ShowTreasure(item));
+    }
+
+    public IEnumerator _ShowTreasure(int item) {
+        overlay.SetActive(true);
+        treasureOverlay.sprite = treasureSprites[item];
+        treasureOverlay.gameObject.SetActive(true);
+        treasureText.text = treasureDescriptions[item];
+        prompt.text = "Press Enter to continue";
+        yield return new WaitForSeconds(1.5f);
+        treasureText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        prompt.gameObject.SetActive(true);
+    }
+
     public void OnDie() {
+        StartCoroutine("_OnDie");
+    }
+
+    public IEnumerator _OnDie() {
+        overlay.SetActive(true);
         gameOver.SetActive(true);
+        prompt.text = "Press any key to replay";
+        yield return new WaitForSeconds(1f);
+        prompt.gameObject.SetActive(true);
     }
 }

@@ -15,7 +15,7 @@ public class Door : MonoBehaviour
     }
 
     void OnCollisionEnter2D(Collision2D col) {
-        if(col.gameObject.tag == "Player" && !hasEntered) {
+        if(col.gameObject == GM.player && !hasEntered) {
             hasEntered = true;
             GM.LoadLevel(gameObject.scene, sceneName, position);
         }

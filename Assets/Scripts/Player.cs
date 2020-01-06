@@ -11,6 +11,7 @@ public class Player : Actor
     public GameObject projectile;
     public GameObject flashlightLight;
     public GameObject flashlight;
+    public GameObject jacket;
     public float projectileSpeed = 8f;
     public float projectileAngularSpeed = 50f;
     public float attackCooldown = 0.6f;
@@ -23,6 +24,7 @@ public class Player : Actor
     private bool attacking = false;
     private float nextAttackTime = 0;
     private Camera cam;
+    private bool hasJacket = false;
 
     // Start is called before the first frame update
     protected override void Awake()
@@ -39,12 +41,24 @@ public class Player : Actor
 
     protected override void Update() {
         base.Update();
+        if (GM.paused) {
+            return;
+        }
         if (Input.GetButtonDown("Fire1") && canAttack &&
             !EventSystem.current.IsPointerOverGameObject()) {
             StartCoroutine("Attack");
         }
         if (Input.GetKeyDown(KeyCode.Space) && alive && !attacking) {
             flashlightLight.SetActive(!flashlightLight.activeSelf);
+        }
+    }
+
+    public void GiveItem(int item) {
+        switch (item) {
+            case 0:
+                hasJacket = true;
+                jacket.SetActive(true);
+                break;
         }
     }
 
@@ -105,7 +119,7 @@ public class Player : Actor
     private void HandleMovement() {
         float moveH;
         float moveV;
-        if (stunned || !alive || attacking) {
+        if (stunned || !alive || attacking || GM.paused) {
             moveH = 0;
             moveV = 0;
         } else {
