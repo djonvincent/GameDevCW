@@ -9,6 +9,7 @@ public class RangedEnemy : Enemy
     public float fireInterval;
     public Vector3 targetPosition;
     public float projectileSpeed = 4f;
+    public bool killProjectileOnDie = false;
 
     protected override void Awake()
     {
@@ -16,7 +17,7 @@ public class RangedEnemy : Enemy
         targetPosition = transform.position;
     }
 
-    void FixedUpdate() {
+    protected void FixedUpdate() {
         Vector3 diff = targetPosition - transform.position;
         if (!stunned && alive) {
             if (diff.magnitude >= Time.fixedDeltaTime * speed) {
@@ -30,11 +31,26 @@ public class RangedEnemy : Enemy
     protected override void Update()
     {
         base.Update();
+        if (GM.paused) {
+            return;
+        }
         if (canAttack) {
             nextAttackTime = Time.time + attackCooldown;
-            Invoke("Fire", 0.52f);
+            StartCoroutine(FireIn(0.52f));
             anim.SetTrigger("Attack");
         }
+    }
+
+    protected IEnumerator FireIn(float wait) {
+        float waited = 0f;
+        while (waited < wait) {
+            if (GM.paused) {
+                yield return null;
+                continue;
+            }
+            waited += Time.deltaTime;
+        }
+        Fire();
     }
 
     public void Fire()
@@ -56,5 +72,6 @@ public class RangedEnemy : Enemy
         projClass.damage = damage;
         projClass.lifetime = 5f;
         projClass.knockBack = 30;
+        projClass.dieWithOwner = killProjectileOnDie;
     }
 }

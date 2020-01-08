@@ -94,6 +94,8 @@ GameObject:
   - component: {fileID: 7692194727526559598}
   - component: {fileID: 244838941951455525}
   - component: {fileID: 1547625243873671133}
+  - component: {fileID: 7915408908263078110}
+  - component: {fileID: 2961865968186187723}
   m_Layer: 10
   m_Name: Tentacle
   m_TagString: Untagged
@@ -142,7 +144,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
-  alive: 1
   stunned: 0
   immune: 0
   inCombat: 0
@@ -154,6 +155,7 @@ MonoBehaviour:
   anim: {fileID: 1547625243873671133}
   facePlayer: 0
   healthbar: {fileID: 7283486139914950445}
+  focusCamera: 1
 --- !u!50 &244838941951455525
 Rigidbody2D:
   serializedVersion: 4
@@ -194,6 +196,30 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &7915408908263078110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3647175274566315582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 818ad98aaa81ede58a2b7bd0f27fbe06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2961865968186187723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3647175274566315582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d007b17231718100906d163926742d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5345031570241211226
 GameObject:
   m_ObjectHideFlags: 0

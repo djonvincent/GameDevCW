@@ -5,56 +5,79 @@ using UnityEngine;
 public class Tentacle : Enemy
 {
     private Vector2 attackPosition;
+    private bool dormant = false;
 
     protected override void Update()
     {
         base.Update();
-        if (canAttack) {
-            StartAttack();
+        if (GM.paused) {
+            return;
         }
-        if (!inCombat && GM.playerClass.alive) {
-            anim.SetBool("Dormant", true);
+        anim.SetBool("Dormant", dormant);
+        if (canAttack && !dormant) {
+            StartAttack();
         }
     }
 
     public void StartAttack() {
         nextAttackTime = Time.time + attackCooldown;
-        anim.SetBool("Dormant", true);
-        float spawnTime = 2f + Random.value * 2;
-        Invoke("GetNextAttackPosition", spawnTime);
-        Invoke("Attack", spawnTime + 0.2f);
+        dormant = true;
+        float spawnTime = 3f + Random.value * 2;
+        StartCoroutine(GetNextAttackPosition(spawnTime));
+        StartCoroutine(Attack(spawnTime + 0.2f));
     }
 
     public override void StartCombat() {
+        focusCamera = true;
         base.StartCombat();
-        anim.SetBool("Dormant", false);
+        dormant = false;
     }
 
-    private void GetNextAttackPosition() {
+    public override void StopCombat() {
+        base.StopCombat();
+        if (GM.playerClass.alive) {
+            dormant = true;
+        }
+    }
+
+    private IEnumerator GetNextAttackPosition(float wait) {
+        float waited = 0f;
+        while (waited < wait) {
+            if (!inCombat) {
+                yield break;
+            }
+            if (!GM.paused) {
+                waited += Time.deltaTime;
+            }
+            yield return null;
+        }
         focusCamera = false;
         attackPosition = GM.player.transform.position + new Vector3(0, -0.2f, 0);
     }
 
-    void OnTriggerStay2D(Collider2D col) {
-        if (col == GM.playerClass.hitbox && !GM.playerClass.stunned &&
-            !GM.playerClass.immune) {
-            GM.playerClass.health -= damage;
-            int knockDirection =
-                GM.player.transform.position.x > transform.position.x ? 1 : -1;
-            Vector2 knockForce = new Vector2(knockDirection * 300f, 0);
-            GM.playerClass.rigidBody.AddForce(knockForce);
-            StartCoroutine(GM.playerClass.Jump(3f));
-            StartCoroutine(GM.playerClass.Stun(1f));
-        }
-    }
-
-    public void Attack() {
-        if (!inCombat) {
-            return;
+    public IEnumerator Attack(float wait) {
+        float waited = 0f;
+        while (waited < wait) {
+            if (!inCombat) {
+                yield break;
+            }
+            if (!GM.paused) {
+                waited += Time.deltaTime;
+            }
+            yield return null;
         }
         focusCamera = true;
         transform.position = attackPosition;
-        anim.SetBool("Dormant", false);
+        dormant = false;
+    }
+
+    void OnTriggerStay2D(Collider2D col) {
+        if (col == GM.playerClass.hitbox) {
+            int knockDirection =
+                GM.player.transform.position.x > transform.position.x ? 1 : -1;
+            Vector2 knockForce = new Vector2(knockDirection * 300f, 0);
+            GM.playerClass.Attacked(damage, 1f, knockForce, 3f);
+        }
     }
 
     protected override void OnAttacked() {

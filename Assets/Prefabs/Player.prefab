@@ -301,6 +301,7 @@ GameObject:
   - component: {fileID: 75874589557976153}
   - component: {fileID: 9009254253221835187}
   - component: {fileID: 9195748194228498238}
+  - component: {fileID: 8170096072889849535}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -385,6 +386,18 @@ MonoBehaviour:
   bookDamage: 20
   joystick: {fileID: 0}
   movementCollider: {fileID: 3501159137764503815}
+--- !u!114 &8170096072889849535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6787066091374022044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 818ad98aaa81ede58a2b7bd0f27fbe06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7027872030355931924
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,6 +456,7 @@ GameObject:
   - component: {fileID: 6830928924714495935}
   - component: {fileID: 904638960275851739}
   - component: {fileID: 6911233808103938645}
+  - component: {fileID: 3229888304967720342}
   m_Layer: 10
   m_Name: Body
   m_TagString: Untagged
@@ -537,6 +551,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3229888304967720342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7304074130716030188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d007b17231718100906d163926742d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8764173322985547417
 GameObject:
   m_ObjectHideFlags: 0

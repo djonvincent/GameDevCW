@@ -32,6 +32,9 @@ public class Actor : MonoBehaviour
     protected virtual void OnAttacked(){}
 
     protected virtual void Update() {
+        if (GM.paused) {
+            return;
+        }
         if (health > 0) {
             alive = true;
         } else if (alive && health <= 0) {
@@ -41,7 +44,7 @@ public class Actor : MonoBehaviour
         }
     }
 
-    protected virtual void Attacked(
+    public virtual void Attacked(
         float damage,
         float stunDuration = 0f,
         Vector2 force = new Vector2(),
@@ -66,9 +69,11 @@ public class Actor : MonoBehaviour
         float v = velocity;
         float y = 0;
         do {
-            body.localPosition = new Vector2(0, y);
-            y += v * Time.deltaTime;
-            v -= 10 * Time.deltaTime;
+            if (!GM.paused) {
+                body.localPosition = new Vector2(0, y);
+                y += v * Time.deltaTime;
+                v -= 10 * Time.deltaTime;
+            }
             yield return null;
         } while (y > 0);
         body.localPosition = Vector2.zero;
@@ -80,11 +85,20 @@ public class Actor : MonoBehaviour
         bool oldImmune = immune;
         stunned = true;
         immune = true;
-        for (float t = 0f; t < duration; t += 0.07f) {
+        float waited = 0;
+        float t = 0;
+        while (t < duration) {
             foreach (Renderer r in renderers) {
                 r.enabled = !r.enabled;
             }
-            yield return new WaitForSeconds(0.07f);
+            while (waited < 0.07f) {
+                if (!GM.paused) {
+                    waited += Time.deltaTime;
+                    t += Time.deltaTime;
+                }
+                yield return null;
+            }
+            waited = 0f;
         }
         foreach (Renderer r in renderers) {
             r.enabled = true;

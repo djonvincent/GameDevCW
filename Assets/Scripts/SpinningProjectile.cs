@@ -7,7 +7,10 @@ public class SpinningProjectile : Projectile
     public float angularVelocity = 0;
     public float angle = 0;
     
-    void FixedUpdate() {
+    protected void FixedUpdate() {
+        if (GM.paused) {
+            return;
+        }
         angle = (angularVelocity*Time.fixedDeltaTime + angle) % 360;
         body.eulerAngles = new Vector3(0,0,angle);
     }

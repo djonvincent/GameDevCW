@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 508588761859264330}
   - component: {fileID: 508588761859264325}
   - component: {fileID: 508588761859264324}
+  - component: {fileID: 5128219686714675804}
   m_Layer: 9
   m_Name: Book
   m_TagString: Untagged
@@ -101,6 +102,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5128219686714675804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508588761859264327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d007b17231718100906d163926742d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3323436552300351306
 GameObject:
   m_ObjectHideFlags: 0
@@ -113,6 +126,7 @@ GameObject:
   - component: {fileID: 1393965403274395862}
   - component: {fileID: 1580467541028371222}
   - component: {fileID: 3246747073567791188}
+  - component: {fileID: 6794392081609589613}
   m_Layer: 9
   m_Name: Book Floating
   m_TagString: Projectile
@@ -161,6 +175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 0
   owner: {fileID: 0}
+  dieWithOwner: 0
   lifetime: 5
   bounce: 0
   knockBack: 0
@@ -188,6 +203,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &6794392081609589613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3323436552300351306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 818ad98aaa81ede58a2b7bd0f27fbe06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5898782194964535672
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,18 +5,36 @@ using UnityEngine;
 [ExecuteAlways]
 public class Healthbar: MonoBehaviour
 {
-    public GameObject fill;
+    public Transform fill;
     [Range(0,1)]
     [SerializeField]
-    private float _health;
+    private float _health = 1f;
+    private float health_old = 1f;
+    private float health_last_set = 0f;
     public float health {
         get {
             return _health;
         }
 
         set {
-            fill.transform.localScale = new Vector3(Mathf.Clamp(health,0,1), 1, 1);
-            _health = value;
+            if (value == _health) {
+                return;
+            }
+            health_old = _health;
+            health_last_set = Time.time;
+            _health = Mathf.Clamp(value, 0, 1);
+        }
+    }
+
+    protected virtual void Update() {
+        if (_health != fill.localScale.x) {
+            fill.localScale = new Vector3(
+                Mathf.Lerp(
+                    health_old, _health, (Time.time - health_last_set)/0.5f
+                ),
+                1,
+                1
+            );
         }
     }
 }

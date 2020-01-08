@@ -7,12 +7,10 @@ using UnityEngine.UI;
 using TMPro;
 
 public class GameManager : MonoBehaviour
-{
-    public GameObject player{get; private set;}
-    public Player playerClass{get; private set;}
+{ public GameObject player{get; private set;} public Player playerClass{get; private set;}
     public static GameManager instance = null;
     public string startSceneName;
-    public Graphic healthbar;
+    public HealthbarPlayer healthbar;
     public GameObject gameOver;
     public GameObject overlay;
     public Image treasureOverlay;
@@ -42,6 +40,7 @@ public class GameManager : MonoBehaviour
         set {
             cameraAtTarget = false;
             Vector2 target = value();
+            Debug.Log(value == PlayerPosition ? "Player" : "Combat");
             float distance = ((Vector2)Camera.main.transform.position - target).magnitude;
             cameraSpeed = Math.Max(2, distance/1);
             cameraTargetFunc = value;
@@ -112,11 +111,16 @@ public class GameManager : MonoBehaviour
         currentEnemies.Clear();
         Camera.main.cullingMask = 0;
         AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(scene);
-        yield return asyncUnload;
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(
             sceneName, LoadSceneMode.Additive
         );
-        yield return asyncLoad;
+        asyncLoad.allowSceneActivation = false;
+        while (!asyncLoad.isDone) {
+            if (asyncUnload.isDone) {
+                asyncLoad.allowSceneActivation = true;
+            }
+            yield return null;
+        }
         player.transform.position = position;
         MoveCamera(position);
         Camera.main.cullingMask = -1;
@@ -136,9 +140,14 @@ public class GameManager : MonoBehaviour
             ClearOverlay();
             paused = false;
         }
-        healthbar.rectTransform.localScale = new Vector3(
-            Mathf.Clamp(playerClass.health/100, 0, 1), 1, 1
-        );
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            paused = !paused;
+        }
+        if (paused) {
+            return;
+        }
+        healthbar.health = playerClass.health/100;
+        healthbar.show = currentEnemies.Count > 0;
         if (CameraTarget == null) {
             CameraTarget = PlayerPosition;
         }

@@ -19,10 +19,15 @@ public class Enemy : Actor
 
     protected override void Update()
     {
+        if (GM.paused) {
+            nextAttackTime += Time.deltaTime;
+            timeToStartAttack += Time.deltaTime;
+            return;
+        }
         base.Update();
         healthbar.health = health/100;
         if (facePlayer && alive && !stunned) {
-            transform.localScale = new Vector3(
+            body.localScale = new Vector3(
                 GM.player.transform.position.x < transform.position.x ? -1 : 1,
                 1,
                 1
@@ -34,6 +39,7 @@ public class Enemy : Actor
         if (!GM.playerClass.alive) {
             inCombat = false;
         } else if (distanceToPlayer <= aggroRadius && !inCombat && alive) {
+            timeToStartAttack = Time.time;
             StartCombat();
         } else if (distanceToPlayer > aggroRadius + 1 && inCombat) {
             StopCombat();

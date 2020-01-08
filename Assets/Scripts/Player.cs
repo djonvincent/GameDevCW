@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityEngine; using UnityEngine.EventSystems;
 using System;
 
 public class Player : Actor
@@ -34,7 +33,7 @@ public class Player : Actor
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    protected void FixedUpdate()
     {
         HandleMovement();
     }
@@ -107,9 +106,9 @@ public class Player : Actor
         anim.SetBool("Attacking", true);
         anim.SetTrigger("Attack");
         attacking = true;
-        yield return new WaitForSeconds(0.3f);
+        yield return new PausableWaitForSeconds(0.3f);
         Fire(target, offset, clockwise, rotation);
-        yield return new WaitForSeconds(0.3f);
+        yield return new PausableWaitForSeconds(0.3f);
         anim.SetBool("Attacking", false);
         attacking = false;
         flashlight.SetActive(oldFlashlightActive);
