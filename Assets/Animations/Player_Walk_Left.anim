@@ -173,7 +173,7 @@ AnimationClip:
     script: {fileID: 0}
   - curve:
     - time: 0
-      value: {fileID: -3403192603817370061, guid: f403ebf7289f44b3891508c1d32ea189,
+      value: {fileID: -2210457373887822222, guid: f403ebf7289f44b3891508c1d32ea189,
         type: 3}
     - time: 0.071428575
       value: {fileID: -3760124090039076244, guid: f403ebf7289f44b3891508c1d32ea189,
@@ -259,7 +259,7 @@ AnimationClip:
     - {fileID: 7111772360367396540, guid: b2040c84cd6eed236a3333c54e6560f6, type: 3}
     - {fileID: 7588834281874852918, guid: b2040c84cd6eed236a3333c54e6560f6, type: 3}
     - {fileID: 8164845581723442652, guid: b2040c84cd6eed236a3333c54e6560f6, type: 3}
-    - {fileID: -3403192603817370061, guid: f403ebf7289f44b3891508c1d32ea189, type: 3}
+    - {fileID: -2210457373887822222, guid: f403ebf7289f44b3891508c1d32ea189, type: 3}
     - {fileID: -3760124090039076244, guid: f403ebf7289f44b3891508c1d32ea189, type: 3}
     - {fileID: -8368555437548166291, guid: f403ebf7289f44b3891508c1d32ea189, type: 3}
     - {fileID: 7889105866670244857, guid: f403ebf7289f44b3891508c1d32ea189, type: 3}

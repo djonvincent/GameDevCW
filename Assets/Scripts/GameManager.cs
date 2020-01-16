@@ -189,6 +189,7 @@ public class GameManager : MonoBehaviour
     }
 
     public Vector2 PlayerPosition () {
+        return player.transform.position + new Vector3(0, 0.5f, 0);
         if (playerClass.onStairs) {
             onStairs = true;
             cameraAtTarget = false;

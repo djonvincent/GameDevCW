@@ -56,8 +56,9 @@ public class RangedEnemy : Enemy
     public void Fire()
     {
         Vector3 start = firePoint.position;
-        float height = firePoint.localPosition.y;
-        Vector3 target = GM.player.transform.position + new Vector3(0,1,0);
+        //float height = firePoint.localPosition.y;
+        float height = 1.1f;
+        Vector3 target = GM.player.transform.position + new Vector3(0,1.2f,0);
         Vector3 direction = target - start;
         direction.Normalize();
         GameObject proj = (GameObject)Instantiate(projectile);

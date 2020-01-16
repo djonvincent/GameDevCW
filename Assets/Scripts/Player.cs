@@ -11,9 +11,10 @@ public class Player : Actor
     public GameObject flashlightLight;
     public GameObject flashlight;
     public GameObject jacket;
+    public GameObject sword;
     public float projectileSpeed = 8f;
     public float projectileAngularSpeed = 50f;
-    public float attackCooldown = 0.6f;
+    public float attackCooldown = 0.5f;
     public float bookDamage = 20f;
     public Joystick joystick;
     public bool onStairs{get; private set;}
@@ -45,10 +46,15 @@ public class Player : Actor
         }
         if (Input.GetButtonDown("Fire1") && canAttack &&
             !EventSystem.current.IsPointerOverGameObject()) {
-            StartCoroutine("Attack");
+            StartCoroutine("AttackSword");
+        }
+        if (Input.GetButtonDown("Fire2") && canAttack &&
+            !EventSystem.current.IsPointerOverGameObject()) {
+            StartCoroutine("AttackBook");
         }
         if (Input.GetKeyDown(KeyCode.Space) && alive && !attacking) {
             flashlightLight.SetActive(!flashlightLight.activeSelf);
+            flashlight.SetActive(!flashlight.activeSelf);
         }
     }
 
@@ -61,22 +67,36 @@ public class Player : Actor
         }
     }
 
-    private IEnumerator Attack() {
-        //Debug.Log(Screen.width);
-        //Debug.Log(cam.scaledPixelWidth);
-        //Debug.Log(Screen.height);
-        Vector2 viewportPosition = new Vector2(
-            (Input.mousePosition.x/Screen.width - 0.5f) / cam.rect.width,
-            (Input.mousePosition.y/Screen.height - 0.5f) / cam.rect.height
-        );
-        //Debug.Log(Input.mousePosition);
-        //Debug.Log($"{viewportPosition.x}, {viewportPosition.y}");
-        //Vector2 target = (cam.orthographicSize * 2 * viewportPosition) +
-        //   (Vector2)cam.transform.position;
-        //Vector2 target = (Vector2)cam.ViewportToWorldPoint(viewportPosition);
+    private IEnumerator AttackSword() {
         Vector2 target = cam.ScreenToWorldPoint(Input.mousePosition);
         Vector2 diff = (Vector2)target - ((Vector2)transform.position + new Vector2(0, 0.7f));
-        //Debug.Log(diff);
+        if (Math.Abs(diff.y) > Math.Abs(diff.x)) {
+            bool up = diff.y > 0;
+            anim.SetFloat("Vertical", up ? 1 : -1);
+            anim.SetFloat("Horizontal", 0);
+        } else {
+            bool right = diff.x > 0;
+            anim.SetFloat("Horizontal", right ? 1 : -1);
+            anim.SetFloat("Vertical", 0);
+        }
+        nextAttackTime = Time.time + attackCooldown;
+        bool oldFlashlightActive = flashlight.activeSelf;
+        bool oldFlashlightLightActive = flashlightLight.activeSelf;
+        flashlight.SetActive(false);
+        flashlightLight.SetActive(false);
+        anim.SetBool("Attacking", true);
+        anim.SetTrigger("Slash");
+        attacking = true;
+        yield return new PausableWaitForSeconds(0.5f);
+        anim.SetBool("Attacking", false);
+        attacking = false;
+        flashlight.SetActive(oldFlashlightActive);
+        flashlightLight.SetActive(oldFlashlightLightActive);
+    }
+
+    private IEnumerator AttackBook() {
+        Vector2 target = cam.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 diff = (Vector2)target - ((Vector2)transform.position + new Vector2(0, 0.7f));
         Vector2 offset;
         float rotation;
         bool clockwise;
@@ -104,11 +124,11 @@ public class Player : Actor
         flashlight.SetActive(false);
         flashlightLight.SetActive(false);
         anim.SetBool("Attacking", true);
-        anim.SetTrigger("Attack");
+        anim.SetTrigger("Throw");
         attacking = true;
         yield return new PausableWaitForSeconds(0.3f);
         Fire(target, offset, clockwise, rotation);
-        yield return new PausableWaitForSeconds(0.3f);
+        yield return new PausableWaitForSeconds(0.5f);
         anim.SetBool("Attacking", false);
         attacking = false;
         flashlight.SetActive(oldFlashlightActive);
@@ -140,14 +160,14 @@ public class Player : Actor
         if (!stunned) {
             rigidBody.velocity = velocity * speed * Time.fixedDeltaTime;
         }
-        if (!attacking && !(moveH == 0 && moveV == 0)) {
+        if (!(moveH == 0 && moveV == 0)) {
             anim.SetFloat("Horizontal", movement.x);
             anim.SetFloat("Vertical", movement.y);
         }
 
         float moveSpeed = velocity.magnitude;
         anim.SetFloat("Speed", moveSpeed);
-        if (moveSpeed > 0) {
+        if (!attacking && moveSpeed > 0) {
             anim.speed = moveSpeed;
         }
     }
