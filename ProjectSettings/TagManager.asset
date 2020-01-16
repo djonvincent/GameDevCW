@@ -8,6 +8,7 @@ TagManager:
   - Stairs
   - Stairs Left
   - Stairs Right
+  - Sword
   layers:
   - Default
   - TransparentFX
@@ -24,7 +25,7 @@ TagManager:
   - Projectile Base
   - Low Furniture
   - Stairs
-  - 
+  - Sword
   - 
   - 
   - 

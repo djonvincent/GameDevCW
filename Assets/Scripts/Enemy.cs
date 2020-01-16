@@ -70,4 +70,13 @@ public class Enemy : Actor
                 Time.time >= timeToStartAttack;
         }
     }
+
+    protected override void OnTriggerEnter2D(Collider2D col) {
+        Debug.Log(col.tag);
+        base.OnTriggerEnter2D(col);
+        if (col.tag == "Sword") {
+            Vector2 diff = (transform.position + new Vector3(0, 0.7f, 0)) - col.transform.position;
+            Attacked(15, 0.4f, diff.normalized * 100f);
+        }
+    }
 }
