@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Actor : MonoBehaviour
 {
+    public float maxHealth = 100f;
     public float health = 100f;
     public bool alive{get; private set;}
     public bool stunned = false;
     public bool immune = false;
     public bool inCombat = false;
+    public bool destroyOnDeath = false;
     public Rigidbody2D rigidBody {get; private set;}
     protected SpriteRenderer[] renderers;
     protected GameManager GM;
@@ -57,6 +59,8 @@ public class Actor : MonoBehaviour
         OnAttacked();
         if (!stunned && stunDuration > 0) {
             StartCoroutine(Stun(stunDuration));
+        } else if (health == 0 && destroyOnDeath) {
+            Destroy(gameObject);
         }
         rigidBody.AddForce(force);
         if (!jumping && jumpSpeed > 0) {
@@ -99,6 +103,9 @@ public class Actor : MonoBehaviour
                 yield return null;
             }
             waited = 0f;
+        }
+        if (!alive && destroyOnDeath) {
+            Destroy(gameObject);
         }
         foreach (Renderer r in renderers) {
             r.enabled = true;

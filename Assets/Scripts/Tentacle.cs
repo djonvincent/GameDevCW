@@ -71,15 +71,6 @@ public class Tentacle : Enemy
         dormant = false;
     }
 
-    void OnTriggerStay2D(Collider2D col) {
-        if (col == GM.playerClass.hitbox) {
-            int knockDirection =
-                GM.player.transform.position.x > transform.position.x ? 1 : -1;
-            Vector2 knockForce = new Vector2(knockDirection * 300f, 0);
-            GM.playerClass.Attacked(damage, 1f, knockForce, 3f);
-        }
-    }
-
     protected override void OnAttacked() {
         base.OnAttacked();
         nextAttackTime = Time.time;

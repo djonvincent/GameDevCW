@@ -8,6 +8,8 @@ public class Enemy : Actor
     public float speed = 0.2f;
     public float damage;
     public float attackCooldown = 3f;
+    public bool damageOnTouch = true;
+    public float touchKnockAmount = 100f;
     public float idlePeriod = 1f;
     public Animator anim;
     public bool facePlayer = true;
@@ -25,7 +27,7 @@ public class Enemy : Actor
             return;
         }
         base.Update();
-        healthbar.health = health/100;
+        healthbar.health = health/maxHealth;
         if (facePlayer && alive && !stunned) {
             body.localScale = new Vector3(
                 GM.player.transform.position.x < transform.position.x ? -1 : 1,
@@ -72,11 +74,19 @@ public class Enemy : Actor
     }
 
     protected override void OnTriggerEnter2D(Collider2D col) {
-        Debug.Log(col.tag);
         base.OnTriggerEnter2D(col);
         if (col.tag == "Sword") {
-            Vector2 diff = (transform.position + new Vector3(0, 0.7f, 0)) - col.transform.position;
-            Attacked(15, 0.4f, diff.normalized * 100f);
+            Vector2 diff = (transform.position + new Vector3(0, 0f, 0)) - GM.player.transform.position;
+            Attacked(15, 0.4f, diff.normalized * 300f);
+        }
+    }
+
+    protected void OnTriggerStay2D(Collider2D col) {
+        if (col == GM.playerClass.hitbox && damageOnTouch) {
+            int knockDirection =
+                GM.player.transform.position.x > transform.position.x ? 1 : -1;
+            Vector2 knockForce = new Vector2(knockDirection * touchKnockAmount, 0);
+            GM.playerClass.Attacked(damage, 1f, knockForce, 3f);
         }
     }
 }

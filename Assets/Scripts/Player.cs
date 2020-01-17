@@ -24,7 +24,8 @@ public class Player : Actor
     private bool attacking = false;
     private float nextAttackTime = 0;
     private Camera cam;
-    private bool hasJacket = false;
+    public bool hasJacket = false;
+    public bool hasSword = false;
 
     // Start is called before the first frame update
     protected override void Awake()
@@ -44,7 +45,7 @@ public class Player : Actor
         if (GM.paused) {
             return;
         }
-        if (Input.GetButtonDown("Fire1") && canAttack &&
+        if (Input.GetButtonDown("Fire1") && canAttack && hasSword &&
             !EventSystem.current.IsPointerOverGameObject()) {
             StartCoroutine("AttackSword");
         }
@@ -63,6 +64,10 @@ public class Player : Actor
             case 0:
                 hasJacket = true;
                 jacket.SetActive(true);
+                maxHealth *= 1.5f;
+                break;
+            case 1:
+                hasSword = true;
                 break;
         }
     }

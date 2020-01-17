@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: grass_0
+  m_Name: rock_1
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 7932798033344189819, guid: 573b534a2fb977355ad31b6f963190fc,
+  m_Sprite: {fileID: 2115267796186251350, guid: f3aeb7ca3b5c39351b8f1a22e6181ea4,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:

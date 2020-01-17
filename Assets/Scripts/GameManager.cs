@@ -7,17 +7,21 @@ using UnityEngine.UI;
 using TMPro;
 
 public class GameManager : MonoBehaviour
-{ public GameObject player{get; private set;} public Player playerClass{get; private set;}
+{
+    public GameObject player{get; private set;}
+    public Player playerClass{get; private set;}
     public static GameManager instance = null;
     public string startSceneName;
     public HealthbarPlayer healthbar;
     public GameObject gameOver;
     public GameObject overlay;
     public Image treasureOverlay;
-    public TextMeshProUGUI treasureText;
+    public TextMeshProUGUI treasureDesc;
+    public TextMeshProUGUI treasureTitle;
     public TextMeshProUGUI prompt;
     public delegate Vector2 CameraTargetFunction();
     public Sprite[] treasureSprites = new Sprite[10];
+    public string[] treasureTitles = new string[10];
     public string[] treasureDescriptions = new string[10];
     public bool paused = false;
 
@@ -40,7 +44,6 @@ public class GameManager : MonoBehaviour
         set {
             cameraAtTarget = false;
             Vector2 target = value();
-            Debug.Log(value == PlayerPosition ? "Player" : "Combat");
             float distance = ((Vector2)Camera.main.transform.position - target).magnitude;
             cameraSpeed = Math.Max(2, distance/1);
             cameraTargetFunc = value;
@@ -130,7 +133,8 @@ public class GameManager : MonoBehaviour
         paused = false;
         overlay.SetActive(false);
         prompt.gameObject.SetActive(false);
-        treasureText.gameObject.SetActive(false);
+        treasureTitle.gameObject.SetActive(false);
+        treasureDesc.gameObject.SetActive(false);
         treasureOverlay.gameObject.SetActive(false);
         gameOver.SetActive(false);
     }
@@ -146,7 +150,8 @@ public class GameManager : MonoBehaviour
         if (paused) {
             return;
         }
-        healthbar.health = playerClass.health/100;
+        healthbar.health = playerClass.health/playerClass.maxHealth;
+        healthbar.maxHealth = playerClass.maxHealth/100;
         healthbar.show = currentEnemies.Count > 0;
         if (CameraTarget == null) {
             CameraTarget = PlayerPosition;
@@ -280,10 +285,12 @@ public class GameManager : MonoBehaviour
         overlay.SetActive(true);
         treasureOverlay.sprite = treasureSprites[item];
         treasureOverlay.gameObject.SetActive(true);
-        treasureText.text = treasureDescriptions[item];
+        treasureDesc.text = treasureDescriptions[item];
+        treasureTitle.text = treasureTitles[item];
         prompt.text = "Press Enter to continue";
         yield return new WaitForSeconds(1.5f);
-        treasureText.gameObject.SetActive(true);
+        treasureDesc.gameObject.SetActive(true);
+        treasureTitle.gameObject.SetActive(true);
         yield return new WaitForSeconds(1f);
         prompt.gameObject.SetActive(true);
     }

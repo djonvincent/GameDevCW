@@ -151,6 +151,8 @@ MonoBehaviour:
   speed: 0.2
   damage: 20
   attackCooldown: 8
+  damageOnTouch: 1
+  touchKnockAmount: 300
   idlePeriod: 5
   anim: {fileID: 1547625243873671133}
   facePlayer: 0

@@ -74,6 +74,9 @@ TextureImporter:
   - first:
       213: 1225380370382764716
     second: sword_sheet_128_23
+  - first:
+      213: 2330866738244189442
+    second: sword
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -649,7 +652,7 @@ TextureImporter:
         width: 128
         height: 126
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -657,6 +660,27 @@ TextureImporter:
       bones: []
       spriteID: a4c5b5042ed333ad19a5485fef5fb478
       internalID: 1225380370382764716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sword
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 155
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9217b59ba2997ac859c440da23f08aed
+      internalID: 2330866738244189442
       vertices: []
       indices: 
       edges: []
