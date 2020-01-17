@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI treasureDesc;
     public TextMeshProUGUI treasureTitle;
     public TextMeshProUGUI prompt;
+    public TextMeshProUGUI appleCount;
+    public TextMeshProUGUI message;
     public delegate Vector2 CameraTargetFunction();
     public Sprite[] treasureSprites = new Sprite[10];
     public string[] treasureTitles = new string[10];
@@ -36,6 +38,11 @@ public class GameManager : MonoBehaviour
     private CameraTargetFunction cameraTargetFunc;
     private Vector2 lastPlayerPosition;
     private bool onStairs = false;
+    private float timeOfLastHealthChange = 0f;
+    private float lastPlayerHealth;
+    private float hideMessageTime = 0f;
+    public Enemy[] allEnemies;
+    public Chest[] allChests;
 
     public CameraTargetFunction CameraTarget {
         get {
@@ -58,13 +65,16 @@ public class GameManager : MonoBehaviour
         } else if (instance != this) {
             Destroy(gameObject);
         }
-
         player = GameObject.FindWithTag("Player");
         playerClass = player.GetComponent<Player>();
+        lastPlayerHealth = playerClass.health;
         //MoveCamera(player.transform.position);
 
         if (SceneManager.sceneCount == 1) {
             SceneManager.LoadScene(startSceneName, LoadSceneMode.Additive);
+        } else {
+            allEnemies = GameObject.FindObjectsOfType<Enemy>();
+            allChests = GameObject.FindObjectsOfType<Chest>();
         }
         for (int n=0; n < SceneManager.sceneCount; n++) {
             Scene scene = SceneManager.GetSceneAt(n);
@@ -73,6 +83,13 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+    public void ShowMessage(string msg, float duration) {
+        message.text = msg;
+        message.gameObject.SetActive(true);
+        hideMessageTime = Time.time + duration;
+    }
+
 
     private void MoveCamera(Vector2 position) {
         Vector3 pos = position;
@@ -124,6 +141,8 @@ public class GameManager : MonoBehaviour
             }
             yield return null;
         }
+        allEnemies = GameObject.FindObjectsOfType<Enemy>();
+        allChests = GameObject.FindObjectsOfType<Chest>();
         player.transform.position = position;
         MoveCamera(position);
         Camera.main.cullingMask = -1;
@@ -150,9 +169,17 @@ public class GameManager : MonoBehaviour
         if (paused) {
             return;
         }
+        if (playerClass.health != lastPlayerHealth) {
+            lastPlayerHealth = playerClass.health;
+            timeOfLastHealthChange = Time.time;
+        }
+        if (Time.time > hideMessageTime) {
+            message.gameObject.SetActive(false);
+        }
+        appleCount.text = playerClass.apples.ToString();
         healthbar.health = playerClass.health/playerClass.maxHealth;
         healthbar.maxHealth = playerClass.maxHealth/100;
-        healthbar.show = currentEnemies.Count > 0;
+        healthbar.show = currentEnemies.Count > 0 || (Time.time - timeOfLastHealthChange) < 3f;
         if (CameraTarget == null) {
             CameraTarget = PlayerPosition;
         }

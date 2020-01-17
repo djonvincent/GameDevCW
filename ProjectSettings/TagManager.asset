@@ -9,6 +9,8 @@ TagManager:
   - Stairs Left
   - Stairs Right
   - Sword
+  - Apple
+  - Enemy
   layers:
   - Default
   - TransparentFX

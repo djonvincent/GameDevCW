@@ -8,7 +8,7 @@ public class Chest : MonoBehaviour
     public GameObject light;
     public int item;
     private GameManager GM;
-    private bool open = false;
+    public bool open = false;
 
     void Start() {
         GM = GameManager.instance;

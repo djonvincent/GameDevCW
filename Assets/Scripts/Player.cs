@@ -20,6 +20,7 @@ public class Player : Actor
     public bool onStairs{get; private set;}
     public int stairsDirection{get; private set;}
     public Collider2D movementCollider;
+    public int apples = 1;
     
     private bool attacking = false;
     private float nextAttackTime = 0;
@@ -56,6 +57,12 @@ public class Player : Actor
         if (Input.GetKeyDown(KeyCode.Space) && alive && !attacking) {
             flashlightLight.SetActive(!flashlightLight.activeSelf);
             flashlight.SetActive(!flashlight.activeSelf);
+        }
+        if (Input.GetKeyDown(KeyCode.R)) {
+            if (health < maxHealth && apples > 0) {
+                apples -= 1;
+                health = Math.Min(maxHealth, health + 50);
+            }
         }
     }
 
@@ -179,7 +186,10 @@ public class Player : Actor
 
     protected override void OnTriggerEnter2D(Collider2D col) {
         base.OnTriggerEnter2D(col);
-        if (col.tag == "Stairs Right") {
+        if (col.tag == "Apple") {
+            apples += 1;
+            col.gameObject.SetActive(false);
+        } else if (col.tag == "Stairs Right") {
             onStairs = true;
             stairsDirection = 1;
         } else if (col.tag == "Stairs Left") {

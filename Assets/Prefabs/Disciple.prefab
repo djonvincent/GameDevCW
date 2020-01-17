@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 4261835170177463508}
   m_Layer: 10
   m_Name: Disciple
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -206,14 +206,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 623e1602229a4b9df84d8c0dbbced24a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 100
   health: 100
   stunned: 0
   immune: 0
   inCombat: 0
+  destroyOnDeath: 0
   aggroRadius: 11
   speed: 0.2
   damage: 10
   attackCooldown: 3
+  damageOnTouch: 1
+  touchKnockAmount: 100
   idlePeriod: 1
   anim: {fileID: 4483322182504564419}
   facePlayer: 1

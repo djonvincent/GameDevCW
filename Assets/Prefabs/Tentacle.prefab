@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 2961865968186187723}
   m_Layer: 10
   m_Name: Tentacle
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -143,10 +143,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b676e81543cd663e8a946df9c7fce92a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 100
   health: 100
   stunned: 0
   immune: 0
   inCombat: 0
+  destroyOnDeath: 0
   aggroRadius: 6
   speed: 0.2
   damage: 20

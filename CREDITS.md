@@ -3,3 +3,4 @@
 - **Enemy sprites**: Augustin Balmer, Stephen Challener [source](https://opengameart.org/content/bosses-and-monsters-spritesheets-ars-notoria) [license](http://creativecommons.org/licenses/by/3.0/)
 - **Book sprite**: Stagnation [source](https://opengameart.org/content/book-animation) [license](http://creativecommons.org/licenses/by/3.0/)
 - **Health bar**: Adwit Rahman [source](https://opengameart.org/content/pixel-health-bar-asset-pack-2) [license](https://creativecommons.org/licenses/by/4.0/)
+- **Apple**: Joshua Taylor [source](https://opengameart.org/content/fruit-and-veggie-inventory) [license](https://creativecommons.org/licenses/by-sa/3.0/)
