@@ -20,13 +20,13 @@ public class Player : Actor
     public int stairsDirection{get; private set;}
     public Collider2D movementCollider;
     public int apples = 1;
+    public int books = 0;
     
     private bool attacking = false;
     private float nextAttackTime = 0;
     private Camera cam;
     public bool hasJacket = false;
     public bool hasSword = false;
-    public bool hasBook = false;
     public bool hasFlashlight = false;
 
     // Start is called before the first frame update
@@ -44,14 +44,14 @@ public class Player : Actor
 
     protected override void Update() {
         base.Update();
-        if (GM.paused) {
+        if (GM.paused || !alive) {
             return;
         }
         if (Input.GetButtonDown("Fire1") && canAttack && hasSword &&
             !EventSystem.current.IsPointerOverGameObject()) {
             StartCoroutine("AttackSword");
         }
-        if (Input.GetButtonDown("Fire2") && canAttack && hasBook &&
+        if (Input.GetButtonDown("Fire2") && canAttack && books > 0 &&
             !EventSystem.current.IsPointerOverGameObject()) {
             StartCoroutine("AttackBook");
         }
@@ -78,10 +78,13 @@ public class Player : Actor
                 hasSword = true;
                 break;
             case 2:
-                hasBook = true;
+                books += 10;
                 break;
             case 3:
                 hasFlashlight = true;
+                break;
+            case 4:
+                apples += 3;
                 break;
         }
     }
@@ -145,6 +148,7 @@ public class Player : Actor
         anim.SetBool("Attacking", true);
         anim.SetTrigger("Throw");
         attacking = true;
+        books -= 1;
         yield return new PausableWaitForSeconds(0.3f);
         Fire(target, offset, clockwise, rotation);
         yield return new PausableWaitForSeconds(0.5f);

@@ -20,11 +20,14 @@ public class GameManager : MonoBehaviour
     public GameObject overlay;
     public GameObject overlayFadeIn;
     public GameObject apples;
+    public GameObject books;
+    public GameObject loading;
     public Image treasureOverlay;
     public TextMeshProUGUI treasureDesc;
     public TextMeshProUGUI treasureTitle;
     public TextMeshProUGUI prompt;
     public TextMeshProUGUI appleCount;
+    public TextMeshProUGUI bookCount;
     public TextMeshProUGUI message;
     public delegate Vector2 CameraTargetFunction();
     public Sprite[] treasureSprites = new Sprite[10];
@@ -38,7 +41,7 @@ public class GameManager : MonoBehaviour
     public int checkpointApples;
     public bool checkpointHasJacket;
     public bool checkpointHasSword;
-    public bool checkpointHasBook;
+    public int checkpointBooks;
     public bool checkpointHasFlashlight;
     public Vector2 checkpointPosition;
     public float checkpointHorizontal;
@@ -88,8 +91,10 @@ public class GameManager : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         playerClass = player.GetComponent<Player>();
         lastPlayerHealth = playerClass.health;
-        MoveCamera(player.transform.position);
+    }
 
+    void Start() {
+        MoveCamera(player.transform.position);
         if (SceneManager.sceneCount == 1) {
             currentSceneName = startSceneName;
             if (startSceneName == "Start") {
@@ -97,12 +102,11 @@ public class GameManager : MonoBehaviour
             } else {
                 SceneManager.LoadScene(startSceneName, LoadSceneMode.Additive);
             }
-        }
-        for (int n=0; n < SceneManager.sceneCount; n++) {
-            Scene scene = SceneManager.GetSceneAt(n);
-            if (scene.name == "Manager") {
-                continue;
-            }
+        } else {
+            currentSceneName = SceneManager.GetSceneAt(1).name;
+            SetCheckpoint(player.transform.position);
+            allEnemies = GameObject.FindObjectsOfType<Enemy>();
+            allChests = GameObject.FindObjectsOfType<Chest>();
         }
     }
 
@@ -113,7 +117,7 @@ public class GameManager : MonoBehaviour
         playerClass.maxHealth = checkpointMaxHealth;
         playerClass.hasJacket = checkpointHasJacket;
         playerClass.hasSword = checkpointHasSword;
-        playerClass.hasBook = checkpointHasBook;
+        playerClass.books = checkpointBooks;
         playerClass.hasFlashlight = checkpointHasFlashlight;
         playerClass.apples = checkpointApples;
         playerClass.anim.SetFloat("Horizontal", checkpointHorizontal);
@@ -123,7 +127,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator StartSequence() {
         player.transform.position = new Vector3(-2.5f, 0, 0);
-        playerClass.hasBook = false;
+        playerClass.books = 0;
         playerClass.hasJacket = false;
         playerClass.hasSword = false;
         playerClass.hasFlashlight = false;
@@ -182,20 +186,24 @@ public class GameManager : MonoBehaviour
         StartCoroutine(_LoadLevel(scene, sceneName, position));
     }
 
-    private IEnumerator _LoadLevel(Scene scene, string sceneName, Vector2 position) {
+    private void SetCheckpoint(Vector2 position) {
         checkpointHealth = playerClass.health;
         checkpointMaxHealth = playerClass.maxHealth;
         checkpointApples = playerClass.apples;
         checkpointHasJacket = playerClass.hasJacket;
         checkpointHasSword = playerClass.hasSword;
-        checkpointHasBook = playerClass.hasBook;
+        checkpointBooks = playerClass.books;
         checkpointHasFlashlight = playerClass.hasFlashlight;
         checkpointPosition = position;
         checkpointHorizontal = playerClass.anim.GetFloat("Horizontal");
         checkpointVertical = playerClass.anim.GetFloat("Vertical");
+    }
 
+    private IEnumerator _LoadLevel(Scene scene, string sceneName, Vector2 position) {
+        SetCheckpoint(position);
         currentEnemies.Clear();
         Camera.main.cullingMask = 0;
+        loading.SetActive(true);
         AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(scene);
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(
             sceneName, LoadSceneMode.Additive
@@ -207,6 +215,7 @@ public class GameManager : MonoBehaviour
             }
             yield return null;
         }
+        loading.SetActive(false);
         currentSceneName = sceneName;
         player.transform.position = position;
         MoveCamera(position);
@@ -251,7 +260,7 @@ public class GameManager : MonoBehaviour
             ClearOverlay();
             RestartFromCheckpoint();
         }
-        else if (Input.GetKeyDown(pauseKey)) {
+        else if (Input.GetKeyDown(pauseKey) && playerClass.alive) {
             if (allowUnpause && paused) {
                 ClearOverlay();
                 paused = false;
@@ -275,9 +284,13 @@ public class GameManager : MonoBehaviour
         if (Time.time > hideMessageTime) {
             message.gameObject.SetActive(false);
         }
-        appleCount.text = "x" + playerClass.apples.ToString();
+        appleCount.text = playerClass.apples.ToString();
         if (playerClass.apples > 0) {
             apples.SetActive(true);
+        }
+        bookCount.text = playerClass.books.ToString();
+        if (playerClass.books > 0) {
+            books.SetActive(true);
         }
         healthbar.health = playerClass.health/playerClass.maxHealth;
         healthbar.maxHealth = playerClass.maxHealth/100;
@@ -419,7 +432,7 @@ public class GameManager : MonoBehaviour
         treasureOverlay.gameObject.SetActive(true);
         treasureDesc.text = treasureDescriptions[item];
         treasureTitle.text = treasureTitles[item];
-        prompt.text = "Press Enter to continue";
+        prompt.text = "Press enter to continue";
         yield return new WaitForSeconds(1.5f);
         treasureDesc.gameObject.SetActive(true);
         treasureTitle.gameObject.SetActive(true);

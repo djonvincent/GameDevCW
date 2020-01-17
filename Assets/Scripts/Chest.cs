@@ -9,6 +9,7 @@ public class Chest : MonoBehaviour
     public int item;
     private GameManager GM;
     public bool open = false;
+    public bool destroyOnOpen = false;
 
     void Start() {
         GM = GameManager.instance;
@@ -18,7 +19,12 @@ public class Chest : MonoBehaviour
         Destroy(GetComponent<Help>());
         open = true;
         light.SetActive(false);
-        anim.SetTrigger("Open");
+        if (anim != null) {
+            anim.SetTrigger("Open");
+        }
+        if (destroyOnOpen) {
+            Destroy(gameObject);
+        }
         GM.playerClass.GiveItem(item);
         GM.ShowTreasure(item);
     }

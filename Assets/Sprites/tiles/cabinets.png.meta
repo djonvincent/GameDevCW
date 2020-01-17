@@ -1208,8 +1208,8 @@ TextureImporter:
       name: cabinets_43
       rect:
         serializedVersion: 2
-        x: 32
-        y: 128
+        x: 31
+        y: 129
         width: 32
         height: 32
       alignment: 0
@@ -1254,11 +1254,15 @@ TextureImporter:
         y: 128
         width: 32
         height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -9, y: -16}
+        - {x: -9, y: -13}
+        - {x: 16, y: -13}
+        - {x: 16, y: -16}
       tessellationDetail: 0
       bones: []
       spriteID: a66ce0cbd9f5907b4a07b67110864c3f
@@ -1275,11 +1279,15 @@ TextureImporter:
         y: 128
         width: 32
         height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -16, y: -16}
+        - {x: -16, y: -13}
+        - {x: 9, y: -13}
+        - {x: 9, y: -16}
       tessellationDetail: 0
       bones: []
       spriteID: 58dd33939889b34cabe3998888bcdc85
@@ -1388,7 +1396,11 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -9, y: -4}
+        - {x: -9, y: 16}
+        - {x: 16, y: 16}
+        - {x: 16, y: -4}
       tessellationDetail: 0
       bones: []
       spriteID: f6823944bc38c421a8c282d9686ad106
@@ -1409,7 +1421,11 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -16, y: -4}
+        - {x: -16, y: 16}
+        - {x: 9, y: 16}
+        - {x: 9, y: -4}
       tessellationDetail: 0
       bones: []
       spriteID: aba201db804b43bc89d94a71c70200a9

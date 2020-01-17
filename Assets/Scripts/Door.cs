@@ -10,6 +10,8 @@ public class Door : MonoBehaviour
     private bool hasEntered;
     private GameManager GM;
     public bool back = false;
+    public bool requireEnemiesDead = true;
+    public bool requireChestsOpened = true;
 
     void Start() {
         GM = GameManager.instance;
@@ -21,16 +23,20 @@ public class Door : MonoBehaviour
                 GM.ShowMessage("You cannot go back", 1f);
                 return;
             }
-            foreach (Enemy enemy in GM.allEnemies) {
-                if (enemy != null && enemy.alive) {
-                    GM.ShowMessage("Defeat all enemies before proceeding", 2f);
-                    return;
+            if (requireEnemiesDead) {
+                foreach (Enemy enemy in GM.allEnemies) {
+                    if (enemy != null && enemy.alive) {
+                        GM.ShowMessage("Defeat all enemies before proceeding", 2f);
+                        return;
+                    }
                 }
             }
-            foreach (Chest chest in GM.allChests) {
-                if (!chest.open) {
-                    GM.ShowMessage("Open all chests before proceeding", 2f);
-                    return;
+            if (requireChestsOpened) {
+                foreach (Chest chest in GM.allChests) {
+                    if (!chest.open) {
+                        GM.ShowMessage("Pick up items before proceeding", 2f);
+                        return;
+                    }
                 }
             }
             hasEntered = true;
