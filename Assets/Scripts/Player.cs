@@ -6,7 +6,6 @@ using System;
 public class Player : Actor
 {
     public float speed = 90f;
-    public Animator anim;
     public GameObject projectile;
     public GameObject flashlightLight;
     public GameObject flashlight;
@@ -221,7 +220,6 @@ public class Player : Actor
     protected override void OnDie() {
         base.OnDie();
         StopAnimations();
-        anim.SetTrigger("Die");
         GM.OnDie();
     }
     

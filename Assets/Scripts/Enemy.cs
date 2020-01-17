@@ -11,7 +11,6 @@ public class Enemy : Actor
     public bool damageOnTouch = true;
     public float touchKnockAmount = 100f;
     public float idlePeriod = 1f;
-    public Animator anim;
     public bool facePlayer = true;
     public Healthbar healthbar;
     public float distanceToPlayer {get; private set;}
@@ -35,7 +34,6 @@ public class Enemy : Actor
                 1
             );
         }
-        anim.SetFloat("Health", health);
         distanceToPlayer =
             (GM.player.transform.position - transform.position).magnitude; 
         if (!GM.playerClass.alive) {
@@ -82,7 +80,7 @@ public class Enemy : Actor
     }
 
     protected void OnTriggerStay2D(Collider2D col) {
-        if (col == GM.playerClass.hitbox && damageOnTouch) {
+        if (col == GM.playerClass.hitbox && damageOnTouch && alive) {
             int knockDirection =
                 GM.player.transform.position.x > transform.position.x ? 1 : -1;
             Vector2 knockForce = new Vector2(knockDirection * touchKnockAmount, 0);

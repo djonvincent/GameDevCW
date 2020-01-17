@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour
     public string startSceneName;
     public HealthbarPlayer healthbar;
     public GameObject gameOver;
+    public GameObject helpScreen;
+    public GameObject pauseTitle;
+    public GameObject pauseMenu;
     public GameObject overlay;
     public GameObject overlayFadeIn;
     public GameObject apples;
@@ -30,6 +33,16 @@ public class GameManager : MonoBehaviour
     public bool paused = false;
     public Enemy[] allEnemies;
     public Chest[] allChests;
+    public float checkpointHealth;
+    public float checkpointMaxHealth;
+    public int checkpointApples;
+    public bool checkpointHasJacket;
+    public bool checkpointHasSword;
+    public bool checkpointHasBook;
+    public bool checkpointHasFlashlight;
+    public Vector2 checkpointPosition;
+    public float checkpointHorizontal;
+    public float checkpointVertical;
 
     private List<Enemy> currentEnemies = new List<Enemy>();
     //private Enemy furthestEnemy;
@@ -47,6 +60,9 @@ public class GameManager : MonoBehaviour
     private float hideMessageTime = 0f;
     private bool allowUnpause = true;
     private KeyCode pauseKey = KeyCode.Escape;
+    private string currentSceneName;
+    private bool showingPauseScreen = false;
+    private bool showingHelpScreen = false;
 
     public CameraTargetFunction CameraTarget {
         get {
@@ -75,6 +91,7 @@ public class GameManager : MonoBehaviour
         MoveCamera(player.transform.position);
 
         if (SceneManager.sceneCount == 1) {
+            currentSceneName = startSceneName;
             if (startSceneName == "Start") {
                 StartCoroutine("StartSequence");
             } else {
@@ -87,6 +104,21 @@ public class GameManager : MonoBehaviour
                 continue;
             }
         }
+    }
+
+    private void RestartFromCheckpoint() {
+        Camera.main.cullingMask = 0;
+        lastPlayerHealth = checkpointHealth;
+        playerClass.health = checkpointHealth;
+        playerClass.maxHealth = checkpointMaxHealth;
+        playerClass.hasJacket = checkpointHasJacket;
+        playerClass.hasSword = checkpointHasSword;
+        playerClass.hasBook = checkpointHasBook;
+        playerClass.hasFlashlight = checkpointHasFlashlight;
+        playerClass.apples = checkpointApples;
+        playerClass.anim.SetFloat("Horizontal", checkpointHorizontal);
+        playerClass.anim.SetFloat("Vertical", checkpointVertical);
+        LoadLevel(SceneManager.GetSceneByName(currentSceneName), currentSceneName, checkpointPosition);
     }
 
     private IEnumerator StartSequence() {
@@ -151,6 +183,17 @@ public class GameManager : MonoBehaviour
     }
 
     private IEnumerator _LoadLevel(Scene scene, string sceneName, Vector2 position) {
+        checkpointHealth = playerClass.health;
+        checkpointMaxHealth = playerClass.maxHealth;
+        checkpointApples = playerClass.apples;
+        checkpointHasJacket = playerClass.hasJacket;
+        checkpointHasSword = playerClass.hasSword;
+        checkpointHasBook = playerClass.hasBook;
+        checkpointHasFlashlight = playerClass.hasFlashlight;
+        checkpointPosition = position;
+        checkpointHorizontal = playerClass.anim.GetFloat("Horizontal");
+        checkpointVertical = playerClass.anim.GetFloat("Vertical");
+
         currentEnemies.Clear();
         Camera.main.cullingMask = 0;
         AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(scene);
@@ -164,6 +207,7 @@ public class GameManager : MonoBehaviour
             }
             yield return null;
         }
+        currentSceneName = sceneName;
         player.transform.position = position;
         MoveCamera(position);
         Camera.main.cullingMask = -1;
@@ -182,13 +226,41 @@ public class GameManager : MonoBehaviour
     }
 
     void Update() {
-        if (Input.GetKeyDown(pauseKey)) {
+        if (showingHelpScreen && Input.GetKeyDown(KeyCode.Escape)) {
+            showingHelpScreen = false;
+            showingPauseScreen = true;
+            helpScreen.SetActive(false);
+            pauseMenu.SetActive(true);
+        }
+        else if (showingPauseScreen) {
+            if (Input.GetKeyDown(KeyCode.H)) {
+                pauseMenu.SetActive(false);
+                helpScreen.SetActive(true);
+                showingHelpScreen = true;
+            } else if (Input.GetKeyDown(KeyCode.Q)) {
+                Application.Quit();
+            } else if (Input.GetKeyDown(KeyCode.Escape)) {
+                ClearOverlay();
+                pauseTitle.SetActive(false);
+                pauseMenu.SetActive(false);
+                showingPauseScreen = false;
+                paused = false;
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Return) && !playerClass.alive && allowUnpause) {
+            ClearOverlay();
+            RestartFromCheckpoint();
+        }
+        else if (Input.GetKeyDown(pauseKey)) {
             if (allowUnpause && paused) {
                 ClearOverlay();
                 paused = false;
                 pauseKey = KeyCode.Escape;
             } else if (!paused) {
                 paused = true;
+                showingPauseScreen = true;
+                pauseTitle.SetActive(true);
+                pauseMenu.SetActive(true);
                 overlay.SetActive(true);
                 message.gameObject.SetActive(false);
             }
@@ -360,10 +432,12 @@ public class GameManager : MonoBehaviour
     }
 
     public IEnumerator _OnDie() {
+        allowUnpause = false;
         overlay.SetActive(true);
         gameOver.SetActive(true);
-        prompt.text = "Press any key to replay";
+        prompt.text = "Press enter to restart from checkpoint";
         yield return new WaitForSeconds(1f);
         prompt.gameObject.SetActive(true);
+        allowUnpause = true;
     }
 }

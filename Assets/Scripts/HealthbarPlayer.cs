@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[ExecuteAlways]
 public class HealthbarPlayer: Healthbar
 {
     private CanvasGroup canvasGroup;

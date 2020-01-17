@@ -6,6 +6,7 @@ public class Actor : MonoBehaviour
 {
     public float maxHealth = 100f;
     public float health = 100f;
+    public Animator anim;
     public bool alive{get; private set;}
     public bool stunned = false;
     public bool immune = false;
@@ -37,6 +38,7 @@ public class Actor : MonoBehaviour
         if (GM.paused) {
             return;
         }
+        anim.SetFloat("Health", health);
         if (health > 0) {
             alive = true;
         } else if (alive && health <= 0) {

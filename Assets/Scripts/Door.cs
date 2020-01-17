@@ -18,7 +18,7 @@ public class Door : MonoBehaviour
     void OnCollisionEnter2D(Collision2D col) {
         if(col.gameObject == GM.player && !hasEntered) {
             if (back) {
-                GM.ShowMessage("You cannot go back", 2f);
+                GM.ShowMessage("You cannot go back", 1f);
                 return;
             }
             foreach (Enemy enemy in GM.allEnemies) {

@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -189,6 +189,85 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9e2d4f7bcdb27fe687f41cbc16d427e, type: 3}
+--- !u!1001 &295884067
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 566745402827163267, guid: 15a1be8ae9a24e724a2b956fb4f624d7,
+        type: 3}
+      propertyPath: m_Name
+      value: Chest (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2438371188475069059, guid: 15a1be8ae9a24e724a2b956fb4f624d7,
+        type: 3}
+      propertyPath: item
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2438371188475069059, guid: 15a1be8ae9a24e724a2b956fb4f624d7,
+        type: 3}
+      propertyPath: open
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2791235236478303203, guid: 15a1be8ae9a24e724a2b956fb4f624d7,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.37
+      objectReference: {fileID: 0}
+    - target: {fileID: 2791235236478303203, guid: 15a1be8ae9a24e724a2b956fb4f624d7,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 10.94
+      objectReference: {fileID: 0}
+    - target: {fileID: 2791235236478303203, guid: 15a1be8ae9a24e724a2b956fb4f624d7,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2791235236478303203, guid: 15a1be8ae9a24e724a2b956fb4f624d7,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2791235236478303203, guid: 15a1be8ae9a24e724a2b956fb4f624d7,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2791235236478303203, guid: 15a1be8ae9a24e724a2b956fb4f624d7,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2791235236478303203, guid: 15a1be8ae9a24e724a2b956fb4f624d7,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2791235236478303203, guid: 15a1be8ae9a24e724a2b956fb4f624d7,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2791235236478303203, guid: 15a1be8ae9a24e724a2b956fb4f624d7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2791235236478303203, guid: 15a1be8ae9a24e724a2b956fb4f624d7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2791235236478303203, guid: 15a1be8ae9a24e724a2b956fb4f624d7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 15a1be8ae9a24e724a2b956fb4f624d7, type: 3}
 --- !u!1 &464473234
 GameObject:
   m_ObjectHideFlags: 0
@@ -1058,12 +1137,17 @@ PrefabInstance:
     - target: {fileID: -5442269174651024101, guid: 756f804f2fcd899c08fcb0384cef7497,
         type: 3}
       propertyPath: position.x
-      value: 6
+      value: 4.5
       objectReference: {fileID: 0}
     - target: {fileID: -5442269174651024101, guid: 756f804f2fcd899c08fcb0384cef7497,
         type: 3}
       propertyPath: position.y
-      value: -4
+      value: -3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -5442269174651024101, guid: 756f804f2fcd899c08fcb0384cef7497,
+        type: 3}
+      propertyPath: back
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4107225910881762723, guid: 756f804f2fcd899c08fcb0384cef7497,
         type: 3}
