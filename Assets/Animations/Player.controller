@@ -198,7 +198,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Player_Idle_Right
+  m_Name: Player_Idle_Down
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -212,7 +212,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 9bd6040c388e6cb608047bff884790ac, type: 2}
+  m_Motion: {fileID: 7400000, guid: 39fd21a8729af1fe0a446ce7229bae6e, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

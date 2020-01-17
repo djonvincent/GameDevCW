@@ -27,6 +27,8 @@ public class Player : Actor
     private Camera cam;
     public bool hasJacket = false;
     public bool hasSword = false;
+    public bool hasBook = false;
+    public bool hasFlashlight = false;
 
     // Start is called before the first frame update
     protected override void Awake()
@@ -50,11 +52,11 @@ public class Player : Actor
             !EventSystem.current.IsPointerOverGameObject()) {
             StartCoroutine("AttackSword");
         }
-        if (Input.GetButtonDown("Fire2") && canAttack &&
+        if (Input.GetButtonDown("Fire2") && canAttack && hasBook &&
             !EventSystem.current.IsPointerOverGameObject()) {
             StartCoroutine("AttackBook");
         }
-        if (Input.GetKeyDown(KeyCode.Space) && alive && !attacking) {
+        if (Input.GetKeyDown(KeyCode.Space) && alive && !attacking && hasFlashlight) {
             flashlightLight.SetActive(!flashlightLight.activeSelf);
             flashlight.SetActive(!flashlight.activeSelf);
         }
@@ -75,6 +77,12 @@ public class Player : Actor
                 break;
             case 1:
                 hasSword = true;
+                break;
+            case 2:
+                hasBook = true;
+                break;
+            case 3:
+                hasFlashlight = true;
                 break;
         }
     }

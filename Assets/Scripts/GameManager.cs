@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     public HealthbarPlayer healthbar;
     public GameObject gameOver;
     public GameObject overlay;
+    public GameObject overlayFadeIn;
+    public GameObject apples;
     public Image treasureOverlay;
     public TextMeshProUGUI treasureDesc;
     public TextMeshProUGUI treasureTitle;
@@ -26,6 +28,8 @@ public class GameManager : MonoBehaviour
     public string[] treasureTitles = new string[10];
     public string[] treasureDescriptions = new string[10];
     public bool paused = false;
+    public Enemy[] allEnemies;
+    public Chest[] allChests;
 
     private List<Enemy> currentEnemies = new List<Enemy>();
     //private Enemy furthestEnemy;
@@ -38,11 +42,11 @@ public class GameManager : MonoBehaviour
     private CameraTargetFunction cameraTargetFunc;
     private Vector2 lastPlayerPosition;
     private bool onStairs = false;
-    private float timeOfLastHealthChange = 0f;
+    private float timeOfLastHealthChange = -5f;
     private float lastPlayerHealth;
     private float hideMessageTime = 0f;
-    public Enemy[] allEnemies;
-    public Chest[] allChests;
+    private bool allowUnpause = true;
+    private KeyCode pauseKey = KeyCode.Escape;
 
     public CameraTargetFunction CameraTarget {
         get {
@@ -68,13 +72,14 @@ public class GameManager : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         playerClass = player.GetComponent<Player>();
         lastPlayerHealth = playerClass.health;
-        //MoveCamera(player.transform.position);
+        MoveCamera(player.transform.position);
 
         if (SceneManager.sceneCount == 1) {
-            SceneManager.LoadScene(startSceneName, LoadSceneMode.Additive);
-        } else {
-            allEnemies = GameObject.FindObjectsOfType<Enemy>();
-            allChests = GameObject.FindObjectsOfType<Chest>();
+            if (startSceneName == "Start") {
+                StartCoroutine("StartSequence");
+            } else {
+                SceneManager.LoadScene(startSceneName, LoadSceneMode.Additive);
+            }
         }
         for (int n=0; n < SceneManager.sceneCount; n++) {
             Scene scene = SceneManager.GetSceneAt(n);
@@ -84,10 +89,28 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private IEnumerator StartSequence() {
+        player.transform.position = new Vector3(-2.5f, 0, 0);
+        playerClass.hasBook = false;
+        playerClass.hasJacket = false;
+        playerClass.hasSword = false;
+        playerClass.hasFlashlight = false;
+        Camera.main.cullingMask = 0;
+        AsyncOperation load = SceneManager.LoadSceneAsync("Start", LoadSceneMode.Additive);
+        while (!load.isDone) {
+            yield return null;
+        }
+        allEnemies = GameObject.FindObjectsOfType<Enemy>();
+        allChests = GameObject.FindObjectsOfType<Chest>();
+        overlayFadeIn.SetActive(true);
+        Camera.main.cullingMask = -1;
+        ShowMessage("Where am I?", 8f);
+    }
+
     public void ShowMessage(string msg, float duration) {
         message.text = msg;
-        message.gameObject.SetActive(true);
         hideMessageTime = Time.time + duration;
+        message.gameObject.SetActive(true);
     }
 
 
@@ -141,11 +164,11 @@ public class GameManager : MonoBehaviour
             }
             yield return null;
         }
-        allEnemies = GameObject.FindObjectsOfType<Enemy>();
-        allChests = GameObject.FindObjectsOfType<Chest>();
         player.transform.position = position;
         MoveCamera(position);
         Camera.main.cullingMask = -1;
+        allEnemies = GameObject.FindObjectsOfType<Enemy>();
+        allChests = GameObject.FindObjectsOfType<Chest>();
     }
 
     void ClearOverlay() {
@@ -159,12 +182,16 @@ public class GameManager : MonoBehaviour
     }
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.Return)) {
-            ClearOverlay();
-            paused = false;
-        }
-        if (Input.GetKeyDown(KeyCode.Escape)) {
-            paused = !paused;
+        if (Input.GetKeyDown(pauseKey)) {
+            if (allowUnpause && paused) {
+                ClearOverlay();
+                paused = false;
+                pauseKey = KeyCode.Escape;
+            } else if (!paused) {
+                paused = true;
+                overlay.SetActive(true);
+                message.gameObject.SetActive(false);
+            }
         }
         if (paused) {
             return;
@@ -176,10 +203,13 @@ public class GameManager : MonoBehaviour
         if (Time.time > hideMessageTime) {
             message.gameObject.SetActive(false);
         }
-        appleCount.text = playerClass.apples.ToString();
+        appleCount.text = "x" + playerClass.apples.ToString();
+        if (playerClass.apples > 0) {
+            apples.SetActive(true);
+        }
         healthbar.health = playerClass.health/playerClass.maxHealth;
         healthbar.maxHealth = playerClass.maxHealth/100;
-        healthbar.show = currentEnemies.Count > 0 || (Time.time - timeOfLastHealthChange) < 3f;
+        healthbar.show = currentEnemies.Count > 0 || (Time.time - timeOfLastHealthChange) < 4f;
         if (CameraTarget == null) {
             CameraTarget = PlayerPosition;
         }
@@ -305,10 +335,13 @@ public class GameManager : MonoBehaviour
 
     public void ShowTreasure(int item) {
         paused = true;
+        pauseKey = KeyCode.Return;
         StartCoroutine(_ShowTreasure(item));
     }
 
     public IEnumerator _ShowTreasure(int item) {
+        allowUnpause = false;
+        message.gameObject.SetActive(false);
         overlay.SetActive(true);
         treasureOverlay.sprite = treasureSprites[item];
         treasureOverlay.gameObject.SetActive(true);
@@ -318,8 +351,8 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         treasureDesc.gameObject.SetActive(true);
         treasureTitle.gameObject.SetActive(true);
-        yield return new WaitForSeconds(1f);
         prompt.gameObject.SetActive(true);
+        allowUnpause = true;
     }
 
     public void OnDie() {

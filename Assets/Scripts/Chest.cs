@@ -15,6 +15,7 @@ public class Chest : MonoBehaviour
     }
 
     public void Open() {
+        Destroy(GetComponent<Help>());
         open = true;
         light.SetActive(false);
         anim.SetTrigger("Open");
@@ -22,8 +23,8 @@ public class Chest : MonoBehaviour
         GM.ShowTreasure(item);
     }
 
-    void OnCollisionEnter2D(Collision2D col) {
-        if (col.gameObject == GM.player && !open) {
+    void OnTriggerEnter2D(Collider2D col) {
+        if (col.transform.IsChildOf(GM.player.transform) && !open) {
             Open();
         }
     }
