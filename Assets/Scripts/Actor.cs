@@ -18,6 +18,8 @@ public class Actor : MonoBehaviour
     protected Transform body;
     protected bool jumping = false;
     public Collider2D hitbox {get; private set;}
+    public AudioSource hurtAudio;
+    public AudioClip[] hurtSounds;
 
     protected virtual void Awake() {
         alive = true;
@@ -67,6 +69,10 @@ public class Actor : MonoBehaviour
         rigidBody.AddForce(force);
         if (!jumping && jumpSpeed > 0) {
             StartCoroutine(Jump(jumpSpeed));
+        }
+        if (hurtSounds.Length > 0 && hurtAudio != null) {
+            hurtAudio.clip = hurtSounds[Random.Range(0, hurtSounds.Length)];
+            hurtAudio.Play();
         }
     }
 

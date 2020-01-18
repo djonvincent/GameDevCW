@@ -21,10 +21,14 @@ public class Player : Actor
     public Collider2D movementCollider;
     public int apples = 1;
     public int books = 0;
+    public AudioClip[] swordSounds;
+    public AudioClip[] bookSounds;
+    public AudioSource attackAudio;
     
     private bool attacking = false;
     private float nextAttackTime = 0;
     private Camera cam;
+    private AudioSource audio;
     public bool hasJacket = false;
     public bool hasSword = false;
     public bool hasFlashlight = false;
@@ -109,6 +113,8 @@ public class Player : Actor
         anim.SetBool("Attacking", true);
         anim.SetTrigger("Slash");
         attacking = true;
+        attackAudio.clip = swordSounds[UnityEngine.Random.Range(0, swordSounds.Length)];
+        attackAudio.Play();
         yield return new PausableWaitForSeconds(0.5f);
         anim.SetBool("Attacking", false);
         attacking = false;
@@ -149,6 +155,8 @@ public class Player : Actor
         anim.SetTrigger("Throw");
         attacking = true;
         books -= 1;
+        attackAudio.clip = bookSounds[UnityEngine.Random.Range(0, bookSounds.Length)];
+        attackAudio.Play();
         yield return new PausableWaitForSeconds(0.3f);
         Fire(target, offset, clockwise, rotation);
         yield return new PausableWaitForSeconds(0.5f);

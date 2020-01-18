@@ -46,6 +46,8 @@ public class GameManager : MonoBehaviour
     public Vector2 checkpointPosition;
     public float checkpointHorizontal;
     public float checkpointVertical;
+    public AudioClip victorySound;
+    private AudioSource audio;
 
     private List<Enemy> currentEnemies = new List<Enemy>();
     //private Enemy furthestEnemy;
@@ -91,6 +93,7 @@ public class GameManager : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         playerClass = player.GetComponent<Player>();
         lastPlayerHealth = playerClass.health;
+        audio = GetComponent<AudioSource>();
     }
 
     void Start() {
@@ -425,6 +428,8 @@ public class GameManager : MonoBehaviour
     }
 
     public IEnumerator _ShowTreasure(int item) {
+        audio.clip = victorySound;
+        audio.Play();
         allowUnpause = false;
         message.gameObject.SetActive(false);
         overlay.SetActive(true);

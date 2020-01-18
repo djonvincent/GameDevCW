@@ -13,6 +13,9 @@ public class FollowingEnemy : Enemy
     }
 
     protected void FixedUpdate() {
+        if (GM.paused) {
+            return;
+        }
         Vector3 diff = GM.player.transform.position + new Vector3(0,targetHeight,0) - transform.position;
         if (!stunned && alive && inCombat) {
             if (!hitbox.IsTouching(GM.playerClass.hitbox)) {
