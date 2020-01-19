@@ -171,6 +171,7 @@ MonoBehaviour:
   - {fileID: 8112546500598602842, guid: dea24da473d12556ea20d5dfb33c8b9a, type: 3}
   - {fileID: 8112546500598602842, guid: 7558c568fcabea930b471240f14e2047, type: 3}
   lootAvg: 3
+  checkpointOnDeath: 0
 --- !u!50 &244838941951455525
 Rigidbody2D:
   serializedVersion: 4

@@ -18,6 +18,7 @@ public class Enemy : Actor
     public bool focusCamera = true;
     public GameObject[] lootList;
     public float lootAvg = 0.5f;
+    public float swordKnockBackAmount = 300f;
     protected float timeToStartAttack = 0;
     protected float nextAttackTime = 0;
 
@@ -65,7 +66,7 @@ public class Enemy : Actor
         for (int i=0; i < (int)lootCount; i++) {
             GameObject loot = lootList[UnityEngine.Random.Range(0, lootList.Length)];
             GameObject lootObj = Instantiate(loot);
-            Vector2 pos = (Vector2)transform.position + UnityEngine.Random.insideUnitCircle;
+            Vector2 pos = (Vector2)transform.position + UnityEngine.Random.insideUnitCircle*0.5f;
             lootObj.transform.position = pos;
             //Vector2 diff = transform.position - GM.player.transform.position;
             //Vector2 lootVelocity = diff.normalized * 5f;
@@ -96,7 +97,7 @@ public class Enemy : Actor
         base.OnTriggerEnter2D(col);
         if (col.tag == "Sword") {
             Vector2 diff = (transform.position + new Vector3(0, 0f, 0)) - GM.player.transform.position;
-            Attacked(15, 0.4f, diff.normalized * 300f);
+            Attacked(15, 0.4f, diff.normalized * swordKnockBackAmount);
         }
     }
 

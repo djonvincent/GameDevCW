@@ -196,7 +196,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(_LoadLevel(scene, sceneName, position));
     }
 
-    private void SetCheckpoint() {
+    public void SetCheckpoint() {
         checkpointHealth = playerClass.health;
         checkpointMaxHealth = playerClass.maxHealth;
         checkpointApples = playerClass.apples;

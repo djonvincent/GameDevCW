@@ -20,6 +20,9 @@ TextureImporter:
   - first:
       213: 6514773948410926740
     second: grey
+  - first:
+      213: -1567821731857660092
+    second: rpg (2)_0
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -183,6 +186,48 @@ TextureImporter:
       bones: []
       spriteID: 24b787480c0b361f385a1c224f33eef7
       internalID: -8654204750234908357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rpg (2)_0
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 10
+        width: 8
+        height: 9
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e10c7944f3edf40eb7d40434cb3adb4
+      internalID: -1567821731857660092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rpg (2)_1
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 10
+        width: 8
+        height: 9
+      alignment: 5
+      pivot: {x: 1, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3786002e485d9090cb840ab17d45e318
+      internalID: 8126780781496270720
       vertices: []
       indices: 
       edges: []
