@@ -12,6 +12,7 @@ TagManager:
   - Apple
   - Enemy
   - Book
+  - Book Pile
   layers:
   - Default
   - TransparentFX

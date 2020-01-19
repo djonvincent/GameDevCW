@@ -175,7 +175,7 @@ GameObject:
   - component: {fileID: 7573970310672870851}
   m_Layer: 0
   m_Name: Book pickup 2
-  m_TagString: Book
+  m_TagString: Book Pile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

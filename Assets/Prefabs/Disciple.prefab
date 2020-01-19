@@ -229,6 +229,11 @@ MonoBehaviour:
   facePlayer: 1
   healthbar: {fileID: 6464128233209416919}
   focusCamera: 1
+  lootList:
+  - {fileID: 8112546500598602842, guid: 8485637086ad3a14fb5f53b271feb9ee, type: 3}
+  - {fileID: 8112546500598602842, guid: dea24da473d12556ea20d5dfb33c8b9a, type: 3}
+  - {fileID: 8112546500598602842, guid: d985641c2681252d9879ebf6ba74d578, type: 3}
+  lootChance: 0.9
   firePoint: {fileID: 7721603409999722583}
   projectile: {fileID: 1848690424021386545, guid: fd836f221f368030aa8e08a0a44d3ab9,
     type: 3}

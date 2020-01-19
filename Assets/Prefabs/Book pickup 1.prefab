@@ -93,8 +93,8 @@ GameObject:
   - component: {fileID: 7447087623901958893}
   - component: {fileID: 7573970310672870851}
   m_Layer: 0
-  m_Name: Book pickup
-  m_TagString: Book
+  m_Name: Book pickup 1
+  m_TagString: Book Pile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

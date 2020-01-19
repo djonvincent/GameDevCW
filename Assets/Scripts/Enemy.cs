@@ -40,7 +40,8 @@ public class Enemy : Actor
             (GM.player.transform.position - transform.position).magnitude; 
         if (!GM.playerClass.alive) {
             inCombat = false;
-        } else if (distanceToPlayer <= aggroRadius && !inCombat && alive) {
+        } else if (distanceToPlayer <= aggroRadius && !inCombat && alive &&
+            GM.playerClass.alive) {
             timeToStartAttack = Time.time;
             StartCombat();
         } else if (distanceToPlayer > aggroRadius + 1 && inCombat) {
@@ -55,7 +56,7 @@ public class Enemy : Actor
     }
 
     protected override void DropLoot() {
-        if (lootList.Length > 0 && Random.value > lootChance) {
+        if (lootList.Length > 0 && Random.value < lootChance) {
             GameObject loot = lootList[Random.Range(0, lootList.Length)];
             GameObject lootObj = Instantiate(loot);
             lootObj.transform.position = transform.position;

@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
             }
         } else {
             currentSceneName = SceneManager.GetSceneAt(1).name;
-            SetCheckpoint(player.transform.position);
+            SetCheckpoint();
             allEnemies = GameObject.FindObjectsOfType<Enemy>();
             allChests = GameObject.FindObjectsOfType<Chest>();
         }
@@ -125,6 +125,8 @@ public class GameManager : MonoBehaviour
         playerClass.apples = checkpointApples;
         playerClass.anim.SetFloat("Horizontal", checkpointHorizontal);
         playerClass.anim.SetFloat("Vertical", checkpointVertical);
+        timeOfLastHealthChange = Time.time - 5f;
+        lastPlayerHealth = checkpointHealth;
         LoadLevel(
             SceneManager.GetSceneByName(currentSceneName),
             currentSceneName,
@@ -194,7 +196,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(_LoadLevel(scene, sceneName, position));
     }
 
-    private void SetCheckpoint(Vector2 position) {
+    private void SetCheckpoint() {
         checkpointHealth = playerClass.health;
         checkpointMaxHealth = playerClass.maxHealth;
         checkpointApples = playerClass.apples;
@@ -202,13 +204,12 @@ public class GameManager : MonoBehaviour
         checkpointHasSword = playerClass.hasSword;
         checkpointBooks = playerClass.books;
         checkpointHasFlashlight = playerClass.hasFlashlight;
-        checkpointPosition = position;
+        checkpointPosition = player.transform.position;
         checkpointHorizontal = playerClass.anim.GetFloat("Horizontal");
         checkpointVertical = playerClass.anim.GetFloat("Vertical");
     }
 
     private IEnumerator _LoadLevel(Scene scene, string sceneName, Vector2 position) {
-        SetCheckpoint(position);
         currentEnemies.Clear();
         Camera.main.cullingMask = 0;
         loading.SetActive(true);
@@ -219,6 +220,7 @@ public class GameManager : MonoBehaviour
         asyncLoad.allowSceneActivation = false;
         while (!asyncLoad.isDone) {
             if (asyncUnload.isDone) {
+                currentEnemies.Clear();
                 asyncLoad.allowSceneActivation = true;
             }
             yield return null;
@@ -227,6 +229,7 @@ public class GameManager : MonoBehaviour
         currentSceneName = sceneName;
         player.transform.position = position;
         MoveCamera(position);
+        SetCheckpoint();
         Camera.main.cullingMask = -1;
         allEnemies = GameObject.FindObjectsOfType<Enemy>();
         allChests = GameObject.FindObjectsOfType<Chest>();
@@ -373,7 +376,7 @@ public class GameManager : MonoBehaviour
         int count = 0;
         for (int i=0; i < currentEnemies.Count; i++) {
             Enemy enemy = currentEnemies[i];
-            if (enemy.focusCamera) {
+            if (enemy != null && enemy.focusCamera) {
                 avgPosition += (Vector2)enemy.transform.position;
                 count ++;
             }

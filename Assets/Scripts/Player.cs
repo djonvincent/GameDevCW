@@ -205,18 +205,27 @@ public class Player : Actor
 
     protected override void OnTriggerEnter2D(Collider2D col) {
         base.OnTriggerEnter2D(col);
-        if (col.tag == "Apple") {
-            apples += 1;
-            Destroy(col.gameObject);
-        } else if (col.tag == "Book") {
-            books += 1;
-            Destroy(col.gameObject);
-        } else if (col.tag == "Stairs Right") {
-            onStairs = true;
-            stairsDirection = 1;
-        } else if (col.tag == "Stairs Left") {
-            onStairs = true;
-            stairsDirection = -1;
+        switch (col.tag) {
+            case "Apple":
+                apples += 1;
+                Destroy(col.gameObject);
+                break;
+            case "Book":
+                books += UnityEngine.Random.Range(1, 4);
+                Destroy(col.gameObject);
+                break;
+            case "Book Pile":
+                books += UnityEngine.Random.Range(3, 7);
+                Destroy(col.gameObject);
+                break;
+            case "Stairs Right":
+                onStairs = true;
+                stairsDirection = 1;
+                break;
+            case "Stairs Left":
+                onStairs = true;
+                stairsDirection = -1;
+                break;
         }
     }
 
