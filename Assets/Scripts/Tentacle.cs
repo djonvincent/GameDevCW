@@ -5,7 +5,7 @@ using UnityEngine;
 public class Tentacle : Enemy
 {
     private Vector2 attackPosition;
-    private bool dormant = false;
+    private bool dormant = true;
 
     protected override void Update()
     {
@@ -14,17 +14,23 @@ public class Tentacle : Enemy
             return;
         }
         anim.SetBool("Dormant", dormant);
-        if (canAttack && !dormant) {
-            StartAttack();
+        if (!dormant) {
+            Vector2 diff = GM.player.transform.position - transform.position;
+            if (diff.magnitude > 3) {
+                nextAttackTime = Time.time;
+            }
+            if (canAttack) {
+                StartAttack();
+            }
         }
     }
 
     public void StartAttack() {
         nextAttackTime = Time.time + attackCooldown;
         dormant = true;
-        float spawnTime = 3f + Random.value * 2;
+        float spawnTime = 1.5f + Random.value * 2;
         StartCoroutine(GetNextAttackPosition(spawnTime));
-        StartCoroutine(Attack(spawnTime + 0.2f));
+        StartCoroutine(Attack(spawnTime + 0.1f));
     }
 
     public override void StartCombat() {

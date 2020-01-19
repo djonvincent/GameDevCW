@@ -63,7 +63,7 @@ public class Actor : MonoBehaviour
         health -= damage;
         OnAttacked();
         if (!stunned && stunDuration > 0) {
-            StartCoroutine(Stun(stunDuration));
+            StartCoroutine(Stun(stunDuration, force));
         } else if (health == 0) {
             DropLoot();
             if (destroyOnDeath) {
@@ -71,7 +71,6 @@ public class Actor : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-        rigidBody.AddForce(force);
         if (!jumping && jumpSpeed > 0) {
             StartCoroutine(Jump(jumpSpeed));
         }
@@ -97,11 +96,12 @@ public class Actor : MonoBehaviour
         jumping = false;
     }
 
-    public IEnumerator Stun(float duration) {
+    public IEnumerator Stun(float duration, Vector2 knockForce) {
         bool oldStunned = stunned;
         bool oldImmune = immune;
         stunned = true;
         immune = true;
+        rigidBody.AddForce(knockForce);
         float waited = 0;
         float t = 0;
         while (t < duration) {

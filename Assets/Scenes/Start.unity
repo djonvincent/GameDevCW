@@ -723,7 +723,7 @@ PrefabInstance:
     - target: {fileID: 7925501903798610748, guid: 756f804f2fcd899c08fcb0384cef7497,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 60
+      value: 64.47
       objectReference: {fileID: 0}
     - target: {fileID: 7925501903798610748, guid: 756f804f2fcd899c08fcb0384cef7497,
         type: 3}
@@ -12344,7 +12344,7 @@ PrefabInstance:
     - target: {fileID: 4948041597760142743, guid: e712a01055a91a523b0f005f987d57aa,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 74.15
+      value: 81.06
       objectReference: {fileID: 0}
     - target: {fileID: 4948041597760142743, guid: e712a01055a91a523b0f005f987d57aa,
         type: 3}
@@ -12404,7 +12404,7 @@ PrefabInstance:
     - target: {fileID: 6630470371060438160, guid: e712a01055a91a523b0f005f987d57aa,
         type: 3}
       propertyPath: m_PointLightOuterRadius
-      value: 22
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 6630470371060438160, guid: e712a01055a91a523b0f005f987d57aa,
         type: 3}
@@ -12420,6 +12420,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_PointLightOuterAngle
       value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 6630470371060438160, guid: e712a01055a91a523b0f005f987d57aa,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e712a01055a91a523b0f005f987d57aa, type: 3}

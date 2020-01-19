@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Enemy : Actor
 {
@@ -9,14 +10,14 @@ public class Enemy : Actor
     public float damage;
     public float attackCooldown = 3f;
     public bool damageOnTouch = true;
-    public float touchKnockAmount = 100f;
+    public float touchKnockAmount = 200f;
     public float idlePeriod = 1f;
     public bool facePlayer = true;
     public Healthbar healthbar;
     public float distanceToPlayer {get; private set;}
     public bool focusCamera = true;
     public GameObject[] lootList;
-    public float lootChance = 0.5f;
+    public float lootAvg = 0.5f;
     protected float timeToStartAttack = 0;
     protected float nextAttackTime = 0;
 
@@ -56,10 +57,16 @@ public class Enemy : Actor
     }
 
     protected override void DropLoot() {
-        if (lootList.Length > 0 && Random.value < lootChance) {
-            GameObject loot = lootList[Random.Range(0, lootList.Length)];
+        if (lootList.Length == 0) {
+            return;
+        }
+        double lootCount = Math.Round(UnityEngine.Random.value * 2 * lootAvg);
+        Debug.Log(lootCount);
+        for (int i=0; i < (int)lootCount; i++) {
+            GameObject loot = lootList[UnityEngine.Random.Range(0, lootList.Length)];
             GameObject lootObj = Instantiate(loot);
-            lootObj.transform.position = transform.position;
+            Vector2 pos = (Vector2)transform.position + UnityEngine.Random.insideUnitCircle;
+            lootObj.transform.position = pos;
             //Vector2 diff = transform.position - GM.player.transform.position;
             //Vector2 lootVelocity = diff.normalized * 5f;
             //lootObj.GetComponent<Rigidbody2D>().velocity = lootVelocity;
