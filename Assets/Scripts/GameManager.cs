@@ -125,7 +125,11 @@ public class GameManager : MonoBehaviour
         playerClass.apples = checkpointApples;
         playerClass.anim.SetFloat("Horizontal", checkpointHorizontal);
         playerClass.anim.SetFloat("Vertical", checkpointVertical);
-        LoadLevel(SceneManager.GetSceneByName(currentSceneName), currentSceneName, checkpointPosition);
+        LoadLevel(
+            SceneManager.GetSceneByName(currentSceneName),
+            currentSceneName,
+            checkpointPosition
+        );
     }
 
     private IEnumerator StartSequence() {
@@ -135,7 +139,8 @@ public class GameManager : MonoBehaviour
         playerClass.hasSword = false;
         playerClass.hasFlashlight = false;
         Camera.main.cullingMask = 0;
-        AsyncOperation load = SceneManager.LoadSceneAsync("Start", LoadSceneMode.Additive);
+        AsyncOperation load =
+            SceneManager.LoadSceneAsync("Start", LoadSceneMode.Additive);
         while (!load.isDone) {
             yield return null;
         }
@@ -297,7 +302,8 @@ public class GameManager : MonoBehaviour
         }
         healthbar.health = playerClass.health/playerClass.maxHealth;
         healthbar.maxHealth = playerClass.maxHealth/100;
-        healthbar.show = currentEnemies.Count > 0 || (Time.time - timeOfLastHealthChange) < 4f;
+        healthbar.show = currentEnemies.Count > 0 ||
+            (Time.time - timeOfLastHealthChange) < 4f;
         if (CameraTarget == null) {
             CameraTarget = PlayerPosition;
         }

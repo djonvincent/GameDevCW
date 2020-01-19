@@ -45,10 +45,11 @@ public class Actor : MonoBehaviour
             alive = true;
         } else if (alive && health <= 0) {
             alive = false;
-            Debug.Log("Dead");
             OnDie();
         }
     }
+
+    protected virtual void DropLoot(){}
 
     public virtual void Attacked(
         float damage,
@@ -63,8 +64,12 @@ public class Actor : MonoBehaviour
         OnAttacked();
         if (!stunned && stunDuration > 0) {
             StartCoroutine(Stun(stunDuration));
-        } else if (health == 0 && destroyOnDeath) {
-            Destroy(gameObject);
+        } else if (health == 0) {
+            DropLoot();
+            if (destroyOnDeath) {
+                OnDie();
+                Destroy(gameObject);
+            }
         }
         rigidBody.AddForce(force);
         if (!jumping && jumpSpeed > 0) {
@@ -112,8 +117,12 @@ public class Actor : MonoBehaviour
             }
             waited = 0f;
         }
-        if (!alive && destroyOnDeath) {
-            Destroy(gameObject);
+        if (!alive) {
+            DropLoot();
+            OnDie();
+            if (destroyOnDeath) {
+                Destroy(gameObject);
+            }
         }
         foreach (Renderer r in renderers) {
             r.enabled = true;

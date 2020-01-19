@@ -207,7 +207,10 @@ public class Player : Actor
         base.OnTriggerEnter2D(col);
         if (col.tag == "Apple") {
             apples += 1;
-            col.gameObject.SetActive(false);
+            Destroy(col.gameObject);
+        } else if (col.tag == "Book") {
+            books += 1;
+            Destroy(col.gameObject);
         } else if (col.tag == "Stairs Right") {
             onStairs = true;
             stairsDirection = 1;

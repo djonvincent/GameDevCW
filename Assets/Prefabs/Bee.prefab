@@ -260,6 +260,10 @@ MonoBehaviour:
   facePlayer: 0
   healthbar: {fileID: 6464128233209416919}
   focusCamera: 1
+  lootList:
+  - {fileID: 8112546500598602842, guid: 7558c568fcabea930b471240f14e2047, type: 3}
+  - {fileID: 8112546500598602842, guid: 148d12aeae096baa392ac0bdedb3c44b, type: 3}
+  lootChance: 0.5
   targetPosition: {x: 0, y: 0, z: 0}
 --- !u!82 &7232489453158180306
 AudioSource:

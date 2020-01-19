@@ -15,6 +15,8 @@ public class Enemy : Actor
     public Healthbar healthbar;
     public float distanceToPlayer {get; private set;}
     public bool focusCamera = true;
+    public GameObject[] lootList;
+    public float lootChance = 0.5f;
     protected float timeToStartAttack = 0;
     protected float nextAttackTime = 0;
 
@@ -50,6 +52,17 @@ public class Enemy : Actor
         base.OnDie();
         healthbar.gameObject.SetActive(false);
         StopCombat();
+    }
+
+    protected override void DropLoot() {
+        if (lootList.Length > 0 && Random.value > lootChance) {
+            GameObject loot = lootList[Random.Range(0, lootList.Length)];
+            GameObject lootObj = Instantiate(loot);
+            lootObj.transform.position = transform.position;
+            //Vector2 diff = transform.position - GM.player.transform.position;
+            //Vector2 lootVelocity = diff.normalized * 5f;
+            //lootObj.GetComponent<Rigidbody2D>().velocity = lootVelocity;
+        }
     }
 
     public virtual void StartCombat() {
