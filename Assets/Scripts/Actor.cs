@@ -139,7 +139,7 @@ public class Actor : MonoBehaviour
             return;
         }
         Projectile proj = other.GetComponent<Projectile>();
-        if (proj.owner == this || !alive) {
+        if (proj.owner == this || proj.owner != GM.playerClass && tag != "Player" || !alive) {
             return;
         }
         Vector2 knockBack = Vector2.zero;

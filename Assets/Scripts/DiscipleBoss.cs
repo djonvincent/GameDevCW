@@ -8,6 +8,7 @@ public class DiscipleBoss : RangedEnemy
 
     protected override void OnDie() {
         base.OnDie();
-        Instantiate(bossLoot, transform.position, Quaternion.identity);
+        Vector2 position = transform.position + new Vector3(0, -0.3f, 0);
+        Instantiate(bossLoot, position, Quaternion.identity);
     }
 }

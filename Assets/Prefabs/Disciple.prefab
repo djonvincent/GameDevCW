@@ -234,6 +234,7 @@ MonoBehaviour:
   - {fileID: 8112546500598602842, guid: dea24da473d12556ea20d5dfb33c8b9a, type: 3}
   - {fileID: 8112546500598602842, guid: d985641c2681252d9879ebf6ba74d578, type: 3}
   lootAvg: 1.5
+  swordKnockBackAmount: 100
   firePoint: {fileID: 7721603409999722583}
   projectile: {fileID: 1848690424021386545, guid: fd836f221f368030aa8e08a0a44d3ab9,
     type: 3}

@@ -93,6 +93,7 @@ public class Player : Actor
                 apples += 3;
                 break;
         }
+        renderers = body.GetComponentsInChildren<SpriteRenderer>();
     }
 
     private IEnumerator AttackSword() {

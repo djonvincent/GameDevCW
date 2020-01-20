@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
             cameraAtTarget = false;
             Vector2 target = value();
             float distance = ((Vector2)Camera.main.transform.position - target).magnitude;
-            cameraSpeed = Math.Max(2, distance/1);
+            cameraSpeed = Math.Max(3, distance/1);
             cameraTargetFunc = value;
         }
     }   
@@ -106,9 +106,11 @@ public class GameManager : MonoBehaviour
                 StartCoroutine("StartSequence");
             } else {
                 SceneManager.LoadScene(startSceneName, LoadSceneMode.Additive);
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(startSceneName));
             }
         } else {
             currentSceneName = SceneManager.GetSceneAt(1).name;
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(currentSceneName));
             SetCheckpoint();
             allEnemies = GameObject.FindObjectsOfType<Enemy>();
             allChests = GameObject.FindObjectsOfType<Chest>();
@@ -148,17 +150,22 @@ public class GameManager : MonoBehaviour
         while (!load.isDone) {
             yield return null;
         }
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName("Start"));
         allEnemies = GameObject.FindObjectsOfType<Enemy>();
         allChests = GameObject.FindObjectsOfType<Chest>();
         overlayFadeIn.SetActive(true);
         Camera.main.cullingMask = -1;
-        ShowMessage("Where am I?", 8f);
+        yield return new PausableWaitForSeconds(6f);
+        ShowMessage("Where am I?", 5f);
     }
 
     private IEnumerator EndSequence() {
+        playerClass.anim.SetFloat("Vertical", -1f);
+        playerClass.anim.SetFloat("Horizontal", 0f);
         overlayFadeIn.SetActive(true);
-        ShowMessage("What a weird dream...", 8f);
-        yield return new PausableWaitForSeconds(9f);
+        yield return new PausableWaitForSeconds(6f);
+        ShowMessage("What a weird dream...", 5f);
+        yield return new PausableWaitForSeconds(7f);
         overlay.SetActive(true);
         gameOver.SetActive(true);
         prompt.text = "Well done, you finished the game! Press enter to quit.";
@@ -253,6 +260,7 @@ public class GameManager : MonoBehaviour
             }
             yield return null;
         }
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
         loading.SetActive(false);
         currentSceneName = sceneName;
         player.transform.position = position;

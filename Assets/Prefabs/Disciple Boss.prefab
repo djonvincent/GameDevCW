@@ -226,7 +226,7 @@ MonoBehaviour:
   attackCooldown: 3
   damageOnTouch: 1
   touchKnockAmount: 400
-  idlePeriod: 1
+  idlePeriod: 3
   facePlayer: 1
   healthbar: {fileID: 7175714996990340871}
   focusCamera: 1
