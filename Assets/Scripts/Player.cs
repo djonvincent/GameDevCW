@@ -23,6 +23,8 @@ public class Player : Actor
     public int books = 0;
     public AudioClip[] swordSounds;
     public AudioClip[] bookSounds;
+    public AudioClip appleSound;
+    public AudioSource itemAudio;
     public AudioSource attackAudio;
     
     private bool attacking = false;
@@ -65,6 +67,8 @@ public class Player : Actor
         }
         if (Input.GetKeyDown(KeyCode.R)) {
             if (health < maxHealth && apples > 0) {
+                itemAudio.clip = appleSound;
+                itemAudio.Play();
                 apples -= 1;
                 health = Math.Min(maxHealth, health + 50);
             }
@@ -211,11 +215,11 @@ public class Player : Actor
                 Destroy(col.gameObject);
                 break;
             case "Book":
-                books += UnityEngine.Random.Range(1, 4);
+                books += UnityEngine.Random.Range(3, 6);
                 Destroy(col.gameObject);
                 break;
             case "Book Pile":
-                books += UnityEngine.Random.Range(3, 7);
+                books += UnityEngine.Random.Range(6, 12);
                 Destroy(col.gameObject);
                 break;
             case "Stairs Right":

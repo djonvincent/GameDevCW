@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -135,12 +135,12 @@ PrefabInstance:
     - target: {fileID: 7754623330608611811, guid: 35cd4515e086cb9f0b016020b05fc2e4,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 69.92
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7754623330608611811, guid: 35cd4515e086cb9f0b016020b05fc2e4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.13
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 7754623330608611811, guid: 35cd4515e086cb9f0b016020b05fc2e4,
         type: 3}
@@ -205,6 +205,22 @@ PrefabInstance:
     - target: {fileID: 9195748194228498238, guid: 35cd4515e086cb9f0b016020b05fc2e4,
         type: 3}
       propertyPath: hasSword
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9195748194228498238, guid: 35cd4515e086cb9f0b016020b05fc2e4,
+        type: 3}
+      propertyPath: projectileAngularSpeed
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 9195748194228498238, guid: 35cd4515e086cb9f0b016020b05fc2e4,
+        type: 3}
+      propertyPath: projectile
+      value: 
+      objectReference: {fileID: 3323436552300351306, guid: 2e47e42df7040356e91ca90941d13c98,
+        type: 3}
+    - target: {fileID: 9195748194228498238, guid: 35cd4515e086cb9f0b016020b05fc2e4,
+        type: 3}
+      propertyPath: books
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1459,7 +1475,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -4250,8 +4266,8 @@ PrefabInstance:
     - target: {fileID: 2791037098366810596, guid: 05e43a2aa5231a16490a537660c392bd,
         type: 3}
       propertyPath: treasureDescriptions.Array.data[2]
-      value: Throw textbooks at your enemies with right mouse button. Remember to
-        convserve ammunition!
+      value: Throw textbooks at your enemies with the right mouse button. Remember
+        to conserve your ammunition!
       objectReference: {fileID: 0}
     - target: {fileID: 2791037098366810596, guid: 05e43a2aa5231a16490a537660c392bd,
         type: 3}
@@ -4313,7 +4329,37 @@ PrefabInstance:
         type: 3}
       propertyPath: victorySound
       value: 
-      objectReference: {fileID: 8300000, guid: 9dfc2ee8a4785b84a9fdc2f705363306, type: 3}
+      objectReference: {fileID: 8300000, guid: fccf5acd15f370995bf9df3cafee3c81, type: 3}
+    - target: {fileID: 2791037098366810596, guid: 05e43a2aa5231a16490a537660c392bd,
+        type: 3}
+      propertyPath: treasureSounds.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: bb7aa32e7198a44dd82368ddc8c4f7f8, type: 3}
+    - target: {fileID: 2791037098366810596, guid: 05e43a2aa5231a16490a537660c392bd,
+        type: 3}
+      propertyPath: gameOverSound
+      value: 
+      objectReference: {fileID: 8300000, guid: e3e436553428b78a7b020fa30c780927, type: 3}
+    - target: {fileID: 2791037098366810596, guid: 05e43a2aa5231a16490a537660c392bd,
+        type: 3}
+      propertyPath: treasureSounds.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: fccf5acd15f370995bf9df3cafee3c81, type: 3}
+    - target: {fileID: 2791037098366810596, guid: 05e43a2aa5231a16490a537660c392bd,
+        type: 3}
+      propertyPath: treasureSounds.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: fccf5acd15f370995bf9df3cafee3c81, type: 3}
+    - target: {fileID: 2791037098366810596, guid: 05e43a2aa5231a16490a537660c392bd,
+        type: 3}
+      propertyPath: treasureSounds.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: fccf5acd15f370995bf9df3cafee3c81, type: 3}
+    - target: {fileID: 2791037098366810596, guid: 05e43a2aa5231a16490a537660c392bd,
+        type: 3}
+      propertyPath: treasureSounds.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: fccf5acd15f370995bf9df3cafee3c81, type: 3}
     - target: {fileID: 2791037098366810597, guid: 05e43a2aa5231a16490a537660c392bd,
         type: 3}
       propertyPath: m_Name

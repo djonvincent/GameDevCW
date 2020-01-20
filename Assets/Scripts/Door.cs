@@ -12,6 +12,7 @@ public class Door : MonoBehaviour
     public bool back = false;
     public bool requireEnemiesDead = true;
     public bool requireChestsOpened = true;
+    public AudioClip sound;
 
     void Start() {
         GM = GameManager.instance;
@@ -40,7 +41,7 @@ public class Door : MonoBehaviour
                 }
             }
             hasEntered = true;
-            GM.LoadLevel(gameObject.scene, sceneName, position);
+            GM.LoadLevel(gameObject.scene, sceneName, position, sound);
         }
     }
 }

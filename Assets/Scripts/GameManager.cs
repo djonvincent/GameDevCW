@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     public Sprite[] treasureSprites = new Sprite[10];
     public string[] treasureTitles = new string[10];
     public string[] treasureDescriptions = new string[10];
+    public AudioClip[] treasureSounds = new AudioClip[10];
     public bool paused = false;
     public Enemy[] allEnemies;
     public Chest[] allChests;
@@ -46,7 +47,7 @@ public class GameManager : MonoBehaviour
     public Vector2 checkpointPosition;
     public float checkpointHorizontal;
     public float checkpointVertical;
-    public AudioClip victorySound;
+    public AudioClip gameOverSound;
     private AudioSource audio;
 
     private List<Enemy> currentEnemies = new List<Enemy>();
@@ -68,6 +69,7 @@ public class GameManager : MonoBehaviour
     private string currentSceneName;
     private bool showingPauseScreen = false;
     private bool showingHelpScreen = false;
+    private bool gameFinished = false;
 
     public CameraTargetFunction CameraTarget {
         get {
@@ -153,6 +155,18 @@ public class GameManager : MonoBehaviour
         ShowMessage("Where am I?", 8f);
     }
 
+    private IEnumerator EndSequence() {
+        overlayFadeIn.SetActive(true);
+        ShowMessage("What a weird dream...", 8f);
+        yield return new PausableWaitForSeconds(9f);
+        overlay.SetActive(true);
+        gameOver.SetActive(true);
+        prompt.text = "Well done, you finished the game! Press enter to quit.";
+        prompt.gameObject.SetActive(true);
+        allowUnpause = true;
+        gameFinished = true;
+    }
+
     public void ShowMessage(string msg, float duration) {
         message.text = msg;
         hideMessageTime = Time.time + duration;
@@ -192,8 +206,14 @@ public class GameManager : MonoBehaviour
         } while (t < 1);
     }*/
 
-    public void LoadLevel(Scene scene, string sceneName, Vector2 position) {
-        StartCoroutine(_LoadLevel(scene, sceneName, position));
+    public void LoadLevel(
+        Scene scene, string sceneName, Vector2 position, AudioClip sound = null, bool fade = false
+    ) {
+        if (sound != null) {
+            audio.clip = sound;
+            audio.Play();
+        }
+        StartCoroutine(_LoadLevel(scene, sceneName, position, fade));
     }
 
     public void SetCheckpoint() {
@@ -209,8 +229,16 @@ public class GameManager : MonoBehaviour
         checkpointVertical = playerClass.anim.GetFloat("Vertical");
     }
 
-    private IEnumerator _LoadLevel(Scene scene, string sceneName, Vector2 position) {
+    private IEnumerator _LoadLevel(
+        Scene scene, string sceneName, Vector2 position, bool fade = false
+    ) {
+        paused = true;
+        if (fade) {
+            overlay.SetActive(true);
+            yield return new WaitForSeconds(1f);
+        }
         currentEnemies.Clear();
+        paused = false;
         Camera.main.cullingMask = 0;
         loading.SetActive(true);
         AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(scene);
@@ -230,9 +258,14 @@ public class GameManager : MonoBehaviour
         player.transform.position = position;
         MoveCamera(position);
         SetCheckpoint();
+        prompt.gameObject.SetActive(false);
+        overlay.SetActive(false);
         Camera.main.cullingMask = -1;
         allEnemies = GameObject.FindObjectsOfType<Enemy>();
         allChests = GameObject.FindObjectsOfType<Chest>();
+        if (sceneName == "End") {
+            StartCoroutine("EndSequence");
+        }
     }
 
     void ClearOverlay() {
@@ -246,7 +279,10 @@ public class GameManager : MonoBehaviour
     }
 
     void Update() {
-        if (showingHelpScreen && Input.GetKeyDown(KeyCode.Escape)) {
+        if (gameFinished && Input.GetKeyDown(KeyCode.Return)) {
+            Application.Quit();
+        }
+        else if (showingHelpScreen && Input.GetKeyDown(KeyCode.Escape)) {
             showingHelpScreen = false;
             showingPauseScreen = true;
             helpScreen.SetActive(false);
@@ -437,8 +473,10 @@ public class GameManager : MonoBehaviour
     }
 
     public IEnumerator _ShowTreasure(int item) {
-        audio.clip = victorySound;
-        audio.Play();
+        if (treasureSounds[item] != null) {
+            audio.clip = treasureSounds[item];
+            audio.Play();
+        }
         allowUnpause = false;
         message.gameObject.SetActive(false);
         overlay.SetActive(true);
@@ -459,6 +497,8 @@ public class GameManager : MonoBehaviour
     }
 
     public IEnumerator _OnDie() {
+        audio.clip = gameOverSound;
+        audio.Play();
         allowUnpause = false;
         overlay.SetActive(true);
         gameOver.SetActive(true);

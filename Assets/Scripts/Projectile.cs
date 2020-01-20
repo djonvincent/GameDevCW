@@ -12,6 +12,8 @@ public class Projectile : MonoBehaviour
     public float knockBack = 0;
     public float stunDuration = 0.5f;
     public Transform body {get; private set;}
+    public AudioClip attackSound;
+    public AudioSource attackAudio;
 
     protected Rigidbody2D rigidBody;
     protected GameManager GM;
@@ -26,6 +28,10 @@ public class Projectile : MonoBehaviour
     void Start() {
         GM = GameManager.instance;
         dieTime = Time.time + lifetime;
+        if (attackAudio != null && attackSound != null) {
+            attackAudio.clip = attackSound;
+            attackAudio.Play();
+        }
     }
 
     protected void Update() {

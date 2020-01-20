@@ -119,7 +119,6 @@ public class Actor : MonoBehaviour
         }
         if (!alive) {
             DropLoot();
-            OnDie();
             if (destroyOnDeath) {
                 Destroy(gameObject);
             }

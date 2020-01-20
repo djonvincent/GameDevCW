@@ -251,7 +251,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 2426357dd87f210e3847380d353a1fa0, type: 3}
   - {fileID: 8300000, guid: 8932d5cea3aba8308ab2d37802eaa11b, type: 3}
   aggroRadius: 8
-  speed: 1.5
+  speed: 1.4
   damage: 8
   attackCooldown: 3
   damageOnTouch: 1
@@ -264,6 +264,7 @@ MonoBehaviour:
   - {fileID: 8112546500598602842, guid: 7558c568fcabea930b471240f14e2047, type: 3}
   - {fileID: 8112546500598602842, guid: 148d12aeae096baa392ac0bdedb3c44b, type: 3}
   lootAvg: 0.5
+  swordKnockBackAmount: 300
   targetPosition: {x: 0, y: 0, z: 0}
 --- !u!82 &7232489453158180306
 AudioSource:

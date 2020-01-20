@@ -97,12 +97,12 @@ public class Enemy : Actor
         base.OnTriggerEnter2D(col);
         if (col.tag == "Sword") {
             Vector2 diff = (transform.position + new Vector3(0, 0f, 0)) - GM.player.transform.position;
-            Attacked(15, 0.4f, diff.normalized * swordKnockBackAmount);
+            Attacked(20, 0.4f, diff.normalized * swordKnockBackAmount);
         }
     }
 
     protected void OnTriggerStay2D(Collider2D col) {
-        if (col == GM.playerClass.hitbox && damageOnTouch && alive) {
+        if (col == GM.playerClass.hitbox && damageOnTouch && alive && GM.playerClass.alive) {
             int knockDirection =
                 GM.player.transform.position.x > transform.position.x ? 1 : -1;
             Vector2 knockForce = new Vector2(knockDirection * touchKnockAmount, 0);

@@ -1122,6 +1122,11 @@ PrefabInstance:
       propertyPath: requireChestsOpened
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5442269174651024101, guid: 756f804f2fcd899c08fcb0384cef7497,
+        type: 3}
+      propertyPath: sound
+      value: 
+      objectReference: {fileID: 8300000, guid: d83d8ce6b25a837749d4b8430bda43f4, type: 3}
     - target: {fileID: 4107225910881762723, guid: 756f804f2fcd899c08fcb0384cef7497,
         type: 3}
       propertyPath: m_Name
@@ -10776,6 +10781,11 @@ PrefabInstance:
       propertyPath: position.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -5442269174651024101, guid: 756f804f2fcd899c08fcb0384cef7497,
+        type: 3}
+      propertyPath: sound
+      value: 
+      objectReference: {fileID: 8300000, guid: d83d8ce6b25a837749d4b8430bda43f4, type: 3}
     - target: {fileID: 4107225910881762723, guid: 756f804f2fcd899c08fcb0384cef7497,
         type: 3}
       propertyPath: m_Name
