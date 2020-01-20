@@ -53,12 +53,10 @@ public class Player : Actor
         if (GM.paused || !alive) {
             return;
         }
-        if (Input.GetButtonDown("Fire1") && canAttack && hasSword &&
-            !EventSystem.current.IsPointerOverGameObject()) {
+        if (Input.GetMouseButtonDown(0) && canAttack && hasSword) {
             StartCoroutine("AttackSword");
         }
-        if (Input.GetButtonDown("Fire2") && canAttack && books > 0 &&
-            !EventSystem.current.IsPointerOverGameObject()) {
+        if (Input.GetMouseButtonDown(1) && canAttack && books > 0) {
             StartCoroutine("AttackBook");
         }
         if (Input.GetKeyDown(KeyCode.Space) && alive && !attacking && hasFlashlight) {

@@ -4354,7 +4354,7 @@ PrefabInstance:
         type: 3}
       propertyPath: treasureSounds.Array.data[3]
       value: 
-      objectReference: {fileID: 8300000, guid: fccf5acd15f370995bf9df3cafee3c81, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 2791037098366810596, guid: 05e43a2aa5231a16490a537660c392bd,
         type: 3}
       propertyPath: treasureSounds.Array.data[4]
